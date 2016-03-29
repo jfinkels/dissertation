@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+  \node at (0, 0) (fpnc) {$\FPNC$};
+  \node at (0, 1) (both) {$\WP[P] \cap \FPT$};
+  \node at (-1, 2) (dontknow) {?};
+  \node at (1, 2) (fpt) {$\FPT$};
+  \node at (0.5, 3.75) (wp) {$\W[P]$};
+  \node at (-0.5, 3) (wpp) {$\WP[P]$};
+
+  \draw (fpnc) to (both);
+  \draw (both) to (dontknow);
+  \draw (both) to (fpt);
+  \draw (fpt) to (wp);
+  \draw (dontknow) to (wpp);
+  \draw (wpp) to (wp);
+\end{tikzpicture}

@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+  \node at (0, 0) (nco) {$\NCO$};
+  \node at (0, 1) (both) {$\ApxNCO \cap \PO$};
+  \node at (-1, 2) (apxnco) {$\ApxNCO$};
+  \node at (1, 2) (po) {$\PO$};
+  \node at (0.5, 3.75) (npo) {$\NPO$};
+  \node at (-0.5, 3) (nnco) {$\NNCO$};
+
+  \draw (nco) to (both);
+  \draw (both) to (apxnco);
+  \draw (both) to (po);
+  \draw (po) to (npo);
+  \draw (apxnco) to (nnco);
+  \draw[double] (nnco) -- (npo) node [rotate=45, midway] {\small$/$};
+\end{tikzpicture}
