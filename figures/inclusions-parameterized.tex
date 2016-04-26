@@ -1,10 +1,10 @@
 \begin{tikzpicture}
-  \node at (0, 0) (fpnc) {$\FPNC$};
-  \node at (0, 1) (both) {$\WP[P] \cap \FPT$};
-  \node at (-1, 2) (dontknow) {?};
-  \node at (1, 2) (fpt) {$\FPT$};
-  \node at (0.5, 3.75) (wp) {$\W[P]$};
-  \node at (-0.5, 3) (wpp) {$\WP[P]$};
+  \node at (0, 0) (fpnc) {$\para \NC$};
+  \node at (0, 1) (both) {$\para \WNC[1] \cap \para \P$};
+  \node at (-1, 2) (dontknow) {$\para \WNC[1]$};
+  \node at (1, 2) (fpt) {$\para \P$};
+  \node at (0.5, 3.75) (wp) {$\para \WP$};
+  \node at (-0.5, 3) (wpp) {$\para \WNC$};
 
   \draw (fpnc) to (both);
   \draw (both) to (dontknow);
