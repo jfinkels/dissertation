@@ -1,15 +1,15 @@
 \begin{tikzpicture}
-  \node at (0, 0) (fpnc) {$\para \NC$};
+  \node at (0, 0) (paranc) {$\para \NC$};
   \node at (0, 1) (both) {$\para \WNC[1] \cap \para \P$};
-  \node at (-1, 2) (dontknow) {$\para \WNC[1]$};
-  \node at (1, 2) (fpt) {$\para \P$};
-  \node at (0.5, 3.75) (wp) {$\para \WP$};
-  \node at (-0.5, 3) (wpp) {$\para \WNC$};
+  \node at (-1, 2) (parawnc1) {$\para \WNC[1]$};
+  \node at (1, 2) (parap) {$\para \P$};
+  \node at (0.5, 3.75) (parawp) {$\para \WP$};
+  \node at (-0.5, 3) (parawnc) {$\para \WNC$};
 
-  \draw (fpnc) to (both);
-  \draw (both) to (dontknow);
-  \draw (both) to (fpt);
-  \draw (fpt) to (wp);
-  \draw (dontknow) to (wpp);
-  \draw (wpp) to (wp);
+  \draw[densely dotted] (paranc) to (both);
+  \draw[densely dotted] (both) to (parawnc1);
+  \draw[densely dotted] (both) to (parap);
+  \draw (parap) to (parawp);
+  \draw[densely dotted] (parawnc1) to (parawnc);
+  \draw[densely dotted] (parawnc) to (parawp);
 \end{tikzpicture}

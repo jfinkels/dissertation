@@ -6,10 +6,10 @@
   \node at (0.5, 3.75) (np) {$\NP$};
   \node at (-0.5, 3) (nnc) {$\NNC[\poly]$};
 
-  \draw (nc) to (both);
-  \draw (both) to (nncpolylog);
-  \draw[double] (both) -- (p) node[midway, rotate=30] {\small$/$};
-  \draw[double] (p) -- (np) node[midway, rotate=-15] {\small$/$};
-  \draw[double] (nncpolylog) -- (nnc) node[midway, rotate=45] {\small$/$};
-  \draw[double] (nnc) -- (np);
+  \draw[densely dotted] (nc) to (both);
+  \draw[densely dotted] (both) to (nncpolylog);
+  \draw (both) to (p);
+  \draw (p) to (np);
+  \draw (nncpolylog) to (nnc);
+  \draw[double] (nnc) to (np);
 \end{tikzpicture}
