@@ -160,7 +160,11 @@
 %
 % What should be done next?
 
-\todo{Add quote from the Conclusions section of Buss and Goldsmith, ``Nondeterminism within P'': ``A fundamental question is whether there are problems \ldots''}
+We study the structural complexity of sequential versus parallel computation in decision problems, optimization problems, and parameterized problems.
+Decision problems lead to the other two kinds of problems by modifying either the solution space or the resource usage bounds.
+Optimization problems generalize decision problems by allowing a search for a good solution among many candidates.
+Parameterized problems generalize decision problems by allowing resource bounds to depend on a parameter of the problem instance instead of simply the size.
+The study of the computational complexity of both optimization problems and parameterized problems provide more details about the complexity than does the study of only the decision complexity.
 
 \begin{minipage}[t]{0.31\linewidth}
   \centering
@@ -176,15 +180,23 @@
 \end{minipage}
 
 These inclusion diagrams shape how we approach all the problems in this paper.
-Is there a $\P$-complete problem that is also
+Double lines represent equality and crossed double lines represent strict inequality under some reasonable complexity-theoretic assumptions.
+The fact that $\NNC[\poly] = \NP$ but $\NNCO \neq \NPO$ and $\para \WNC \neq \para \WP$ (under the assumption $\NC \neq \P$) leads us to conclude that viewing a computational problem as merely a decision problem is too coarse-grained an approach---it does not give enough information about the computational complexity of the problem.
+
+There is another view that we approach only indirectly in this work, the complexity of verification.
+This is why $\NNCO$ differs from $\NPO$ and $\para \WNC$ differs from $\para \WP$: these classes take into account the complexity of verifying a solution.
+The classes of decision problems $\NNC[\poly]$ and $\NP$ do not.
+
+\todo{Descriptive complexity encompasses all of these; specifically for parallel complexity of optimization problems, see \autocite{kt93}.}
+
+We aim to show that there is a $\P$-complete problem that is also
 \begin{enumerate}
-\item[(D1)] not in $\NNC[\polylog]$, unless $\NC = \P$?
-\item[(D2)] in $\NNC[\polylog]$?
-\item[(O1)] not in $\ApxNCO$, unless $\NC = \P$?
-\item[(O2)] in $\ApxNCO$?
-\item[(P1)] not in $\para \WNC$, unless $\NC = \P$?
-\item[(P2)] not in $\para \NC$, unless $\NC = \P$?
-\item[(P3)] in $\para \NC$?
+\item[(D1)] not in $\NNC[\polylog]$ (\autocite[Theorem~3.9]{ncpcp} provides one unless $P \subsetneq \polyL$),
+\item[(D2)] in $\NNC[\polylog]$ but not in $\NC$ (unknown),
+\item[(O1)] not in $\ApxNCO$ (\autocite[Theorem~3.25]{ncapproximation} provides one unless $\NC = \P$),
+\item[(O2)] in $\ApxNCO$ but not in $\NCO$ (\autocite[Theorem~3.25]{ncapproximation} provides on unless $\NC = \P$),
+\item[(P1)] not in $\para \WNC[1]$ (unknown),
+\item[(P2)] in $\para \WNC[1]$ but not in $\para \NC$ (unknown).
 \end{enumerate}
 
 \section{Outline}
@@ -202,7 +214,7 @@ Completed:
 \end{enumerate}
 To-do:
 \begin{enumerate}
-\item Conjecture: inapproximability of High Degree Subgraph problem (Section~4) (\emph{relates to optimization problems}).
+\item \textbf{Low priority:} Inapproximability of the High Degree Subgraph problem (Section~4) (\emph{relates to optimization problems}).
 \end{enumerate}
 
 \paragraph{Optimization problems.}
@@ -224,9 +236,9 @@ Completed:
 \end{enumerate}
 To-do:
 \begin{enumerate}
-\item Conjecture: $\ApxNCO$-complete problem (Section~3.3).
-\item Conjecture: descriptive complexity characterization of $\ApxNCO$ (Section~4) (\emph{relates to parameterized problems}).
-\item Conjecture: reduction preserving both verification complexity and approximability.
+\item \textbf{Low priority:} $\ApxNCO$-complete problem (Section~3.3).
+\item \textbf{High priority:} descriptive complexity characterization of $\ApxNCO$ (Section~4) (\emph{relates to parameterized problems}).
+\item \textbf{High priority:} reduction preserving both verification complexity and approximability.
 \end{enumerate}
 
 \paragraph{Parameterized problems.}
@@ -241,20 +253,10 @@ Completed:
 \end{enumerate}
 To-do:
 \begin{enumerate}
-\item Change $\FPP$ to $\para \NC$ and $\WP[P]$ to $\para \WNC$.
-\item Use depth $f(k) + \log^d n$ instead of $f(k) \log^d n$ depth; this will improve some of the depth bounds in some collapses (Theorem~5.8, Theorem~5.10, etc.).
-\item Sideline the results for depth $g(k) \log^d n$ circuits instead of $f(k) + \log^d n$, since these correspond to the $\para \NC^{i\uparrow}$ classes.
-\item Rename $\E[P]$ to $\para \EP$.
-\item Add: related info from EST to section on $\para \P$-complete problems.
-\item Add: the complete problem for $\para \WNC^1$ from \autocite{est15} into the proof of $\NC = \NNC[i(n) \log n] \implies \para \NC = \para \WNC$ (Section~5.3, Assumption~5.7, Theorem~5.8).
-\item Add: theorem similar to Theorem~5.8 but concerning $\para \WL$ from \autocite{cm14}.
-\item Add: $\para \WNC^d \subseteq \para \P \iff \W[\textsc{sat}] = \para \P$ from \autocite[Corollary~3.8]{est15} (Section~5.5).
-\item Add: $p \dash \textsc{Group Rank}$ is a restriction of $p \dash \textsc{agen}$, and is in $\para \WL$, not known to be in any lower class (Theorem~5.3 and Section~6.2) (\emph{relates to decision problems}).
-\item Remove: $p \dash \textsc{Group Rank}$ in $\para \WNC^1$: it is only in $\L$.
-\item Conjecture: extend \autocite[Corollary~3.8]{est15} to $\para \WNC^d \subseteq \para \P$ implies $\W[\NC^d \textsc{sat}] = \para \P$?
-\item Conjecture: show that collapses in the inclusion chain $\para \WNC^1$ through $\para \WP$ imply corresponding collapses in decision problems? This should follow from ``Describing parameterized complexity classes'' by Flum and Grohe (Section~5.6) (\emph{relates to decision problems}).
-\item Conjecture: provide descriptive complexity characterizations of the $\para \W \mathcal{C}$ classes?
-\item Conjecture: $\para \WNC^1[t] \subseteq \para \P$ if and only if a class between $\W[t] = \para \P$?
+\item \textbf{High priority:} extend \autocite[Corollary~3.8]{est15} to $\para \WNC^d \subseteq \para \P$ implies $\W[\NC^d \textsc{sat}] = \para \P$?
+\item \textbf{Very high priority:} show that collapses in the inclusion chain $\para \WNC^1$ through $\para \WP$ imply corresponding collapses in decision problems? This should follow from ``Describing parameterized complexity classes'' by Flum and Grohe (Section~5.6) (\emph{relates to decision problems}).
+\item \textbf{Low priority:} provide descriptive complexity characterizations of the $\para \W \mathcal{C}$ classes?
+\item \textbf{High priority:} $\para \WNC^1[t] \subseteq \para \P$ if and only if a class between $\W[t] = \para \P$?
 \end{enumerate}
 
 %% Print the bibliography section here.

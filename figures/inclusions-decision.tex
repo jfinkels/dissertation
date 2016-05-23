@@ -8,8 +8,8 @@
 
   \draw (nc) to (both);
   \draw (both) to (nncpolylog);
-  \draw (both) to (p);
-  \draw (p) to (np);
-  \draw (nncpolylog) to (nnc);
-  \draw[double] (nnc) to (np);
+  \draw[double] (both) -- (p) node[midway, rotate=30] {\small$/$};
+  \draw[double] (p) -- (np) node[midway, rotate=-15] {\small$/$};
+  \draw[double] (nncpolylog) -- (nnc) node[midway, rotate=45] {\small$/$};
+  \draw[double] (nnc) -- (np);
 \end{tikzpicture}

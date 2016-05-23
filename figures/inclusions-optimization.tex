@@ -1,4 +1,4 @@
-\begin{tikzpicture}
+\begin{tikzpicture}[every path/.style={double}]
   \node at (0, 0) (nco) {$\NCO$};
   \node at (0, 1) (both) {$\ApxNCO \cap \PO$};
   \node at (-1, 2) (apxnco) {$\ApxNCO$};
@@ -6,10 +6,10 @@
   \node at (0.5, 3.75) (npo) {$\NPO$};
   \node at (-0.5, 3) (nnco) {$\NNCO$};
 
-  \draw (nco) to (both);
-  \draw (both) to (apxnco);
-  \draw (both) to (po);
-  \draw (po) to (npo);
-  \draw (apxnco) to (nnco);
-  \draw[double] (nnco) -- (npo) node [rotate=45, midway] {\small$/$};
+  \draw (nco) -- (both) node[midway, rotate=-30] {\small$/$};
+  \draw (both) -- (apxnco) node[midway] {\small$/$};
+  \draw (both) -- (po) node[midway, rotate=30] {\small$/$};
+  \draw (po) -- (npo) node[midway, rotate=-15] {\small$/$};
+  \draw (apxnco) -- (nnco) node[midway, rotate=45] {\small$/$};
+  \draw (nnco) -- (npo) node [midway, rotate=45] {\small$/$};
 \end{tikzpicture}
