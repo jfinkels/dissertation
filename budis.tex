@@ -54,10 +54,58 @@
  }
 \makeatother
 
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+%% This must come before hyperref.
+%\usepackage{amsthm}
+%% This is strongly recommended by biblatex.
+\usepackage[english]{babel}
+\usepackage[backend=biber]{biblatex}
+\usepackage[T1]{fontenc}
+%% This must come before csquotes.
 \usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+%% This is strongly recommended by biblatex.
+\usepackage{csquotes}
+%% This must come before hyperref.
+%\usepackage{thmtools}
+%% This must come before complexity.
 \usepackage{hyperref}
-\usepackage{lipsum}
+%\usepackage{complexity}
+\usepackage[final]{microtype}
+%\usepackage{tikz}
 
+\LoadMicrotypeFile{cmr}
+\SetProtrusion
+    [load=lmr-T1]
+    {encoding=T1, family=lmr}
+    {
+      \textquotedblright = {,1000},
+      \textquotedblleft = {1000,},
+      {'} = {,1000},
+      {,} = {,1000},
+      {:} = {,1000},
+      {;} = {,1000},
+      {.} = {,1000}
+    }
+
+%% Set the title and author of the PDF file.
+\hypersetup{
+  pdftitle={Parallelism with limited nondeterminism},
+  pdfauthor={Jeffrey Finkelstein}
+}
+
+%% Declare the bibliography file.
+%\addbibresource{dissertation.bib}
+
+%% Declare theorem-like environments.
+%\declaretheorem[numberwithin=section]{theorem}
+
+%% Custom commands are declared here.
+\newcommand{\todo}[1]{\textbf{TODO #1}}
+\newcommand{\dash}{\textnormal{-}}
+
+%% Define the author, title, and date for the document.
 \title{Parallelism with limited nondeterminism}
 \author{Jeffrey~Finkelstein}
 
@@ -65,55 +113,31 @@
 
 %% Requirement 1.1.6 Order of pagination
 \frontmatter
-%% % Preliminary pages
-%% title page (page i, invisible number)
 \input{title}
-\newpage
-%% copyright page (page ii, invisible number)
 \input{copyright}
-\newpage
-%% readers' approval page, unsigned (page iii, invisible number)
 \input{readers}
-\newpage
-%% (optional) dedication page
 %\input{dedication}
-%% (optional) acknowledgments
 %\input{acknowledgments}
-%% abstract
 \input{abstract}
-\newpage
-%% preface (optional)
 %\input{preface}
-%% table of contents
 \tableofcontents
-\newpage
-%% list of tables
 \listoftables
-\newpage
-%% list of figures
 \listoffigures
-\newpage
-%% list of illustrations or schemes
-%\listofillustrations
-%% list of abbreviations
 \input{abbrevs}
-\newpage
-%% glossary
 \input{glossary}
-\newpage
 
 \mainmatter
-\chapter{Chapter heading}
-\section{Section heading}
-\subsection{Subsection heading}
-\lipsum
+\input{introduction}
+\input{decision/index}
+\input{optimization/index}
+\input{parameterized/index}
+
+%\appendix
+%\input{extras}
 
 \backmatter
-\chapter{Appendix heading}
-
 \input{bibliography}
 \newpage
-
 \input{vita}
 
 \end{document}
