@@ -1,16 +1,47 @@
-%% dissertation.tex - PhD dissertation
-%%
-%% Copyright 2016 Jeffrey Finkelstein.
-%%
-%% This LaTeX markup document is made available under the terms of the Creative
-%% Commons Attribution-ShareAlike 4.0 International License,
-%% https://creativecommons.org/licenses/by-sa/4.0/.
-\documentclass[draft]{article}
+\documentclass[
+  12pt,  %% Requirement 1.1.2 Typeface size and style
+  oneside,  %% Requirement 1.1.3 Margins
+]
+{book}
+
+%% Requirement 1.1.1 Double space
+\usepackage{setspace}
+\doublespacing
+
+%% Requirement 1.1.2 Typeface size and style
+\usepackage{titlesec}
+%% HACK In titlesec version 2.10.1 (the version provided by Ubuntu 16.04) there
+%% is a bug that removes section numbers from section headings. The following
+%% code fixes that regression. If titlesec version 2.10.2 or later is
+%% available, this code can be safely removed. See
+%% <http://tex.stackexchange.com/a/300259/4430>.
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
+%% END HACK
+\titleformat*{\section}{\normalsize\bfseries}
+\titleformat*{\subsection}{\normalsize\bfseries}
+\titleformat*{\subsubsection}{\normalsize\bfseries}
+\titleformat*{\paragraph}{\normalsize\bfseries}
+\titleformat*{\subparagraph}{\normalsize\bfseries}
+
+\usepackage{calc}
+\usepackage[
+  %% Requirement 1.1.3 Margins
+  top=1.5in,
+  left=1.5in,
+  right=1in,
+  bottom=1in,
+  %% Requirement 1.1.5 Page numbering, page number placement, ...
+  headsep={0.5in - 12pt},
+]{geometry}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
 %% This must come before hyperref.
-\usepackage{amsthm}
+%\usepackage{amsthm}
 %% This is strongly recommended by biblatex.
 \usepackage[english]{babel}
 \usepackage[backend=biber]{biblatex}
@@ -21,48 +52,13 @@
 %% This is strongly recommended by biblatex.
 \usepackage{csquotes}
 %% This must come before hyperref.
-\usepackage{thmtools}
+%\usepackage{thmtools}
 %% This must come before complexity.
 \usepackage{hyperref}
 \usepackage{complexity}
-\usepackage[firstpage]{draftwatermark}
 \usepackage[final]{microtype}
-\usepackage{textcomp}
 \usepackage{tikz}
 
-%% Set the amount by which certain characters protrude into the margins.
-%%
-%% \LoadMicrotypeFile{cmr}
-%%
-%%     This command forces the built-in protrusion settings for the Computer
-%%     Modern Roman (cmr) font family to become available at this point, so
-%%     that we can override these settings on the next line. Even though we are
-%%     really using the Latin Modern Roman (lmr) fonts, microtype uses the cmr
-%%     configuration file.
-%%
-%% \SetProtrusion
-%%
-%%     This instructs the microtype package that we are going to modify the
-%%     protrusion settings.
-%%
-%% [load=lmr-T1]
-%%
-%%     Loads the Type 1 (T1) encoding of the lmr font family, thereby setting
-%%     the default protrusion values for all the characters. This is only
-%%     possible after the \LoadMicrotypeFile{cmr} command (microtype
-%%     essentially considers lmr to be an alias for cmr).
-%%
-%% {encoding=T1, family=lmr}
-%%
-%%     Indicates that we are going to modify the protrusion values for the T1
-%%     encoding of the lmr font family.
-%%
-%% \textquotedblright = {,1000} (and similar commands)
-%%
-%%     Force the character given by \textquotedblright to have default
-%%     protrusion on the left margin (given by an empty string before the
-%%     comma) and full protrusion (that is, protrusion value 1000) on the right
-%%     margin.
 \LoadMicrotypeFile{cmr}
 \SetProtrusion
     [load=lmr-T1]
@@ -77,222 +73,54 @@
       {.} = {,1000}
     }
 
-%% Set the ``work-in-progress'' watermark for the first page.
-\SetWatermarkLightness{0.9}
-\SetWatermarkText{Work-in-progress}
-\SetWatermarkFontSize{3.5cm}
-
 %% Set the title and author of the PDF file.
-\hypersetup{pdftitle={PhD dissertation}, pdfauthor={Jeffrey Finkelstein}}
+\hypersetup{
+  pdftitle={Parallelism with limited nondeterminism},
+  pdfauthor={Jeffrey Finkelstein}
+}
 
 %% Declare the bibliography file.
 \addbibresource{dissertation.bib}
 
 %% Declare theorem-like environments.
-\declaretheorem[numberwithin=section]{theorem}
+%\declaretheorem[numberwithin=section]{theorem}
 
 %% Custom commands are declared here.
-\newcommand{\email}[1]{\textlangle\href{mailto:#1}{\nolinkurl{#1}}\textrangle}
 \newcommand{\todo}[1]{\textbf{TODO #1}}
-
 \newcommand{\dash}{\textnormal{-}}
 
-%% Redefine the footnote environment so it has no reference and no number.
-\long\def\symbolfootnote#1{\begingroup%
-\def\thefootnote{\fnsymbol{footnote}}\footnotetext{#1}\endgroup}
-
 %% Define the author, title, and date for the document.
+\title{Parallelism with limited nondeterminism}
 \author{Jeffrey~Finkelstein}
-\title{Dissertation}
 
 \begin{document}
 
-\maketitle
+%% Requirement 1.1.6 Order of pagination
+\frontmatter
+\input{title}
+\input{copyright}
+\input{readers}
+%\input{dedication}
+%\input{acknowledgments}
+\input{abstract}
+%\input{preface}
+\tableofcontents
+\listoftables
+\listoffigures
+\input{abbrevs}
+\input{glossary}
 
-\symbolfootnote{%
-  Copyright 2016 Jeffrey~Finkelstein \email{jeffreyf@bu.edu}.
+\mainmatter
+\input{introduction}
+\input{decision/index}
+\input{optimization/index}
+\input{parameterized/index}
 
-  This document is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License, which is available at \mbox{\url{https://creativecommons.org/licenses/by-sa/4.0/}}.
-  The \LaTeX{} markup that generated this document can be downloaded from its website at \mbox{\url{https://github.com/jfinkels/dissertation}}.
-  The markup is distributed under the same license.
-}
+%\appendix
+%\input{extras}
 
-%% Document content goes here.
-%
-% Global components at each level must follow this structure.
-%
-% % Foreword %
-%
-% %% Context (anyone - why now?) %%
-%
-% What is the current situation, and why is the need so important?
-%
-%
-% %% Need (readers - why you?) %%
-%
-% Why is this relevant to the reader, and why does something need to be done?
-% (Also reference relevant existing work.)
-%
-%
-% %% Task (author - why me?) %%
-%
-% What was undertaken to address the need?
-%
-%
-% %% Object (document - why this document?) %%
-%
-% What does this document cover?
-%
-%
-% % Summary %
-%
-% %% Findings (author - what?)
-%
-% What did the work reveal when performing the task?
-%
-%
-% %% Conclusion (readers - so what?)
-%
-% What did the findings mean for the audience?
-%
-%
-% %% Perspective (anyone - what now?)
-%
-% What should be done next?
-
-\section{Introduction}
-
-% Foreword
-
-% context (focus on anyone) why now? - current situation, and why the need is so important
-Since parallel computing is again becoming a topic of interest in computer science, it is important to revisit the theoretical foundations of highly parallel computing.
-% need (focus on readers) why you? - why this is relevant to the reader, and why something needed to be done
-``Inherently sequential'' computational problems see no significant speedup when run on highly parallel computers.
-Just as there are efficient approximations for intractable optimization problems, so too are there efficient and highly parallel approximations for optimization problems that are tractable but inherently sequential.
-%% (From here forward, we write ``parallel'' instead of ``efficient and highly parallel'' and ``sequential'' instead of ``inherently sequential''\kern-0.5em.\kern0.25em)
-%%% relevant existing work, given as part of the need
-For example, the problem of computing the optimal vector in a positive linear program, a problem relevant to distributed flow control within a network of routers, is inherently sequential, but a vector very close to the optimal one can be computed quickly in parallel.
-Similarly, just as there are fixed-parameter tractable algorithms for some intractable problems, so too are there fixed-parameter parallel algorithms for some sequential parameterized problems.
-For example, \todo{this section was only reviewed up to this point. Updates needed below. }
-% task (focus on author) why me? - what was undertaken to address the need
-We develop the theory of structural complexity for highly parallel algorithms for tractable but inherently sequential problems in decision problems, optimization problems, and parameterized problems.
-This area has not been well-studied, and when it has been studied, the results focus mostly on parallel algorithms for \emph{intractable} problems, (that is, $\NC$ algorithms for $\NP$-complete problems), not parallel algorithms for tractable sequential problems (that is, $\NC$ algorithms for $\P$-complete problems).
-% object (focus on document) why this document - what the document covers
-This prospectus describes work we have already completed and work that remains in developing this theory.
-
-% Summary
-%
-% findings (focus on author) what? - what the work revealed when performing the task
-The two sections below discuss two main approaches to proving the limitations of parallel approximations for sequential problems.
-The first section discusses the complexity classes associated with parallel approximation algorithms, the second discusses augmenting a parallel algorithm with a small amount of nondeterminism as a technique to prove approximability or inapproximability of sequential problems.
-Both concern inapproximability by $\NC$ algorithms, but the former considers $\P$ optimization problems while the latter considers $\NNC(\polylog)$ problems.
-% conclusion (focus on readers) so what? - what the findings mean for the audience
-Together, these form the basis for proving approximability and inapproximability for tractable sequential problems by parallel algorithms.
-% perspective (focus on anyone) what now? - what should be done next
-This line of research, along with the fact that the complexity of solving a computational problem exactly seems to have little to with the approximability of that problem, emphasizes the need to further determine the relative difficulty of computational problems with respect to the complexity of decision, verification, and approximation.
-
-\section{the rest}
-
-We study the structural complexity of sequential versus parallel computation in decision problems, optimization problems, and parameterized problems.
-Decision problems lead to the other two kinds of problems by modifying either the solution space or the resource usage bounds.
-Optimization problems generalize decision problems by allowing a search for a good solution among many candidates.
-Parameterized problems generalize decision problems by allowing resource bounds to depend on a parameter of the problem instance instead of simply the size.
-The study of the computational complexity of both optimization problems and parameterized problems provide more details about the complexity than does the study of only the decision complexity.
-
-\begin{minipage}[t]{0.31\linewidth}
-  \centering
-  \input{figures/inclusions-decision}
-\end{minipage}%
-\begin{minipage}[t]{0.31\linewidth}
-  \centering
-  \input{figures/inclusions-optimization}
-\end{minipage}%
-\begin{minipage}[t]{0.31\linewidth}
-  \centering
-  \input{figures/inclusions-parameterized}
-\end{minipage}
-
-These inclusion diagrams shape how we approach all the problems in this paper.
-Double lines represent equality, solid lines represent strict inequality under some reasonable complexity-theoretic assumptions, and dashed lines represent inclusions of unknown strictness or equality.
-The fact that $\NNC[\poly] = \NP$ but $\NNCO \neq \NPO$ and $\para \WNC \neq \para \WP$ (under the assumption $\NC \neq \P$) leads us to conclude that viewing a computational problem as merely a decision problem is too coarse-grained an approach---it does not give enough information about the computational complexity of the problem.
-
-There is another view that we approach only indirectly in this work, the complexity of verification.
-This is why $\NNCO$ differs from $\NPO$ and $\para \WNC$ differs from $\para \WP$: these classes take into account the complexity of verifying a solution.
-The classes of decision problems $\NNC[\poly]$ and $\NP$ do not.
-
-\todo{Descriptive complexity encompasses all of these; specifically for parallel complexity of optimization problems, see \autocite{kt93}.}
-
-We aim to show that there is a $\P$-complete problem that is also
-\begin{enumerate}
-\item[(D1)] not in $\NNC[\polylog]$ (\autocite[Theorem~3.9]{ncpcp} provides one unless $P \subsetneq \polyL$),
-\item[(D2)] in $\NNC[\polylog]$ but not in $\NC$ (unknown),
-\item[(O1)] not in $\ApxNCO$ (\autocite[Theorem~3.25]{ncapproximation} provides one unless $\NC = \P$),
-\item[(O2)] in $\ApxNCO$ but not in $\NCO$ (\autocite[Theorem~3.25]{ncapproximation} provides on unless $\NC = \P$),
-\item[(P1)] not in $\para \WNC[1]$ (unknown),
-\item[(P2)] in $\para \WNC[1]$ but not in $\para \NC$ (unknown).
-\end{enumerate}
-
-\section{Outline}
-
-The referenced theorems correspond to the theorems in the respective papers.
-
-\paragraph{Decision Problems.}
-Completed:
-\begin{enumerate}
-\item $\NC = \PCP[O(\log \log n, O(1)]$ (Theorem~3.3).
-\item $\NNC[\polylog] = \PCP[O(\log \log n), \polylog]$ (Corollary~3.2).
-\item $\NP = \PCP[O(\log n), O(1)]$ (Theorem~3.4).
-\item negative consequences $\PCP$ hierarchy collapses (Corollary~3.6) (\emph{relates to parameterized problems})
-\item consequences of $\P = \PCP[O(\log \log n), \polylog]$ (Theorem~3.9).
-\end{enumerate}
-To-do:
-\begin{enumerate}
-\item \textbf{Low priority:} Inapproximability of the High Degree Subgraph problem (Section~4) (\emph{relates to optimization problems}).
-\end{enumerate}
-
-\paragraph{Optimization problems.}
-
-Completed:
-\begin{enumerate}
-\item $\NNCO$-complete problem (Theorem~3.3).
-\item $\NPO$-complete problem (Corollary~3.4).
-\item $\NNCO = \NPO \iff \NC = \P$ (Theorem~3.5).
-
-\item $\PO$-complete problem (Theorems~3.8 and 3.9).
-\item $(\PO \cap \NNCO)$-complete problem (Corollary~3.11).
-\item $\PO \cap \NNCO = \PO \iff \NC = \P$ (Theorem~3.12).
-
-\item $\PO \cap \NNCO$ is not closed under $\leq_m^{AP}$ reductions (Corollary~3.10).
-
-\item Strictness of $\NNCO$ approximation hierarchy (Theorem~3.24).
-\item Strictness of $\PO \cap \NNCO$ approximation hierarchy (Theorem 3.25).
-\end{enumerate}
-To-do:
-\begin{enumerate}
-\item \textbf{Low priority:} $\ApxNCO$-complete problem (Section~3.3).
-\item \textbf{High priority:} descriptive complexity characterization of $\ApxNCO$ (Section~4) (\emph{relates to parameterized problems}).
-\item \textbf{High priority:} reduction preserving both verification complexity and approximability.
-\end{enumerate}
-
-\paragraph{Parameterized problems.}
-Completed:
-\begin{enumerate}
-\item Circuit value problem is $\P$-complete but in $\para \AC^{0 \uparrow}$ (Theorems~3.3 and 3.5).
-\item Nonuniform circuits for proving $\NC = \NNC[i(n) \log n] \implies \para \NC = \para \WNC$.
-\item $\mathcal{O} \in \ENCAS \implies p \dash \mathcal{O} \in \para \NC$ (Theorem~3.18)
-\item $\para \P$-complete problems (Section~4.2).
-\item Definition of $\para \WNC[t]$?
-\item $\para\NC = \para \WNC[t] \iff \Pi_t\LOGTIME[i(n) \log n] \subseteq \NC^d$, if it's correct (Section~6.4).
-\end{enumerate}
-To-do:
-\begin{enumerate}
-\item \textbf{High priority:} extend \autocite[Corollary~3.8]{est15} to $\para \WNC^d \subseteq \para \P$ implies $\W[\NC^d \textsc{sat}] = \para \P$?
-\item \textbf{Very high priority:} show that collapses in the inclusion chain $\para \WNC^1$ through $\para \WP$ imply corresponding collapses in decision problems? This should follow from ``Describing parameterized complexity classes'' by Flum and Grohe (Section~5.6) (\emph{relates to decision problems}).
-\item \textbf{Low priority:} provide descriptive complexity characterizations of the $\para \W \mathcal{C}$ classes?
-\item \textbf{High priority:} $\para \WNC^1[t] \subseteq \para \P$ if and only if a class between $\W[t] = \para \P$?
-\end{enumerate}
-
-%% Print the bibliography section here.
-\printbibliography
+\backmatter
+\input{bibliography}
+\input{vita}
 
 \end{document}
