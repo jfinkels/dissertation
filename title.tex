@@ -1,33 +1,49 @@
+%% Requirement 1.1.5 Page numbering, page number placement, ...
+%%
+%% HACK In order to start page numbering on the title page, we need to redefine
+%% it so it does not reset the page number after it. See
+%% <http://tex.stackexchange.com/a/172005/4430>.
+\makeatletter
+\renewenvironment{titlepage}
+ {%
+  \@restonecolfalse\newpage
+  \thispagestyle{empty}%
+  \begin{center}%
+ }
+ {%
+  \end{center}%
+  \newpage
+ }
+\makeatother
+
 \begin{titlepage}
-  \begin{center}
 
-    \uppercase{Boston University}\\
-    \uppercase{Graduate School of Arts and Sciences}
+  \uppercase{Boston University}\\
+  \uppercase{Graduate School of Arts and Sciences}
 
-    \vspace{8ex}
+  \vspace{8ex}
 
-    Dissertation
+  Dissertation
 
-    \vspace{10ex}
+  \vspace{10ex}
 
-    \textbf{\uppercase{Parallelism with limited nondeterminism}}
+  \textbf{\uppercase{Parallelism with limited nondeterminism}}
 
-    \vspace{10ex}
+  \vspace{10ex}
 
-    by
+  by
 
-    \vspace{8ex}
+  \vspace{8ex}
 
-    \textbf{\uppercase{Jeffrey Finkelstein}}
+  \textbf{\uppercase{Jeffrey Finkelstein}}
 
-    \vspace{5ex}
-    B.S., Tufts University, 2010
+  \vspace{5ex}
+  B.S., Tufts University, 2010
 
-    \vspace{22ex}
+  \vspace{22ex}
 
-    Submitted in partial fulfillment of the\\
-    requirements for the degree of\\
-    Doctor of Philosophy\\
-    2017
-  \end{center}
+  Submitted in partial fulfillment of the\\
+  requirements for the degree of\\
+  Doctor of Philosophy\\
+  2017
 \end{titlepage}
