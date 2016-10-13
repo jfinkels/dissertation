@@ -1,0 +1,119 @@
+\documentclass[
+  12pt,  %% Requirement 1.1.2 Typeface size and style
+  oneside,  %% Requirement 1.1.3 Margins
+]
+{book}
+
+%% Requirement 1.1.1 Double space
+\usepackage{setspace}
+\doublespacing
+
+%% Requirement 1.1.2 Typeface size and style
+\usepackage{titlesec}
+%% HACK In titlesec version 2.10.1 (the version provided by Ubuntu 16.04) there
+%% is a bug that removes section numbers from section headings. The following
+%% code fixes that regression. If titlesec version 2.10.2 or later is
+%% available, this code can be safely removed. See
+%% <http://tex.stackexchange.com/a/300259/4430>.
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
+%% END HACK
+\titleformat*{\section}{\normalsize\bfseries}
+\titleformat*{\subsection}{\normalsize\bfseries}
+\titleformat*{\subsubsection}{\normalsize\bfseries}
+\titleformat*{\paragraph}{\normalsize\bfseries}
+\titleformat*{\subparagraph}{\normalsize\bfseries}
+
+\usepackage{calc}
+\usepackage[
+  %% Requirement 1.1.3 Margins
+  top=1.5in,
+  left=1.5in,
+  right=1in,
+  bottom=1in,
+  %% Requirement 1.1.5 Page numbering, page number placement, ...
+  headsep={0.5in - 12pt},
+]{geometry}
+
+%% Requirement 1.1.5 Page numbering, page number placement, ...
+%%
+%% HACK In order to start page numbering on the title page, we need to redefine
+%% it so it does not reset the page number after it. See
+%% <http://tex.stackexchange.com/a/172005/4430>.
+\makeatletter
+\renewenvironment{titlepage}
+ {%
+   \@restonecolfalse\newpage
+   \thispagestyle{empty}%
+ }
+ {%
+   \newpage
+ }
+\makeatother
+
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{lipsum}
+
+\title{Parallelism with limited nondeterminism}
+\author{Jeffrey~Finkelstein}
+
+\begin{document}
+
+%% Requirement 1.1.6 Order of pagination
+\frontmatter
+%% % Preliminary pages
+%% title page (page i, invisible number)
+\input{title}
+\newpage
+%% copyright page (page ii, invisible number)
+\input{copyright}
+\newpage
+%% readers' approval page, unsigned (page iii, invisible number)
+\input{readers}
+\newpage
+%% (optional) dedication page
+%\input{dedication}
+%% (optional) acknowledgments
+%\input{acknowledgments}
+%% abstract
+\input{abstract}
+\newpage
+%% preface (optional)
+%\input{preface}
+%% table of contents
+\tableofcontents
+\newpage
+%% list of tables
+\listoftables
+\newpage
+%% list of figures
+\listoffigures
+\newpage
+%% list of illustrations or schemes
+%\listofillustrations
+%% list of abbreviations
+\input{abbrevs}
+\newpage
+%% glossary
+\input{glossary}
+\newpage
+
+\mainmatter
+\chapter{Chapter heading}
+\section{Section heading}
+\subsection{Subsection heading}
+\lipsum
+
+\backmatter
+\chapter{Appendix heading}
+
+\input{bibliography}
+\newpage
+
+\input{vita}
+
+\end{document}
