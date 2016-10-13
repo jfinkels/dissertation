@@ -1,22 +1,26 @@
-\thispagestyle{empty}
-\begin{center}
-  Approved by
-\end{center}
-\vspace{21ex}
-\renewcommand{\arraystretch}{0.6}
-\begin{tabular}{l p{4.5in}}
-  First Reader & \hrulefill \\
-  & Steven Homer, Ph.D. \\
-  & Professor of Computer Science \\[13ex]
+\newenvironment{readerspage}
+  {\thispagestyle{empty}}
+  {\newpage}
 
-  Second Reader & \hrulefill \\
-  & Benjamin Hescott, Ph.D. \\
-  & Assistant Professor of Computer Science \\
-  & Tufts University \\[11ex]
+\begin{readerspage}
+  \begin{center}
+    Approved by
+  \end{center}
+  \vspace{21ex}
+  \renewcommand{\arraystretch}{0.6}
+  \begin{tabular}{l p{4.5in}}
+    First Reader & \hrulefill \\
+    & Steven Homer, Ph.D. \\
+    & Professor of Computer Science \\[13ex]
 
-  Third Reader & \hrulefill \\
-  & Péter Gács, Ph.D. \\
-  & Professor of Computer Science \\
-  & Boston University
-\end{tabular}
-\newpage
+    Second Reader & \hrulefill \\
+    & Benjamin Hescott, Ph.D. \\
+    & Assistant Professor of Computer Science \\
+    & Tufts University \\[11ex]
+
+    Third Reader & \hrulefill \\
+    & Péter Gács, Ph.D. \\
+    & Professor of Computer Science \\
+    & Boston University
+  \end{tabular}
+\end{readerspage}
