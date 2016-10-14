@@ -1,41 +1,83 @@
 \chapter{Introduction}
 
-% Foreword
+% % Foreword %
 %
-% context (focus on anyone) why now? - current situation, and why the need is so important
+% %% Context (anyone - why now?) %%
+%
+% What is the current situation, and why is the need so important?
+%
 Since parallel computing is again becoming a topic of interest in computer science, it is important to revisit the theoretical foundations of highly parallel computing.
-% need (focus on readers) why you? - why this is relevant to the reader, and why something needed to be done
-``Inherently sequential'' computational problems see no significant speedup when run on highly parallel computers.
-Just as there are efficient approximations for intractable optimization problems, so too are there efficient and highly parallel approximations for optimization problems that are tractable but inherently sequential.
-%% (From here forward, we write ``parallel'' instead of ``efficient and highly parallel'' and ``sequential'' instead of ``inherently sequential''\kern-0.5em.\kern0.25em)
-%%% relevant existing work, given as part of the need
-For example, the problem of computing the optimal vector in a positive linear program, a problem relevant to distributed flow control within a network of routers, is inherently sequential, but a vector very close to the optimal one can be computed quickly in parallel.
-Similarly, just as there are fixed-parameter tractable algorithms for some intractable problems, so too are there fixed-parameter parallel algorithms for some sequential parameterized problems.
-For example, \todo{this section was only reviewed up to this point. Updates needed below. }
-% task (focus on author) why me? - what was undertaken to address the need
-We develop the theory of structural complexity for highly parallel algorithms for tractable but inherently sequential problems in decision problems, optimization problems, and parameterized problems.
-This area has not been well-studied, and when it has been studied, the results focus mostly on parallel algorithms for \emph{intractable} problems, (that is, $\NC$ algorithms for $\NP$-complete problems), not parallel algorithms for tractable sequential problems (that is, $\NC$ algorithms for $\P$-complete problems).
-% object (focus on document) why this document - what the document covers
-This prospectus describes work we have already completed and work that remains in developing this theory.
+In theoretical computer science, computational complexity studies what problems can be solved when facing limited access to resources.
+With parallelism as the resource of interest, computational complexity has already classified numerous computational problems as either ``inherently sequential'' or ``parallelizable''\kern-0.45em.\kern0.45em
+Inherently sequential computational problems, unlike parallizable problems, see no significant speedup when run on highly parallel computers.
 
-% Summary
-%
-% findings (focus on author) what? - what the work revealed when performing the task
-The two sections below discuss two main approaches to proving the limitations of parallel approximations for sequential problems.
-The first section discusses the complexity classes associated with parallel approximation algorithms, the second discusses augmenting a parallel algorithm with a small amount of nondeterminism as a technique to prove approximability or inapproximability of sequential problems.
-Both concern inapproximability by $\NC$ algorithms, but the former considers $\P$ optimization problems while the latter considers $\NNC(\polylog)$ problems.
-% conclusion (focus on readers) so what? - what the findings mean for the audience
-Together, these form the basis for proving approximability and inapproximability for tractable sequential problems by parallel algorithms.
-% perspective (focus on anyone) what now? - what should be done next
-This line of research, along with the fact that the complexity of solving a computational problem exactly seems to have little to with the approximability of that problem, emphasizes the need to further determine the relative difficulty of computational problems with respect to the complexity of decision, verification, and approximation.
-
-\section{more infoooooo}
-
-We study the structural complexity of sequential versus parallel computation in decision problems, optimization problems, and parameterized problems.
+Computational problems can be further classified into three types: decision problems, optimization problems, and parameterized problems.
+Decision problems are of the form ``Does object $x$ have property $P$?''
 Decision problems lead to the other two kinds of problems by modifying either the solution space or the resource usage bounds.
 Optimization problems generalize decision problems by allowing a search for a good solution among many candidates.
 Parameterized problems generalize decision problems by allowing resource bounds to depend on a parameter of the problem instance instead of simply the size.
-The study of the computational complexity of both optimization problems and parameterized problems provide more details about the complexity than does the study of only the decision complexity.
+The study of the computational complexity of both optimization problems and parameterized problems provides a more detailed view than the study of decision problems alone.
+
+%
+% %% Need (readers - why you?) %%
+%
+% Why is this relevant to the reader, and why does something need to be done?
+% (Also reference relevant existing work.)
+%
+Just as there are efficient approximations for intractable optimization problems, so too are there efficient and highly parallel approximations for optimization problems that are tractable but inherently sequential.
+For example, the problem of computing the optimal vector in a positive linear program---a problem relevant to distributed flow control within a network of routers---is inherently sequential, but a vector very close to the optimal one can be computed quickly in parallel.
+Similarly, just as there are fixed-parameter tractable algorithms for some intractable problems, so too are there fixed-parameter parallel algorithms for some sequential parameterized problems.
+For example, the problem of evaluating a Boolean circuit on a given input is inherently sequential, but the circuit can be evaluated quickly in parallel when the depth of the circuit is considered a parameter of the problem.
+These facts, which require proofs, give practicioners the confidence that when faced with inherently sequential problems, all hope is not lost.
+
+%
+% %% Task (author - why me?) %%
+%
+% What was undertaken to address the need?
+%
+We develop the theory of structural complexity for highly parallel algorithms for tractable but inherently sequential problems in decision problems, optimization problems, and parameterized problems.
+This area has not been well-studied, and when it has been studied, the results focus mostly on parallel algorithms for \emph{intractable} problems, %% (that is, $\NC$ algorithms for $\NP$-complete problems),
+not parallel algorithms for tractable sequential problems %% (that is, $\NC$ algorithms for $\P$-complete problems)
+.
+%
+% %% Object (document - why this document?) %%
+%
+% What does this document cover?
+%
+This dissertation proves the main theorems required for the study of the computational complexity of parallelizable versus sequential computational problems and provides the motivation and intuition to understand their significance and use.
+
+%
+% % Summary %
+%
+% %% Findings (author - what?)
+%
+% What did the work reveal when performing the task?
+%
+There are three main chapters in this dissertation, each of which discusses a different type of computational problem, namely decision problems, optimization problems, and parameterized problems.
+Each chapter discusses the main approaches to proving the limitations of highly parallel algorithms for tractable but inherently sequential problems of the respective type.
+Further, we show how adding a limited amount of nondeterminism to a highly parallel algorithm allows us to circumvent some limitations of parallelism without requiring sequential computation.
+
+In \autoref{chp:decision}, we discuss augmenting a highly parallel algorithm for decision problems with a small amount of nondeterminism as the basis for a technique to prove inapproximability of optimization problems.
+In \autoref{chp:optimization}, we define and explore the complexity classes associated with parallel approximation algorithms for inherently sequential optimization problems.
+In \autoref{chp:parameterized}, we formalize the tradeoffs between time, parallelism, and nondeterminism in parameterized problems and show some connections with decision and optimization problems.
+
+%
+% %% Conclusion (readers - so what?)
+%
+% What did the findings mean for the audience?
+%
+\textbf{FILL ME IN WITH A CONCLUSIONS PARAGRAPH}
+
+%
+% %% Perspective (anyone - what now?)
+%
+% What should be done next?
+This line of research, along with the fact that the complexity of solving a decision problem seems to have little to with the approximability or parameterized complexity of that problem, emphasizes the need to further determine the relative difficulty of computational problems with respect to the complexity of decision, verification, and approximation.
+Descriptive complexity seems like a promising way of unifying the complexity analyses of the different kinds of computational problems explored here; there are descriptive complexity characterizations for classes of decision problems \autocite{immerman99}, classes of approximable optimization problems \autocite{kt93}, and classes of parameterized problems \autocite{fg06}.
+
+\section{TODO Incorporate the below into the paragraphs above}
+
+%% We study the structural complexity of sequential versus parallel computation in decision problems, optimization problems, and parameterized problems.
 
 \begin{minipage}[t]{0.31\linewidth}
   \centering
@@ -58,7 +100,7 @@ There is another view that we approach only indirectly in this work, the complex
 This is why $\NNCO$ differs from $\NPO$ and $\para \WNC$ differs from $\para \WP$: these classes take into account the complexity of verifying a solution.
 The classes of decision problems $\NNC[\poly]$ and $\NP$ do not.
 
-\todo{Descriptive complexity encompasses all of these; specifically for parallel complexity of optimization problems, see \autocite{kt93}.}
+%% \todo{Descriptive complexity encompasses all of these; specifically for parallel complexity of optimization problems, see \autocite{kt93}.}
 
 We aim to show that there is a $\P$-complete problem that is also
 \begin{enumerate}
