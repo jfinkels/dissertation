@@ -1,0 +1,165 @@
+\section{The \texorpdfstring{$\para \WP$}{paraWP} hierarchy}
+
+% % Foreword %
+%
+% %% Context (anyone - why now?) %%
+%
+% What is the current situation, and why is the need so important?
+%
+There is a hierarchy of classes between $\para \P$ and $\para \WP$, denoted $\para \WP[t]$ (also known as $\W[t]$) for each positive integer $t$.
+%
+% %% Need (readers - why you?) %%
+%
+% Why is this relevant to the reader, and why does something need to be done?
+% (Also reference relevant existing work.)
+%
+It would be nice to have a similar hierarchy between $\para \NC$ and $\para \WNC$.
+However, attempts to create a definition for $\para \WNC[t]$ similar to the definition of $\para \WP[t]$ elude us.
+%
+% %% Task (author - why me?) %%
+%
+% What was undertaken to address the need?
+%
+Both the finite model theory definition of $\para \WNC[t]$ that we considered and the definition as the closure of a reasonable parameterized problem yield a complexity class that is equivalent to $\para \WP[t]$.
+%
+% %% Object (document - why this document?) %%
+%
+% What does this document cover?
+%
+Thus the main theorem in this section concerns the relationship between $\para \NC$ and $\para \WP[t]$ instead of $\para \WNC[t]$.
+
+% % Summary %
+%
+% %% Findings (author - what?)
+%
+% What did the work reveal when performing the task?
+%
+We show the equivalence of two collapses, $\para \NC = \para \WP[t]$ and $\GC[\omega(\log n), \Pi_T \LOGTIME] \subseteq \NC$.
+This is similar to \autocite[Theorem~4.3]{cc97npo}, which is identical but with $\P$ in place of $\NC$; our result features more severe collapses.
+%
+% %% Conclusion (readers - so what?)
+%
+% What did the findings mean for the audience?
+%
+This theorem adds more evidence that parameterized classes are closely related to classes of decision problems with limited nondeterminism.
+%
+% %% Perspective (anyone - what now?)
+%
+% What should be done next?
+
+
+\begin{definition}[{$p \dash \PiCSAT$ \autocite[Theorem~4.1]{cc97npo}}]
+  \mbox{} \\
+  \begin{tabular}{r p{9.2cm}}
+    \textbf{Instance:} & $\Pi_t$ Boolean circuit $C$, natural number $k$. \\
+    \textbf{Parameter:} & $k$ \\
+    \textbf{Question:} & Is $C$ $k$-satisfiable?
+  \end{tabular}
+\end{definition}
+
+\begin{definition}[{$\pPiFSAT$ \autocite[Theorem~4.2]{cc97npo}}]
+  \mbox{} \\
+  \begin{tabular}{r p{9.2cm}}
+    \textbf{Instance:} & $\Pi_t$ Boolean formula $\phi$, natural number $k$. \\
+    \textbf{Parameter:} & $k$ \\
+    \textbf{Question:} & Is $\phi$ $k$-satisfiable?
+  \end{tabular}
+\end{definition}
+
+\begin{theorem}\label{thm:picsatgc}
+  Suppose $d$ and $t$ are integers greater than one and $i$ is a circuit-computable nondecreasing function.
+  The decision problem $i(n) \dash \PiCSAT$ is complete for $\GC[i(n) \log n, \Pi_t \LOGTIME]$ under $\NC^d$ many-one reductions.
+\end{theorem}
+\begin{proof}
+  The hardness proof is from \autocite[Theorem~4.4]{cc97lim} and \autocite[Theorem~4.7]{cc97lim}, and the membership proof is from \autocite[Theorem~4.1]{cc97npo}.
+  The hardness is proven with respect to the logarithmic space many-one reduction, which induces an $\NC^d$ many-one reduction for each $d$ greater than one.
+\end{proof}
+
+\begin{theorem}\label{thm:ppifsat}
+  Suppose $d$ and $t$ are integers greater than one.
+  $\pPiFSAT$ is complete for $\para \WP[t]$ under $\para \NC^d$ many-one reductions.
+\end{theorem}
+\begin{proof}
+  This is proven in \autocite[Theorem~4.1]{df92} with respect to the $\para \L$ many-one reduction, which induces a $\para \NC^d$ many-one reduction for each $d$ greater than one.
+\end{proof}
+
+%% This is not satisfying because the closure of $\pPiFSAT$ under $\para \NC^d$ many-one reductions is probably $\para \WP[t]$.
+%% This actually gives us $\para \WNC^d[t] = \para \WP[t]$; more on this later.
+
+Since we will construct reductions between these problems, we need an efficient and highly parallel algorithm for transforming a circuit into an equivalent formula.
+The input variables must be identical in order to guarantee that the parameter values are identical.
+
+\begin{lemma}\label{lem:circuittoformula}
+  Suppose $t$ is a positive integer.
+  There is an $\NC^2$ many-one reduction from $\PiCSAT$ to $\PiFSAT$.
+  Furthermore, the reduction preserves witnesses in the following (strong) sense.
+  For each circuit $C$, if $\phi$ is the image of $C$ under the reduction, then $\Var(C) = \Var(\phi)$ and for each input vector $x$, we have $C(x) = 1$ if and only if $\phi(x) = 1$.
+\end{lemma}
+\begin{proof}
+  The reduction operates as follows on input $(C, k)$, where $C$ is a Boolean circuit of size $m$ and depth $t$ and $k$ is a positive integer.
+  Construct a trie (also known as a prefix tree) from the $O(m^t)$ possible paths from output gate to input gate, then output $(\phi, k)$, where $\phi$ is the Boolean formula represented by the constructed trie.
+  The output gate is the root of the trie, the internal gates are the internal nodes of the tree, and the input gates are the leaf nodes of the trie (one leaf node for each input gate).
+  By construction, the formula has the same set of variables as the circuit, and any path from output gate to input gate in the circuit has the same labels as the corresponding path in the trie, so for any input $x$, we have $C(x) = \phi(x)$.
+  This also implies that $C$ has a satisfying assignment of weight $k$ if and only if $\phi$ has a satisfying assignment of weight $k$.
+
+  Constructing a trie from $O(m^t)$ binary strings can be done by a circuit with $O(\log m^t)$ time and $O(m^{2t})$ size \autocite{lv86} (\todo{someone needs to verify this}).
+  Since each ``character'' in our ``strings'' is really an element of $\{1, \dotsc, m\}$, there is an extra $O(\log m)$ depth penalty for reducing an alphabet of size $m$ to the binary alphabet.
+  Thus the overall depth is $O(t \log^2 m)$ and the size $O(m^{2t} \log m)$.
+  Since $t$ is a constant with respect to the size of the input $C$, this is an $\NC^2$ circuit.
+\end{proof}
+
+The following theorem is an adaptation of \autocite[Theorem~4.3]{cc97npo}.
+It is somewhat similar to \autoref{thm:ncwnc}, but the inclusion $\GC[i(n) \log n, \Pi_t \LOGTIME] \subseteq \NC^d$ is weaker than the collapse $\NC^d = \NNC^d[i(n) \log n]$.
+The class $\Pi_t \LOGTIME$ is a subclass of $\LH$, the logarithmic time hierarchy, which equals $\AC^0$ \autocite[Corollary~5.32]{immerman99}.
+Since $\AC^0$ is a strict subset of $\NC^1$ \autocite{fss84}, $\Pi_t \LOGTIME$ is a strict subclass of $\NC^1$.
+Although, $\Pi_t \LOGTIME$ is strictly weaker than $\NC^1$, the addition of $\omega(\log n)$ nondeterministic bits seems to give it power beyond that of $\NC$, which seems able to simulate only $O(\log n)$ bits (by enumerating each string of that length in parallel).
+This theorem suggests that a collapse of the parameterized complexity classes yields a deterministic simulation of $\omega(\log n)$ bits, which would violate our intuition of nondeterminism.
+See similar comments after \autocite[Theorem~4.3]{cc97npo} and compare with the deterministic simulation in the right side of the biconditional in \autoref{thm:wncp}.
+
+\begin{theorem}\label{thm:ncwnct}
+  Suppose $d$ and $t$ are integers greater than one.
+  $\para \NC^d = \para \WP[t]$ if and only if there is a circuit-computable, unbounded, nondecreasing function $i$ such that %% $i(n) \leq n$ and
+  $\GC[i(n) \log n, \Pi_t \LOGTIME] \subseteq \NC^d$.
+  \todo{Should also include para WP[t] in para WNC if and only if GC[i(n) log n, Pi LOGTIME] is in NNC[i(n) log n]}
+\end{theorem}
+\begin{proof}
+  First, we prove the reverse implication.
+  Assume there is a function $i$ such that $\GC[i(n) \log n, \Pi_t \LOGTIME] \subseteq \NC^d$.
+  Since $\PiCSAT$ is in the class $\GC[i(n) \log n, \Pi_t \LOGTIME]$ by \autoref{thm:picsatgc}, it is now in $\NC^d$ as well.
+
+  Since $\pPiFSAT$ is complete for $\para \WP[t]$ under $\para \NC^d$ many-one reductions by \autoref{thm:ppifsat}, it suffices to show that $\pPiFSAT$ is in $\para \NC^d$.
+  Furthermore, by \autoref{lem:spreduction}, it suffices to show that there is a small parameter $\NC^d$ many-one reduction from $\pPiFSAT$ to $\PiCSAT$.
+
+  Let $\{R_n\}$ be the family of circuits computing the function $\phi \mapsto C_\phi$, where $\phi$ is a $\Pi_t$-normalized Boolean formula and $C_\phi$ is the natural $\Pi_t$ Boolean circuit induced by that formula.
+  If we can show that $R_n$ is in $\NC^d$, then the parameter upper bound $i$ and $\{R_n\}$ together comprise a small parameter $\NC^d$ many-one reduction from $\pPiFSAT$ to $\PiCSAT$.
+
+  Transforming a formula to its equivalent circuit is certainly computable in logarithmic space, so it is certainly in $\NC^2$.
+  However, we can transform a Boolean formula into an equivalent Polish notation (prefix) Boolean formula in alternating logarithmic time \autocite{buss87}, which is in $\NC^1$, and from there we can write the adjacency matrix of the tree given by the prefix Boolean formula with an $\NC^1$ algorithm.
+
+  Now we prove the forward implication.
+  Assume $\para \NC^d = \para \WP[t]$.
+  Since $\pPiFSAT$ is in $\para \WP[t]$ by \autoref{thm:ppifsat}, it is now in $\para \NC^d$ as well.
+  We will use \autoref{lem:reducetonc} to show a reduction meeting the criteria of that lemma from $\PiCSAT$, which is complete for the class $\GC[i(n) \log n, \Pi_t \LOGTIME]$ under $\NC^d$ reductions by \autoref{thm:picsatgc}, to $\pPiFSAT$.
+
+  Let $\{C_{m, k'}\}$ be the deterministic circuit family deciding $\pPiFSAT$ and $f$ the circuit-computable function such that
+  \begin{itemize}
+  \item for each $\phi$, we have $\phi$ is satisfiable if and only $C_{m, k'}(\phi) = 1$
+  \item $\size(C_{m, k'}) \leq f(k') m^{O(1)}$,
+  \item $\depth(C_{m, k'}) \leq f(k') + O(\log^d m)$.
+  \end{itemize}
+  Assume without loss of generality that $f$ is increasing.
+  Choose $i$ to be the ``lower inverse'' function $i_{f, d}$ guaranteed by \autoref{lem:lowerinverse}.
+
+  For the chosen function $i$, consider the problem $\PiCSAT$.
+  By \autoref{lem:circuittoformula}, there is an $\NC^d$ reduction, $\{R_n\}$, from $\PiCSAT$ to $\PiFSAT$, the decision problem underlying the parameterized problem $\pPiFSAT$.
+  Furthermore, since the variables and the satisfying assignments are identical, we have
+  \begin{align*}
+    f(\kappa'(R_n(C, k))) & = f(\kappa'(\phi, k)) \\
+    & \leq f(k) \\
+    & \leq f(i(n)) \\
+    & \leq f(i_{f, d}(n)) \\
+    & \leq \min(n, \log^d n).
+  \end{align*}
+  Thus the many-one reduction from \autoref{lem:circuittoformula} and the $\para \NC^d$ algorithm for $\pPiFSAT$ meet the conditions in the premise of \autoref{lem:reducetonc}.
+  We conclude that $\PiCSAT$ is in $\NC^d$.
+\end{proof}

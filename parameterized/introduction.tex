@@ -1,0 +1,61 @@
+\section{Introduction}
+
+% % Foreword %
+%
+% %% Context (anyone - why now?) %%
+%
+% What is the current situation, and why is the need so important?
+%
+According to Downey and Fellows in the Introduction to \autocite{df13}, ``The future of algorithms is multivariate.''
+Their suggestion is to view a computational problem as a multivariate object instead of the classical univariate viewpoint.
+Understanding the parameterization for a computational problem allows us to break algorithms for the problem into parts and more easily identify the complexity of these parts.
+
+%
+% %% Need (readers - why you?) %%
+%
+% Why is this relevant to the reader, and why does something need to be done?
+% (Also reference relevant existing work.)
+%
+In the world of parallel versus sequential computation, the right parameterization of problem that would classically be considered inherently sequential can yield a highly parallel algorithm.
+Little work has been done to provide the framework for proving parameterized parallelizability for classical inherently sequential computational problems; previous work has mostly focused on parameterized tractability for classically intractable computational problems.
+Practicioners should be able to take advantage of parallelism where it exists, and this line of research may reveal a hidden capacity for parallelism that was previously unknown.
+
+%
+% %% Task (author - why me?) %%
+%
+% What was undertaken to address the need?
+%
+With this need in mind, we undertake the first comprehensive examination of the definitions, supporting lemmas, and basic structural theorems about highly parallel parameterized problems and inherently sequential parameterized problems;
+%
+% %% Object (document - why this document?) %%
+%
+% What does this document cover?
+%
+this paper provides such a framework.
+
+%
+% % Summary %
+%
+% %% Findings (author - what?)
+%
+% What did the work reveal when performing the task?
+Our work builds on the parameterized complexity theory framework that was originally intended to study the difference between tractable and intractable parameterized problems.
+Among other things, we prove
+\begin{itemize}
+\item the existence of inherently sequential problems whose parameterized versions are parallelizable (\autoref{sec:parancexample}),
+\item the existence of inherently sequential problems whose parameterized versions are not parallelizable under a reasonable assumption (\autoref{sec:parapcompleteness}),
+\item the existence of a hierarchy of complete problems interpolating between the parameterized versions of the formula satisfiability problem and the circuit satisfiability problem (\autoref{sec:parawnccompleteness}),
+\item an equivalence between parameterized parallel verifiability and classical limited nondeterminism (\autoref{sec:ncwnc}).
+\end{itemize}
+%
+%
+% %% Conclusion (readers - so what?)
+%
+% What did the findings mean for the audience?
+%
+Altogether, these results demonstrates a strong relationship among the resources time, nondeterminism, and parallelism.
+%
+% %% Perspective (anyone - what now?)
+%
+% What should be done next?
+We hope this framework inspires researchers to look more closely for paralellizable problems by considering parameterizations of classical problems previously considered inherently sequential.

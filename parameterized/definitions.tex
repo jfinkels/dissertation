@@ -1,0 +1,51 @@
+\section{Definitions}
+
+This section provides a brief introduction to the concepts necessary for studying parameterized complexity theory specifically for classes of problems decidable by families of Boolean circuits.
+For a more thorough review of the basics of computational complexity theory, see for example \autocite{ab09}; for parameterized complexity theory, see \autocite{fg06} or \autocite{df13}.
+
+\begin{definition}
+  A \emph{Boolean circuit}, or simply a \emph{circuit}, $C$, is an directed acyclic graph.
+  The \emph{size of a circuit}, denoted $\size(C)$, is the number of vertices in the underlying graph.
+  The \emph{depth of a circuit}, denoted $\depth(C)$, is the length of a longest path from the root to a sink.
+\end{definition}
+
+\begin{definition}
+  A function $f$ is \emph{circuit-computable} if there is a nonuniform family of Boolean circuits $\{C_n\}_{n \in \mathbb{N}}$ such that for each $x$ we have $f(x) = C_n(x)$, where $n = |x|$.
+
+  A language is \emph{circuit-decidable} if it has a circuit-computable characteristic function.
+  We may also require that the size and depth of each circuit $C_n$ in the family be circuit-computable from just $n$, the length of the input.
+  In this case, we say the language is \emph{circuit-decidable with uniform size and depth}.
+\end{definition}
+
+Nonuniformity is required in \autoref{lem:spreduction}, among other theorems, in which the size of the input relative to the size of the parameter for an instance of the parameterized problem selects which of two circuits to use; for more information, see the footnote in the referenced lemma.
+However, it seems that all other theorems can be made uniform, with reasonable restrictions on the complexity of the parameterization.
+It may be possible to adapt some theorems in later sections to use uniform circuits, but we did not pursue this.
+
+\begin{definition}[Decision problems and parameterized problems]
+  A \emph{language} is a set of binary strings.
+  A \emph{parameterization} is a computable function $\kappa$ from binary strings to natural numbers.
+  A \emph{parameterized problem} is a pair $(Q, \kappa)$, where $Q$ is a language and $\kappa$ is a parameterization.
+\end{definition}
+
+\begin{definition}[Slices of parameterized problems]
+  For each positive integer $k$ and each parameterized problem $(Q, \kappa)$, the \emph{$k$th slice of $Q$}, denoted $(Q, \kappa)_k$, is defined by
+  \[
+  (Q, \kappa)_k = \{(x, k) \, | \, x \in Q \text{ and } \kappa(x) = k\}.
+  \]
+\end{definition}
+
+\begin{definition}[$\NNC^d$ and $\NC^d$]
+  Let $d$ be a natural number.
+  A language $Q$ is in the class $\NNC^d[b(n)]$ if there is a nondeterministic circuit family $\{C_n\}$ such that for each string $x$ of length $n$,
+  \begin{itemize}
+  \item $x \in Q$ if and only if $C_n(x) = 1$,
+  \item $\size(C_n) \leq n^{O(1)}$,
+  \item $\depth(C_n) \leq O(\log^d n)$,
+  \item $\nondet(C_n) \leq b(n)$.
+  \end{itemize}
+  If $b$ is the zero function, then the language is in the class $\NC^d$.
+\end{definition}
+
+Here, the notion of ``acceptance'' for a circuit is a nondeterministic one: $C_n(x) = 1$ if and only if there is a binary string $w$ of length $b(n)$ such that $C_n(x, w) = 1$.
+
+Throughout we will often assume without loss of generality that functions like circuit size and depth bounds, nondeterministism bounds, and polynomials, are increasing.

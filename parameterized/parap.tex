@@ -1,0 +1,434 @@
+\section{Fixed-parameter tractability}
+
+% % Foreword %
+%
+% %% Context (anyone - why now?) %%
+%
+% What is the current situation, and why is the need so important?
+%
+In classical complexity, there are limits to parallel computation; for some computational problems, adding more processors does not help solve the problem significantly more quickly.
+%
+% %% Need (readers - why you?) %%
+%
+% Why is this relevant to the reader, and why does something need to be done?
+% (Also reference relevant existing work.)
+%
+With the definition of parameterized parallel computation given in the previous section, we now must ask whether there are similar limitations for parameterized problems.
+%
+% %% Task (author - why me?) %%
+%
+% What was undertaken to address the need?
+%
+We adapt our understanding of classical complexity to answer this question in the affirmative.
+%
+% %% Object (document - why this document?) %%
+%
+% What does this document cover?
+%
+%
+This section demonstrates that under an appropriate parameterization, the natural inherently sequential classical problems become inherently sequential parameterized problems.
+
+% % Summary %
+%
+% %% Findings (author - what?)
+%
+% What did the work reveal when performing the task?
+%
+The definition of $\para \P$ (also known as $\FPT$) is analogous to that of $\para \NC$.
+Unlike for $\para \NC$, however, there are numerous examples of natural parameterized problems in $\para \P$; see the listing in \autocite{cesati06}, for example.
+
+\begin{definition}
+  A parameterized problem $(Q, \kappa)$ is in $\para \P$ if there is a deterministic Turing machine $M$, a polynomial $p$, and a computable function $f$ such that $M$ decides $Q$ within $f(\kappa(x)) p(n)$ steps.
+\end{definition}
+
+We prove the existence of $\para \P$-complete problems, which are inherently sequential parameterized problems.
+These problems are parameterized versions of the well-known bounded halting problem for deterministic Turing machines and the Boolean circuit evaluation problem.
+This means that there are parameterized problems for which adding more processors provides no significant speedup in (parallel) time required to find a solution.
+%
+% %% Conclusion (readers - so what?)
+%
+% What did the findings mean for the audience?
+%
+Contrast this parameterized inherent sequentiality with the highly parallelizable parameterized versions of $\P$-complete problems in the previous section.
+%
+% %% Perspective (anyone - what now?)
+%
+% What should be done next?
+In light of this, we recommend that researchers consider $\para \P$-completeness when determining membership of a parameterized problem in $\para \P$ (also known as $\FPT$).
+
+%% Consider the parameterized high degree subgraph problem.
+
+%% \begin{definition}[$p \dash \textsc{High Degree Subgraph}$, aka $\pHDS$]
+%%   \mbox{} \\
+%%   \begin{tabular}{r p{9.2cm}}
+%%     \textbf{Instance:} & undirected graph $G$, positive integer $d$. \\
+%%     \textbf{Parameter:} & $d$. \\
+%%     \textbf{Question:} & Does $G$ have a vertex-induced subgraph of minimum degree at least $d$?
+%%   \end{tabular}
+%% \end{definition}
+
+%% The underlying decision problem is in $\P$, so the parameterized problem is fixed-parameter tractable.
+
+%% \begin{theorem}[{\autocite{am84}}]
+%%   $\pHDS$ is in $\para \P$.
+%% \end{theorem}
+
+%% The first two slices of the problem are in $\NC$, whereas all other slices are $\P$-complete.
+
+%% \begin{theorem}[{\autocite{am84}}]
+%%   \mbox{}
+%%   \begin{enumerate}
+%%   \item Both $pHDS_1$ and $\pHDS_2$ are in $\NC$.
+%%   \item For each positive integer $d$ greater than two, $\pHDS_d$ is $\P$-complete.
+%%   \end{enumerate}
+%% \end{theorem}
+
+%% %% As a maximization problem, the problem is approximable to within a certain constant factor, but inapproximable beyond that factor (unless $\NC = \P$) \autocite{am84}.
+
+%% \todo{The proof that the high degree subgraph problem is $\P$-complete does not translate to proving that the parameterized high degree subgraph problem is $\para \P$-complete; for that reduction to work, the parameterization would need to be on the size of the graph, not the degree $d$.}
+
+%% \todo{A reduction to place this problem in $\para \EP$ does not seem possible, since it seems hard to encode the degree of a subgraph in that way?}
+
+\subsection{Completeness in \texorpdfstring{$\para \P$}{paraP}}
+\label{sec:parapcompleteness}
+
+% % Foreword %
+%
+% %% Context (anyone - why now?) %%
+%
+% What is the current situation, and why is the need so important?
+%
+We define $\P$-completeness so that problems that are $\P$-complete are unlikely to see a significant decrease in time complexity when parallelism is allowed, under the assumption that $\NC \neq \P$.
+Let us define $\para \P$-completeness similarly, so that $\para \P$-complete problems are unlikely to see a significant decrease in ``parameterized'' time complexity when ``parameterized'' parallelism is allowed, under the assumption that $\para \NC \neq \para \P$.
+%
+% %% Need (readers - why you?) %%
+%
+% Why is this relevant to the reader, and why does something need to be done?
+% (Also reference relevant existing work.)
+%
+We already know that each $\P$-complete problem induces a $\para \P$-complete problem with a trivial parameterization \autocite[Proposition~14]{fg03}, however we are interested in natural problems with non-trivial parameterizations.
+%
+% %% Task (author - why me?) %%
+%
+% What was undertaken to address the need?
+%
+We prove the existence of nontrivial inherently sequential parameterized problems that are not in $\para \NC$ (under the assumption $\para \NC \neq \para \P$) and whose underlying decision problems are $\P$-complete, complementing \autoref{sec:pcompletefpp}, which proves the existence of parameterized problems in $\para \NC$ whose underlying decision problems are $\P$-complete.
+%
+% %% Object (document - why this document?) %%
+%
+% What does this document cover?
+%
+%
+
+% % Summary %
+%
+% %% Findings (author - what?)
+%
+% What did the work reveal when performing the task?
+%
+Specifically, we show that parameterized versions of the circuit evaluation problem and the bounded halting problem are $\para \P$-complete
+% %% Conclusion (readers - so what?)
+%
+% What did the findings mean for the audience?
+%
+This means that the classical $\P$-complete problems do in fact become $\para \P$-complete, but it is important to choose the correct parameterization (which is not obvious in some cases).
+Furthermore, this complements the work of \autocite{est15}, in which the authors show complete problems for several other parameterized complexity classes.
+%
+% %% Perspective (anyone - what now?)
+%
+% What should be done next?
+These results provide fundamental limits to parallelizability for parameterized problems.
+
+We can really only say that our $\para \P$-complete problems are inherently sequential under the assumption that $\para \NC \neq \para \P$.
+This assumption is reasonable because it is equivalent to the inequality $\NC \neq \P$.
+
+\begin{proposition}\label{prop:ncp}
+  $\para \NC = \para \P$ if and only if $\NC = \P$.
+\end{proposition}
+\begin{proof}
+  The proof is trivial if we use the definitions of the complexity class $\para \mathcal{C}$ as the class of all parameterized problems $(Q, \kappa)$ for which there is a language $L$ in the complexity class $\mathcal{C}$ such that $x \in Q$ if and only if $(x, 1^{f(\kappa(x))}) \in L$.
+  See \autocite[Proposition~8]{fg03}, for example.
+\end{proof}
+
+\begin{definition}[$\para \P$-completeness]
+  A parameterized problem $(Q, \kappa)$ is \emph{$\para \P$-hard} if for each parameterized problem $(R, \lambda)$, there is a $\para \NC$ many-one reduction from $(R, \lambda)$ to $(Q, \kappa)$.
+  If furthermore $(Q, \kappa)$ is in $\para \P$, then it is \emph{$\para \P$-complete}.
+\end{definition}
+
+\begin{proposition}
+  If a $\para \P$-complete problem is in $\para \NC$, then $\para \NC = \para \P$.
+\end{proposition}
+\begin{proof}
+  Follows from the downward closure of $\para \NC$ under $\para \NC$ many-one reductions.
+\end{proof}
+
+The following problem is adapted from \textsc{Short Deterministic Turing Machine Computation} in \autocite{cesati06}.
+
+\begin{definition}[$p \dash \textsc{Bounded Halting Problem}$, aka $\pBHP$]
+  \mbox{} \\
+  \begin{tabular}{r p{9.2cm}}
+    \textbf{Instance:} & deterministic Turing machine $M$, binary string $x$ of length $n$, positive integer $t$ in unary, positive integer $c$. \\
+    \textbf{Parameter:} & $t / n^c$ \\
+    \textbf{Question:} & Does $M$ accept $x$ within $t$ steps?
+  \end{tabular}
+\end{definition}
+
+\begin{theorem}
+  $\pBHP$ is $\para \P$-complete.
+\end{theorem}
+\begin{proof}
+  The underlying decision problem is in $\P$ (by a standard simulation on the deterministic universal Turing machine), so the parameterized problem is in $\para \P$.
+  To show $\para \P$-hardness, we use a generic reduction.
+  Let $(Q, \kappa)$ be an arbitrary parameterized problem in $\para \P$ and let $M$ be the deterministic Turing machine that decides $Q$ in time $f_M(k) n^c$ for some (circuit-)computable function $f_M$ and some positive integer $c$.
+  The reduction is $x \mapsto (M, x, 1^{f_M(k) n^c}, c)$.
+  This is computable by a (nonuniform) circuit family of constant depth and size $f(k) n^{O(1)}$, where $f$ is a circuit-computable function.
+  The parameter of the reduced instance is $f_M(k) n^c / n^c$, or simply $f_M(k)$, which satisfies the parameter bound required by the definition of $\para \NC$ many-one reduction.
+  Therefore we conclude that $\pBHP$ is $\para \P$-complete.
+\end{proof}
+
+The following problem is a modification of \textsc{BS-BD-CVP} from \autocite{cd98}.
+
+\begin{definition}[$p\dash\textsc{Small Circuit Evaluation}$, aka $\pSCE$]
+  \mbox{} \\
+  \begin{tabular}{r p{9.2cm}}
+    \textbf{Instance:} & Boolean circuit $C$ on $n$ inputs, binary string $x$ of length $n$, positive integer $k$, positive integer $\alpha$, multi-output Boolean circuit $f$ with size and depth of $C$ at most $f(k) n^\alpha$. \\
+    \textbf{Parameter:} & $k$ \\
+    \textbf{Question:} & Does $C(x) = 1$?
+  \end{tabular}
+\end{definition}
+
+This theorem is related to \autocite[Corollary~2]{cd98}, where the authors prove that the \textsc{BS-BD-CVP} problem is complete for the class $\PNC$ (a class that exists between $\para \NC$ and $\para \P$) under $\para \NC$ many-one reductions.
+While their reduction is a generic reduction, ours is a reduction from the parameterized bounded halting problem.
+
+\begin{theorem}\label{thm:psce}
+  $\pSCE$ is $\para \P$-complete.
+\end{theorem}
+\begin{proof}
+  Membership in $\para \P$ is straightforward to prove: use the natural algorithm for evaluating a circuit which can be performed in linear time with respect to the size of the circuit.
+  We must also compute $f(k) n^\alpha$ and compare it with the size and depth of the circuit $C$.
+  Both of these are polynomial-time algorithms with respect to the size of the input, and hence the problem is in $\para \P$.
+
+%% %%%% Here we showed a generic reduction.
+%%   Now we prove $\FPT$-hardness.
+%%   Let $(Q, \kappa)$ be an arbitrary parameterized problem in $\FPT$, so there is a deterministic Turing machine $M$ that decides $Q$ in time $f(k) n^\alpha$ for some (circuit-)computable function $f$ and positive integer $\alpha$.
+%%   Let $C_{M, n}$ be the Boolean circuit that correctly simulates the action of $M$ on inputs of size $n$ with size $O(f(k) n^\alpha)^2$ and depth $O(f(k) n^\alpha)$; such a circuit exists due to \autocite{???}.
+%%   Define the circuit family $\{R_{n, k}\}$ as follows.
+%%   \[
+%%   R_{n, k}(x) = (C_{M, n}, x, 2\alpha, \alpha, f^2, f, k),
+%%   \]
+%%   where the natural number $n = |x|$, the positive integer $k = \kappa(x)$, and the function $f^2$ denotes the function $x \mapsto (f(x))^2$.
+%%   Let us confirm that the reduced instance is well-formed.
+%%   \begin{itemize}
+%%   \item $C_{M, n}$ is a Boolean circuit on $n$ inputs.
+%%   \item The size of $C_{M, n}$ is $f^2(k) n^{2 \alpha}$.
+%%   \item The depth of $C_{M, n}$ is $f(k) n^\alpha$.
+%%   \item Both $f^2$ and $f$ are circuit-computable since $f$ is circuit-computable.
+%%   \end{itemize}
+%%   (There are some constants in the size and depth bounds that we have ignored, but those can be incorporated into the circuit-computable function $f$.)
+%%   The reduction is correct because
+%%   \[
+%%   x \in Q \iff M \text{ accepts } x \iff C_{M, n}(x) = 1.
+%%   \]
+
+%%   Next, we show that $R_{n, k}$ has the appropriate size and depth bounds to be a valid $\FPP$ many-one reduction.
+%%   The only computation that needs to be done by the circuit is to compute $2 \alpha$ from $\alpha$ and to compute the circuit for $f^2$ from the circuit for $f$.
+%%   However, since both $\alpha$ and $f$ are entirely independent of $n$, the size and depth are constants with respect to $|x|$.
+%%   The remaining elements of the tuple (namely $C_{M, n}$, $\alpha$, $f$, and $k$) are hardcoded directly in the circuit $R_{n, k}$ and are output directly with no further computation.
+%%   The input $x$ is output directly as well.
+%%   The overall size of the circuit is therefore of the form $s(k) n^{O(1)}$, and the depth of the form $d(k) n^{O(1)}$.
+
+%%   Finally, for the parameter bound, the parameter of $R_{n, k}(x)$ is $k$, which is exactly $\kappa(x)$.
+%%   Therefore we have shown that the circuit family $\{R_{n, k}\}$ is a correct $\FPP$ many-one reduction from an arbitrary parameterized problem $(Q, \kappa)$ to $\pSCE$.
+%% \end{proof}
+
+%% \begin{theorem}
+%%   $\pBHP \equiv_m^{\FPP} p \dash \textsc{Short Circuit Evaluation}$.
+%% \end{theorem}
+%% \begin{proof}
+  Now we prove $\para \P$-hardness.
+  The reduction from $\pBHP$ is
+  \[
+  (M, x, 1^t, c) \mapsto (C_M, x, k, \alpha, f),
+  \]
+  where
+  \begin{itemize}
+  \item $C_M$ is the standard circuit of size $O(t^2)$ and depth $O(t)$ simulating $t$ steps of the action of $M$ on inputs of length $n$,
+  \item $x$ is copied directly from the input,
+  \item $k = t / n^c$.
+  \item $\alpha = 2c$,
+  \item $f$ is the function $x \mapsto x^2$,
+  \end{itemize}
+  This reduction is computable in the appropriate size and depth bounds, and its correctness follows from the correctness of the standard deterministic Turing machine-to-circuit reduction.
+  To check that the reduced instance is well-formed, let us verify that the circuit $C_M$ meets the size and depth requirements.
+  The size of $C_M$ is $O(t^2)$, which is $O(((t / n^c) n^c)^2)$, or simply $f(k) n^\alpha$.
+  Similarly the depth of $C_M$ is $O(t)$, which is smaller than $O(t^2)$, and thus bounded above by $f(k) n^\alpha$ as well.
+  (There are some constants in the size and depth bounds that we have ignored, but those can be incorporated into the definition of $f$.)
+  Finally, the parameter in the original instance, $t / n^c$, is exactly the parameter of the reduced instance, so this reduction meets the necessary paramater bound.
+  Therefore we have shown a correct $\para \NC$ many-one reduction from a $\para \P$-complete problem.
+\end{proof}
+
+As expected, if any of these $\para \P$-complete problems are fixed-parameter parallelizable, then $\para \NC = \para \P$.
+
+It seems that most $\P$-complete problems will end up being $\para \P$-complete under this notion of completeness.
+This doesn't really help us distinguish between different $\P$-complete problems based on how fixed-parameter parallelizable they are.
+In the next subsection, we try a different approach.
+
+\subsection{Parameterized complexity of efficient verification}
+
+% % Foreword %
+%
+% %% Context (anyone - why now?) %%
+%
+% What is the current situation, and why is the need so important?
+%
+There is a nice relationship between the circuit satisfiability (decision) problem and the circuit evaluation problem: an algorithm for the latter is a verification procedure for the former, given a satisfying assignment.
+The relationship between these two problems in particular reflect the general relationship between $\NP$ and $\P$.
+%
+% %% Need (readers - why you?) %%
+%
+% Why is this relevant to the reader, and why does something need to be done?
+% (Also reference relevant existing work.)
+%
+Does the same sort of relationship hold for the parameterized versions of these classes, $\para \WP$ and $\para \P$?
+%
+% %% Task (author - why me?) %%
+%
+% What was undertaken to address the need?
+%
+We define a new parameterized complexity class to address this question.
+%
+% %% Object (document - why this document?) %%
+%
+% What does this document cover?
+%
+%
+
+% % Summary %
+%
+% %% Findings (author - what?)
+%
+% What did the work reveal when performing the task?
+%
+We show that our parameterized complexity class, $\para \EP$, the verification class of $\para \WP$, is a subclass of $\para \P$.
+%
+% %% Conclusion (readers - so what?)
+%
+% What did the findings mean for the audience?
+%
+We are unable to show that is equal to $\para \P$, so our intuition does not yet match our definitions.
+%
+% %% Perspective (anyone - what now?)
+%
+% What should be done next?
+What remains is to show a natural problem in this class and to determine whether it equals $\para \P$ or not.
+
+We start by considering the parameterized weighted circuit satisfiability and circuit evaluation problems.
+A circuit is \emph{$k$-satisfiable} if there is a satisfying assignment of Hamming weight exactly $k$.
+
+\begin{definition}[$p \dash \textsc{Circuit } k \dash \textsc{Satisfiability}$, aka $\pCkSAT$]
+  \mbox{} \\
+  \begin{tabular}{r p{9.2cm}}
+    \textbf{Instance:} & Boolean circuit $C$, natural number $k$. \\
+    \textbf{Parameter:} & $k$. \\
+    \textbf{Question:} & Is $C$ $k$-satisfiable?
+  \end{tabular}
+\end{definition}
+
+The corresponding parameterized weighted circuit evaluation problem would then be as follows.
+Let $\|x\|_1$ denote the Hamming weight (that is, the number of ones) in $x$.
+
+\begin{definition}[$p \dash \textsc{Circuit } k \dash \textsc{Evaluation}$, aka $\pCkE$]
+  \mbox{} \\
+  \begin{tabular}{r p{9.2cm}}
+    \textbf{Instance:} & Boolean circuit $C$, binary string $x$, natural number $k$. \\
+    \textbf{Parameter:} & $k$. \\
+    \textbf{Question:} & Does $\|x\|_1 = k$ and $C(x) = 1$?
+  \end{tabular}
+\end{definition}
+
+This is a little silly, since the Hamming weight of $x$ can be computed easily (in $\NC^1$ but not in $\AC^0$), but it is technically the ``verification'' problem corresponding to the satisfiability problem above.
+Instead, we use a problem that is a little less silly while still equivalent under $\para \NC^1$ many-one reductions.
+%% \todo{Reference for circuit computing Hamming weight; see \url{http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=4781532}}
+
+\begin{definition}[$p \dash \textsc{Weighted Circuit Evaluation}$, aka $\pWCE$]
+  \mbox{} \\
+  \begin{tabular}{r p{9.2cm}}
+    \textbf{Instance:} & Boolean circuit $C$, binary string $x$. \\
+    \textbf{Parameter:} & $\|x\|_1$. \\
+    \textbf{Question:} & Does $C(x) = 1$?
+  \end{tabular}
+\end{definition}
+
+%% \begin{proposition}
+%%   $\pCkE \equiv_m^{\para \NC^1} \pWCE$.
+%% \end{proposition}
+%% \begin{proof}
+%%   Let $\kappa_1$ denote the parameterization of the problem on the left and $\kappa_2$ the parameterization of the problem on the right.
+%%   The right-to-left reduction is simply $(C, x) \mapsto (C, x, \|x\|_1)$.
+%%   The correctness as well as the size, depth, and parameterization bounds are straightforward to prove.
+
+%%   The circuit family computing the left-to-right reduction is $\{R_{m, k}\}$, defined by
+%%   \[
+%%   R_{m, k}(C, x, k) =
+%%   \begin{cases}
+%%     (C, x) & \text{if } \|x\|_1 = k \\
+%%     (\textsc{not}, 1) & \text{otherwise},
+%%   \end{cases}
+%%   \]
+%%   where $m$ denotes the overall size of the input and \textsc{not} is the circuit which is a single negation gate.
+
+%%   In order to prove correctness, first suppose $C(x) = 1$ and $\|x\|_1 = k$.
+%%   By construction, $R(C, x, k) = (C, x)$, and $C(x) = 1$, as required.
+%%   For the converse, there are two cases to consider.
+%%   First, if $C(x) \neq 0$, then the output of $R(C, x, k)$ will be a circuit that outputs zero regardless of the value of $\|x\|_1$.
+%%   Second, if $\|x\|_1 \neq k$, then the output of $R(C, x, k)$ will be $(\textsc{not}, 1)$, which is a circuit that outputs zero.
+%%   In either case, $R(C, x, k)$ is not in $\pwce$, as required.
+%%   Thus the reduction is correct.
+
+%%   The size and depth bounds are trivial since the circuit $R_{m, k}$ essentially just copies its input to its output.
+%%   Finally, for the bound on the parameterization in the reduced instance, there are two cases.
+%%   If $\|x\|_1 = k$, then
+%%   \[
+%%   $\kappa_2(R(C, x, k)) = \kappa_2(C, x) = \|x\|_1 = k = \kappa_1(C, x).
+%%   \]
+%%   Otherwise,
+%%   \[
+%%   \kappa_2(R(C, x, k)) = \kappa_2(\textsc{not}, 1) = 1 \leq \kappa_1(C, x).
+%%   \]
+%%   In either case, the parameterization of the reduced instance is bounded above by the parameterization of the original instance.
+%%   Therefore we have shown the left-to-right $\FPP$ reduction.
+%% \end{proof}
+
+In the setting of decision problems, we know that $\NP$ can be characterized as the closure of the circuit satisfiability problem under polynomial-time many-one reductions,
+\[
+\NP = \cl{\textsc{Circuit Satisfiability}}^{\leq_m^\P},
+\]
+and $\P$ as the closure of the circuit evaluation problem under $\NC^1$ many-one reductions,
+\[
+\P = \cl{\textsc{Circuit Evaluation}}^{\leq_m^{\NC^1}}.
+\]
+In the setting of parameterized problems, the class $\para \WP$ can be characterized as the closure of the parameterized weighted circuit satisfiability problem under fixed-parameter tractable many-one reductions,
+\[
+\para \WP = \cl{\pCkSAT}^{\leq_m^{\para \P}}.
+\]
+Following the above pattern, we define a new class as the closure of the parameterized weighted circuit evaluation problem under fixed-parameter parallelizable many-one reductions,
+\[
+\para \EP = \cl{\pWCE}^{\leq_m^{\para \NC}}
+\]
+(``E'' for evaluation).
+%% \todo{This is a name conflict with an existing class called $\EP$.}
+
+Since the underlying decision problem, the problem of evaluating a circuit on a given input, is in $\P$, the parameterized problem $\pWCE$ is trivially in $\para \P$.
+Since $\para \NC$ reductions compose, $\para \NC$ is a subset of $\para \P$, and $\para \P$ is closed under $\para \P$ reductions, we conclude that $\para \EP$ is a subset of $\para \P$.
+
+\begin{theorem}
+  $\para \EP \subseteq \para \P$.
+\end{theorem}
+
+Is $\para \EP = \para \P$?
+The standard simulation of a deterministic Turing machine by a circuit, as in \autocite{ladner75}, for example, fails to provide a $\para \NC$ many-one reduction to the parameterized weighted circuit evaluation problem, since the natural reduction would be of the form $x \mapsto (C, x, \|x\|_1)$, but the parameter value $\|x\|_1$ is not necessarily bounded by a function of $\kappa(x)$.
+The same issue prevents us from showing that $\para \NC \subseteq \para \EP$.
+
+%% \todo{Show something bad happens if $\para \EP = \para \P$.}
+
+%% \todo{Show a problem that is known to be in $\para \P$ (for example one of the deterministic Turing machine computation problems maybe) is actually in $\para \EP$.}

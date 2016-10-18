@@ -41,18 +41,19 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 %% This must come before hyperref.
-%\usepackage{amsthm}
+\usepackage{amsthm}
 %% This is strongly recommended by biblatex.
 \usepackage[english]{babel}
 \usepackage[backend=biber]{biblatex}
 \usepackage[T1]{fontenc}
 %% This must come before csquotes.
 \usepackage[utf8]{inputenc}
+\usepackage{import}
 \usepackage{lmodern}
 %% This is strongly recommended by biblatex.
 \usepackage{csquotes}
 %% This must come before hyperref.
-%\usepackage{thmtools}
+\usepackage{thmtools}
 %% This must come before complexity.
 \usepackage{hyperref}
 \usepackage{complexity}
@@ -80,14 +81,25 @@
 }
 
 %% Declare the bibliography file.
-\addbibresource{dissertation.bib}
+% \addbibresource{dissertation.bib}
+\addbibresource{decision/references.bib}
+\addbibresource{optimization/references.bib}
+\addbibresource{parameterized/references.bib}
 
 %% Declare theorem-like environments.
-%\declaretheorem[numberwithin=section]{theorem}
+\declaretheorem[numberwithin=section]{theorem}
+\declaretheorem[numberlike=theorem]{conjecture}
+\declaretheorem[numberlike=theorem]{corollary}
+\declaretheorem[numberlike=theorem]{lemma}
+\declaretheorem[numberlike=theorem]{proposition}
+\declaretheorem[numberlike=theorem,style=definition]{definition}
 
 %% Custom commands are declared here.
 \newcommand{\todo}[1]{\textbf{TODO #1}}
 \newcommand{\dash}{\textnormal{-}}
+\DeclareMathOperator{\depth}{depth}
+\DeclareMathOperator{\nondet}{nondet}
+\DeclareMathOperator{\size}{size}
 
 %% Define the author, title, and date for the document.
 \title{Parallelism with limited nondeterminism}
@@ -112,9 +124,9 @@
 
 \mainmatter
 \input{introduction}
-\input{decision/index}
-\input{optimization/index}
-\input{parameterized/index}
+\subimport{decision/}{index}
+\subimport{optimization/}{index}
+\subimport{parameterized/}{index}
 
 %\appendix
 %\input{extras}

@@ -1,0 +1,620 @@
+\section{Fixed-parameter parallelizability}
+\label{sec:pcompletefpp}
+
+% % Foreword %
+%
+% %% Context (anyone - why now?) %%
+%
+% What is the current situation, and why is the need so important?
+%
+Classical computational complexity has a well-developed theory of parallel versus sequential computation.
+Those computational problems that are $\P$-complete are inherently sequential, whereas those in the class $\NC$ admit highly parallel algorithms.
+Even though they can be solved in polynomial time, adding more processors does not provide any significant reduction in the time required to find a solution for $\P$-complete problems.
+% %% Need (readers - why you?) %%
+%
+% Why is this relevant to the reader, and why does something need to be done?
+% (Also reference relevant existing work.)
+%
+Can the lack of parallelizability for $\P$-complete problems depend on the parameterization of the problem, thereby isolating some of the ``sequential-ness'' of the problem in the value of the parameter?
+In other words, can parameterization of problems that have traditionally been considered inherently sequential afford us a new avenue for parallelization?
+
+%
+% %% Task (author - why me?) %%
+%
+% What was undertaken to address the need?
+%
+Specifically, we would like to determine whether there are problems that are inherently sequential in the classical sense but parallelizable under some parameterization.
+%
+% %% Object (document - why this document?) %%
+%
+% What does this document cover?
+%
+This section combines and adapts the definitions of parallelization from classical complexity theory and the definitions of parameterized complexity theory for highly parallel problems.
+%
+
+% % Summary %
+%
+% %% Findings (author - what?)
+%
+% What did the work reveal when performing the task?
+%
+We provide the definition of $\para \NC$, demonstrate the relationship between $\para \NC$ and $\NC$, and prove some sufficient conditions for membership in $\para \NC$.
+%
+% %% Conclusion (readers - so what?)
+%
+% What did the findings mean for the audience?
+%
+These results demonstrate that the idea of parameterized parallelizability is both meaningful and interesting for seemingly inherently sequential problems.
+%
+% %% Perspective (anyone - what now?)
+%
+% What should be done next?
+Subsequent sections will examine the limits to parameterized parallel computation.
+
+\subsection{Definition of \texorpdfstring{$\para \NC$}{paraNC}}
+
+% % Foreword %
+%
+% %% Context (anyone - why now?) %%
+%
+% What is the current situation, and why is the need so important?
+%
+%
+% %% Need (readers - why you?) %%
+%
+% Why is this relevant to the reader, and why does something need to be done?
+% (Also reference relevant existing work.)
+%
+%
+% %% Task (author - why me?) %%
+%
+% What was undertaken to address the need?
+%
+%
+% %% Object (document - why this document?) %%
+%
+% What does this document cover?
+%
+%
+
+% % Summary %
+%
+% %% Findings (author - what?)
+%
+% What did the work reveal when performing the task?
+%
+%
+% %% Conclusion (readers - so what?)
+%
+% What did the findings mean for the audience?
+%
+%
+% %% Perspective (anyone - what now?)
+%
+% What should be done next?
+
+The $\para$ ``operator'' defined in \autocite{fg03} applies generically to an arbitrary complexity class as follows.
+If $\mathcal{C}$ is a class of decision problems, then $\para \mathcal{C}$ is the class of parameterized problems $(Q, \kappa)$ for which there is a decision problem $L \in \mathcal{C}$ and a computable function $f$ such that $x$ in $Q$ if and only if $(x, 1^{f(\kappa(x))}) \in L$.
+When $\mathcal{C} = \NC$ in particular, we get the following equivalent definition.
+
+\begin{definition}[$\para \NC^d$]
+  Let $d$ be a natural number.
+  A parameterized problem $(Q, \kappa)$ is in the class $\para \NC^d$ if there is a circuit-computable function $f$ and a nonuniform family $\{C_{n, k}\}$ of bounded fan-in Boolean circuits such that for each string $x$,
+  \begin{itemize}
+  \item $x \in Q$ if and only if $C_{n, k}(x) = 1$, where $n = |x|$ and $k = \kappa(x)$,
+  \item $\size(C_{n, k}) \leq f(k) n^{O(1)}$,
+  \item $\depth(C_{n, k}) \leq f(k) + O(\log^d n)$.
+  \end{itemize}
+\end{definition}
+
+If the depth of the circuit is instead bounded by $f(k) O(\log^d n)$, the class is denoted $\para \NC^{d \uparrow}$, a superclass of $\para \NC^d$.
+If the circuits are of unbounded fan-in, the classes are $\para \AC^d$ and $\para \AC^{d \uparrow}$, respectively.
+The classes $\para \AC^{d \uparrow}$ were first defined in \autocite{bst15}.
+
+A subtle point is that the value of the parameter $\kappa(x)$ must be non-constant but also independent of the size of the instance $x$ for the parameterized problem to be interesting.
+First, if $\kappa(x)$ were bounded above by a constant for each $x$, then the parameter would be irrelevant and the problem would simply be in the standard complexity class $\NC^d$.
+Thus depth $O(\log^d n)$ and depth $f(k) \log^d n$ are different.
+On the other hand, if $\kappa(x)$ were bounded from below by a nondecreasing, unbounded function of $|x|$, then the problem would be trivially in $\para \AC^{0 \uparrow}$ by the technique of \autocite[Proposition~1.7]{fg06}.
+Thus a formula like $\log^2 (kn)$, which may appear in the analysis of certain simulations of parameterized complexity classes (see \autoref{lem:pfsatmem}, for example), becomes
+\[
+\log^2 (kn) = (\log k + \log n)^2 = \log^2 k + \log k \log n + \log^2 n \leq \log^2 k + 2 \log^2 n,
+\]
+and thus $\log^2 (kn) = f(k) + O(\log^2 n)$ for some computable function $f$.
+
+\subsection{Example problem in \texorpdfstring{$\para \NC$}{paraNC}}
+\label{sec:parancexample}
+
+% % Foreword %
+%
+% %% Context (anyone - why now?) %%
+%
+% What is the current situation, and why is the need so important?
+%
+Useful complexity classes are nonempty and have interesting natural problems,
+%
+% %% Need (readers - why you?) %%
+%
+% Why is this relevant to the reader, and why does something need to be done?
+% (Also reference relevant existing work.)
+%
+so in an effort to show that $\para \NC$ has parameterized problems whose underlying decision problems are $\P$-complete,
+%
+% %% Task (author - why me?) %%
+%
+% What was undertaken to address the need?
+%
+we consider parameterizations of the canonical $\P$-complete problem, the circuit evaluation problem.
+%
+% %% Object (document - why this document?) %%
+%
+% What does this document cover?
+%
+%
+This section provides a non-degenerate parameterization of the circuit evaluation problem that makes it parallelizable.
+
+% % Summary %
+%
+% %% Findings (author - what?)
+%
+% What did the work reveal when performing the task?
+%
+We provide a $\para \NC$ problem based on a $\P$-complete problem with a degenerate parameterization (\autoref{thm:degen}), one with a nondegenerate parameterization (\autoref{thm:cvpdepth}), and one based on an optimization problem (\autoref{thm:onesdepth}).
+(Contrast these results with the parameterized vertex cover problem, which is in $\para \AC^0$ \autocite{bst15}, but whose underlying decision problem is $\NP$-complete.)
+%
+% %% Conclusion (readers - so what?)
+%
+% What did the findings mean for the audience?
+%
+Thus $\para \NC$ does indeed contain interesting problems
+%
+% %% Perspective (anyone - what now?)
+%
+% What should be done next?
+and we can use these as the starting point for studying the limits of parameterized parallelization.
+
+We start by choosing $Q$ to be a $\P$-complete problem and $\kappa$ to be the ``degenerate'' parameterization function $\kappa(x) = |x|$.
+The \emph{circuit evaluation problem} is the problem of deciding whether, given a Boolean circuit and an input to that circuit, the output of the circuit is 1.
+
+%% \begin{definition}[$p \dash s \dash \textsc{Circuit Evaluation}$]
+%%   \mbox{} \\
+%%   \begin{tabular}{r p{9.2cm}}
+%%     \textbf{Instance:} & Boolean circuit $C$ on $n$ inputs with size $m$ and depth $d$, binary string $x$ of length $n$. \\
+%%     \textbf{Parameter:} & $m$. \\
+%%     \textbf{Question:} & Does $C(x) = 1$?
+%%   \end{tabular}
+%% \end{definition}
+
+\begin{theorem}\label{thm:degen}
+  The circuit evaluation problem parameterized by the size of the circuit is in $\para \NC$ and the underlying decision problem is $\P$-complete.
+\end{theorem}
+\begin{proof}
+  The circuit evaluation problem is $\P$-complete by \autocite{ladner75}.
+  Since the parameterization is monotonically increasing with the size of the input, the problem is in $\para \NC$ by the technique of \autocite[Proposition~1.7]{fg06}.
+\end{proof}
+
+To find a non-degenerate example, we can parameterize the circuit evaluation problem by depth instead of size.
+
+%% \begin{definition}[$p \dash d \dash \textsc{Circuit Evaluation}$]
+%%   \mbox{} \\
+%%   \begin{tabular}{r p{9.2cm}}
+%%     \textbf{Instance:} & Boolean circuit $C$ on $n$ inputs with size $m$ and depth $d$, binary string $x$ of length $n$. \\
+%%     \textbf{Parameter:} & $d$. \\
+%%     \textbf{Question:} & Does $C(x) = 1$?
+%%   \end{tabular}
+%% \end{definition}
+
+\begin{theorem}\label{thm:cvpdepth}
+  The circuit evaluation problem parameterized by the depth of the circuit is in $\para \AC^{0 \uparrow}$ and the underlying decision problem is $\P$-complete.
+\end{theorem}
+\begin{proof}
+  As stated in the proof of the previous theorem, the circuit evaluation problem is $\P$-complete.
+  Evaluating the circuit $C$ of size $m$ and depth $d$ on inputs $x$ can be performed by the depth-universal circuit $U$ of \autocite{ch85}.
+  The size of $U$ is $O(m)$ and the depth is $d$, so there is a function $f$ such that the size is bounded by $f(d) m^{O(1)}$ and the depth by $f(d)$.
+  Therefore the circuit evaluation problem parameterized by circuit depth is in $\para \AC^{0 \uparrow}$.
+\end{proof}
+
+For a problem with a standard parameterization derived from an optimization problem (see \autoref{def:standard} below), consider the ``depth of ones'' problem.
+The \emph{depth of ones} problem is the problem of deciding, given a circuit, an input to the circuit, and a positive integer $k$, whether a 1 appears at depth at least $k$ when evaluating the circuit on the input.
+The circuit evaluation problem is a special case of the depth of ones problem if we choose $k$ to be the depth of the circuit $C$.
+%%
+%% \begin{definition}[$p \dash \textsc{Ones Depth}$]
+%%   \mbox{} \\
+%%   \begin{tabular}{r p{9.2cm}}
+%%     \textbf{Instance:} & Boolean circuit $C$ on $n$ inputs with size $m$ and depth $d$, binary string $x$ of length $n$, positive integer $k$. \\
+%%     \textbf{Parameter:} & $k$. \\
+%%     \textbf{Question:} & When evaluating $C(x)$, do ones propagate to depth at least $k$?
+%%   \end{tabular}
+%% \end{definition}
+%%
+As an optimization problem, the depth of ones problem is inapproximable up to any constant factor by any $\NC$ circuit, unless $\NC = \P$ \autocite{ks88}.
+Contrast this with the complexity of the corresponding parameterized problem.
+
+\begin{theorem}\label{thm:onesdepth}
+  The depth of ones problem parameterized by the depth parameter $k$ is in $\para \AC^{0 \uparrow}$ and the underlying decision problem is $\P$-complete.
+\end{theorem}
+\begin{proof}
+  Computing the depth of ones in a circuit is $\P$-complete \autocite{ks88} (see also \autocite[Problem~A.1.10]{ghr95}).
+  The naïve algorithm for solving this problem is to take the subcircuit consisting of all gates starting from the inputs and extending through layer $k$, evaluating that (multi-output) circuit, then applying a single \textsc{or} gate to decide whether any of the gates at layer $k$ evaluated to one.
+  For each gate at layer $k$, use an instance of the depth-universal circuit to evaluate the single-output circuit induced by that gate.
+  This yields a circuit of depth $O(k)$ and size $f(k) m^{O(1)}$ for some $f$, where $m$ is the size of the circuit given as input.
+  Therefore this problem is in $\para \AC^{0\uparrow}$.
+\end{proof}
+
+\subsection{Relationship between \texorpdfstring{$\para \NC$}{paraNC} and \texorpdfstring{$\NC$}{NC}}
+
+% % Foreword %
+%
+% %% Context (anyone - why now?) %%
+%
+% What is the current situation, and why is the need so important?
+%
+How do the parallelizable parameterized problems relate to classical parallelizable computational problems?
+%
+% %% Need (readers - why you?) %%
+%
+% Why is this relevant to the reader, and why does something need to be done?
+% (Also reference relevant existing work.)
+%
+In order to determine the conditions under which a parameterized parallel algorithm implies a classical parallel algorithm (and vice versa),
+%
+% %% Task (author - why me?) %%
+%
+% What was undertaken to address the need?
+%
+we consolidate and adapt some results that appear scattered across several parameterized complexity papers and books.
+%
+% %% Object (document - why this document?) %%
+%
+% What does this document cover?
+%
+This section provides a generic technique for constructing a classical parallel algorithm from a parameterized one, and vice versa.
+
+% % Summary %
+%
+% %% Findings (author - what?)
+%
+% What did the work reveal when performing the task?
+%
+Specifically, we show two main lemmas.
+\autoref{lem:spreduction} shows how to construct a parameterized parallel algorithm from a parameter-restricted reduction to a highly parallel decision problem.
+\autoref{lem:reducetonc} shows how to construct a classical parallel algorithm for from a parameter-restricted reduction to a parameterized parallel problem.
+%
+% %% Conclusion (readers - so what?)
+%
+% What did the findings mean for the audience?
+%
+These give explicit techniques for transforming a parameterized parallel algorithm into a classical parallel algorith and vice versa.
+%
+% %% Perspective (anyone - what now?)
+%
+% What should be done next?
+They will be used in later sections to provide evidence against the collapse of larger complexity classes to $\para \NC$.
+
+We begin with a lemma that allows us to construct a function that behaves like an upper bound on the inverse of another function.
+
+\begin{lemma}\label{lem:upperinverse}
+  For each nondecreasing, unbounded, circuit-computable function $i$, there is a function $f_i$ such that $f_i(i(n)) \geq n$ for each $n \geq f(1)$.
+  Furthermore, $f_i$ is nondecreasing, unbounded, and circuit-computable.
+  (We call $f_i$ the ``upper inverse'' of $i$.)
+\end{lemma}
+\begin{proof}
+  Define $f_i$ by
+  \[
+  f_i(k) = \max\{ n_0 \in \mathbb{N} \, | \, \forall n \geq n_0 \colon i(n) \geq k \}.
+  \]
+  Since $i$ is nondecreasing and unbounded, so is $f_i$.
+
+  To compute $f_i$, we use the fact that $i$ is nondecreasing is unbounded.
+  We know that for each $k$ there is a natural number $n_k$ such that for all $n \geq n_k$, we have $i(n) \geq k$.
+  Thus the algorithm for computing $f_i$ take $k$ as input and performs a binary search on $i(1), \dotsc, i(n_k)$ to determine the largest $n$ such that $i(n) \geq k$.
+  There will be at most $\log n_k$ comparison subcircuits, each requiring a computation of $i$ and a comparison with the integer $k$ (in binary, say), so the overall depth of the circuit computing $f_i$ is $O(\depth(i) \log n \log \log k)$ and the size is $O(\size(i) \log n \log k)$.
+\end{proof}
+
+\begin{definition}\label{def:spreduction}
+  Suppose $d$ is a natural number, $(Q, \kappa)$ is a parameterized problem, and $Q'$ is a decision problem.
+  There is a \emph{small parameter $\NC^d$ many-one reduction} from $(Q, \kappa)$ to $Q'$ if there is a nondecreasing, unbounded, circuit-computable function $i$ and an $\NC^d$ family of circuits $\{R_n\}_{n \in \mathbb{N}}$ such that for each string $x$ of length $n$ with $\kappa(x) \leq i(n)$, we have $x \in Q$ if and only if $R_n(x) \in Q'$.
+\end{definition}
+
+%% This lemma is analogous to \autoref{thm:eventually}.
+This lemma essentially demonstrates that the closure of $\NC$ under small parameter reductions is a subset of $\para \NC$.
+We attempted to show that the closure equals $\para \NC$ but were unable to do so.
+
+\begin{lemma}\label{lem:spreduction}
+  Suppose $d$ is a natural number, $(Q, \kappa)$ is a parameterized problem, and $Q'$ is a decision problem.
+  If $Q$ is circuit-decidable with uniform size and depth, $Q'$ is in $\NC^d$, and there is a small parameter $\NC^d$ many-one reduction from $(Q, \kappa)$ to $Q'$, then $(Q, \kappa)$ is in $\para \NC^d$.
+\end{lemma}
+\begin{proof}
+  Let $i$ be the function that defines the upper bound on the parameter, below which there is an $\NC^d$ many-one reduction from $Q$ to $Q'$.
+  Let $\{R_n\}$ be the $\NC^d$ circuit family computing the reduction.
+  The nonuniform family of circuits $\{A_{n, k}\}$ that decides $(Q, \kappa)$ is defined by
+  \[
+  A_{n, k} =
+  \begin{cases}
+    C_n^1 & \text{if } i(n) < k \\
+    C_{n'}^2 \circ R_{n} & \text{otherwise},
+  \end{cases}
+  \]
+  where $\{C_n^1\}$ is the family of circuits that decides $Q$ with uniform size and depth, $\{C_n^2\}$ is the family of $\NC^d$ circuits that decides $Q'$, and $n'$ is the number of output bits of $R_n$.
+  The correctness of $A_{n, k}$ follows from the correctness of the subsequent circuits.
+  The circuit family is necessarily nonuniform: the computation of $i(n)$ and $k$ and the comparison of the two decides nonuniformly which circuit to select when defining $A_{n, k}$.
+
+  If $i(n) \geq k$, then the size and depth of the circuit are polynomial and polylogarithmic in $n$, respectively, because the size and depth of $C_{n'}^2$ and $R_n$ are.
+  For the case when $i(n) < k$, consider the upper inverse $f_i$ of $i$ guaranteed by \autoref{lem:upperinverse}.
+  By construction, $n \leq f_i(i(n)) < f_i(k)$.
+  Now
+  \begin{align*}
+    \size(A_{n, k}) & = \size(C_n^1) = S(n) \leq S(f_i(k)), \\
+    \depth(A_{n, k}) & = \depth(C_n^1) = D(n) \leq D(f_i(k)),
+  \end{align*}
+  where $S$ and $D$ are the (circuit-computable, nondecreasing) size and depth bounds for the circuit family $\{C_n^1\}$.
+  Thus in either case, there is a sufficiently large circuit-computable function $f$ such the size of $A_{n, k}$ is bounded above by $f(k) n^{O(1)}$ and the depth $f(k) + O(\log^d n)$.
+\end{proof}
+
+As an aside, let us consider the nonuniformity requirement in this lemma.
+All subsequent theorems that require nonuniform circuits are nonuniform because they rely on this lemma, and it is not clear whether this lemma can be made uniform.
+Nonuniformity is necessary here, but only a \emph{single bit} of nonuniform advice is required to select the appropriate circuit for $A_{n, k}$, given the length $n$ and the parameterization $k$ of the input.
+If the circuit $A_{n, k}$ were implemented with a selector for $i(n) < k$ and both branches as subcircuits, then the overall depth of the circuit would be bounded above by the larger of the depths of the two subcircuits.
+For large values of $k$, this could be too great a depth to qualify as $\para \NC$.
+
+On the other hand, if the function $i$ were computable by, for example, a deterministic logarithmic space Turing machine, then we would be able to conclude that $(Q, \kappa)$ is in $\para \L$-uniform $\para \NC$ (assuming we have an appropriate definition for such a class).
+In this paper, $i$ will not have that restriction, so we suggest considering parameterized uniformity in future research.
+
+We continue with a corollary of the previous lemma.
+The following corollary highlights the special case of the preceding lemma in which the reduction is the identity function.
+
+\begin{corollary}\label{cor:sprself}
+  Suppose $(Q, \kappa)$ is a parameterized problem, $d$ is a positive integer, and $i$ is an unbounded, nondecreasing, circuit-computable function.
+  Let $i(n) \dash Q$ denote the problem of deciding, given $x$ with $\kappa(x) \leq i(|x|)$, whether $x \in Q$.
+  If $i(n) \dash Q$ is in $\NC^d$, then $(Q, \kappa)$ is in $\para \NC^d$.
+\end{corollary}
+\begin{proof}
+  The identity function is a small parameter $\NC^d$ many-one reduction from from $(Q, \kappa)$ to $i(n) \dash Q$, thereby proving that $Q$ is in $\para \NC^d$ by the previous lemma.
+\end{proof}
+
+This lemma shows that a many-one reduction to a fixed-parameter parallelizable problem can sometimes induce a highly parallel algorithm, if the parameter functions are bounded for the reduced instance.
+
+\begin{lemma}\label{lem:reducetonc}
+  Suppose $d$ is a positive integer, $Q$ is a decision problem, and $(Q', \kappa')$ is a parameterized problem.
+  Suppose there is an $\NC^d$ many-one reduction from $Q$ to $Q'$, given by the circuit family $\{R_n\}$, and $(Q', \kappa')$ is in $\para \NC^d$ by a circuit family $\{C_{m, k}\}$ of size $f(k) m^{O(1)}$ and depth $f(k) + O(\log^d m)$ on inputs of length $m$.
+  If $f(\kappa'(R_n(x))) \leq \min(n^{O(1)}, O(\log^d n))$, then $Q$ is in $\NC^d$.
+\end{lemma}
+\begin{proof}
+  The circuit family that decides $Q$ is $\{A_n\}$, defined by $A_n = C_{m, k} \circ R_n$, where $m$ is the size of the output of $R_n$ and $k = \kappa'(R_n(x))$.
+  Since $\size(R_n) = n^{O(1)}$, we have $m = n^{O(1)}$ as well.
+  For correctness,
+  \[
+  x \in Q \iff R_n(x) \in Q' \iff C_{m, k}(R_n(x)) = 1.
+  \]
+  For size and depth bounds,
+  \begin{align*}
+    \size(A_n) & = \size(C_{m, k}) + \size(R_n) \\
+    & = f(k) m^{O(1)} + n^{O(1)} \\
+    & = f(k) n^{O(1)} + n^{O(1)} \\
+    & = n^{O(1)} n^{O(1)} + n^{O(1)} \\
+    & = n^{O(1)},
+  \end{align*}
+  and
+  \begin{align*}
+    \depth(A_n) & = \depth(C_{m, k}) + \depth(R_n) \\
+    & = f(k) + O(\log^d m) + O(\log^d m) \\
+    & = f(k) + O(\log^d m) \\
+    & = f(k) + O(\log^d n) \\
+    & = O(\log^d n) + O(\log^d n) \\
+    & = O(\log^d n). \qedhere
+  \end{align*}
+\end{proof}
+
+The following corollary highlights the special case of the preceding lemma in which the decision problem of interest is a ``bounded-parameter'' version of the decision problem underlying the fixed-parameter parallelizable problem; compare this with \autoref{cor:sprself}.
+Below, a ``nontrivial'' parameterized problem is one in which $\emptyset \subsetneq Q \subsetneq \{0, 1\}^*$.
+
+\begin{corollary}\label{cor:reducetoself}
+  Suppose $(Q, \kappa)$ is a nontrivial parameterized problem, $d$ is a positive integer, and $i$ is an unbounded, nondecreasing, circuit-computable function.
+  Let $i(n) \dash Q$ denote the problem of deciding, given $x$ with $\kappa(x) \leq i(|x|)$, whether $x \in Q$.
+  If $(Q, \kappa)$ is in $\para \NC^d$ by a circuit family $\{C_{n, k}\}$ of size $f(k) n^{O(1)}$ and depth $f(k) + O(\log^d n)$ on inputs of length $n$ and $f(i(n)) \leq \min(n^{O(1)}, O(\log^d n))$, then $i(n) \dash Q$ is in $\NC^d$.
+\end{corollary}
+\begin{proof}
+  We will show a many-one reduction from the decision problem $i(n) \dash Q$ to the decision problem $Q$ underlying the parameterized problem $(Q, \kappa)$ that satisfies the conditions of the previous lemma.
+  The reduction $\{R_n\}$ is defined as follows.
+  \[
+  R_n(x) =
+  \begin{cases}
+    x & \text{if } \kappa(x) \leq i(n), \\
+    \bot & \text{otherwise},
+  \end{cases}
+  \]
+  where $\bot$ is an arbitrary string not in $Q$ (which must exist because the problem is nontrivial by hypothesis).
+  As long as $\kappa$ is computable by an $\NC^d$ circuit family, then so is $R_n$.
+  (The computation of $i(n)$ is captured by the nonuniformity of the circuit family, so it does not affect the size or depth required by the circuit computing $R_n$.)
+
+  The reduction $R_n$ is a correct many-one reduction.
+  If $x \in i(n) \dash Q$, then $\kappa(x) \leq i(|x|)$ and $x \in Q$, thus $R_n(x) \in Q$.
+  If $x \notin i(n) \dash Q$, then there are two cases.
+  In the first, $\kappa(x) > i(|x|)$, in which case $R_n(x) = \bot$, which is not in $Q$ by construction.
+  In the second case, $x \notin Q$ so $R_n(x) \notin Q$.
+
+  Finally, we consider the value of $f(\kappa(R_n(x)))$.
+  If $\kappa(x) \leq i(n)$, then by construction
+  \[
+  f(\kappa(R_n(x)) \leq f(\kappa(x)) \leq f(i(n)) \leq \min(n^{O(1)}, O(\log^d n)).
+  \]
+  On the other hand, if $\kappa(x) > i(n)$, then $\kappa(R_n(x)) = \kappa(\bot) = O(1)$, which is bounded above by both $n^{O(1)}$ and $O(\log^d n)$ for all but finitely many $n$.
+  Thus we have shown that $f(\kappa(R_n(x)))$ satisfies the upper bound required by \autoref{lem:reducetonc} and the conclusion, $i(n) \dash Q$ is in $\NC^d$, follows.
+\end{proof}
+
+\subsection{Approximable optimization problems}
+
+% % Foreword %
+%
+% %% Context (anyone - why now?) %%
+%
+% What is the current situation, and why is the need so important?
+%
+\autoref{thm:onesdepth} shows an inherently sequential optimization problem with that is in $\para \NC$ when parameterized.
+%
+% %% Need (readers - why you?) %%
+%
+% Why is this relevant to the reader, and why does something need to be done?
+% (Also reference relevant existing work.)
+%
+Let us explore the possibility of parameterized parallel algorithms from optimization problems more generally.
+(This has been done before only for efficient algorithm for intractable optimization problems.)
+%
+% %% Task (author - why me?) %%
+%
+% What was undertaken to address the need?
+%
+We show how a certain kind of approximation scheme for an optimization problem induces a highly parallel algorithm for the standard parameterized problem derived from the optimization problem.
+%
+% %% Object (document - why this document?) %%
+%
+% What does this document cover?
+%
+This section provides the necessary definitions and generic theorems for this framework.
+%
+
+% % Summary %
+%
+% %% Findings (author - what?)
+%
+% What did the work reveal when performing the task?
+%
+We prove that an approximation scheme with appropriate size and depth bounds implies a $\para \NC$ algorithm (\autoref{thm:encasfpp}), and show how this applies to the maximum flow problem under a derandomization assumption (\autoref{thm:maxflow}).
+%
+% %% Conclusion (readers - so what?)
+%
+% What did the findings mean for the audience?
+%
+This means that both existing and newly discovered approximation schemes for optimization problems may present an alternate method of parallelization (via parameterization).
+%
+% %% Perspective (anyone - what now?)
+%
+% What should be done next?
+One thing we are unable to show in this section is an optimization problem whose budget problem is $\P$-complete and whose standard parameterization is in $\para \NC$ but for which no $\ENCAS$ exists, so we postpone that for future work.
+
+%% Yet another way to do this is to find an optimization problem whose budget problem is $\P$-complete while admitting a highly parallel approximation scheme.
+
+We start with the necessary definitions for optimization problems and approximation schemes.
+
+\begin{definition}
+  An \emph{optimization problem} $O$ is a four-tuple $(I, S, m, t)$, where $I$ is the set of instances, $S$ is the set of pairs $(x, w)$ where $w$ is a solution for $x$, the function $m$ computes the \emph{measure} (or \emph{objective value}) for such a pair, and $t$ is either $\min$ or $\max$.
+\end{definition}
+
+\begin{definition}\label{def:standard}
+  The \emph{standard parameterization} of a minimization problem $O$, denoted $p\dash{O}$, is $(Q, \kappa)$, where $Q = \{ (x, k) \, | \, m^*(x) \leq k \}$ and $\kappa(x, k) = k$.
+  The inequality is reversed for a maximization problem.
+\end{definition}
+
+\begin{definition}
+  Suppose $(I, S, m, t)$ is an optimization problem and $(x, y) \in S$.
+  The \emph{performance ratio} of the solution $y$ (with respect to $x$), denoted $R(x, y)$, is defined by
+  \[
+  R(x, y) = \max \left(\frac{m(x, y)}{m^*(x)}, \frac{m^*(x)}{m(x, y)}\right)
+  \]
+\end{definition}
+
+The performance ratio $R(x, y)$ is a number in the interval $[1, \infty)$.
+The closer $R(x, y)$ is to 1, the better the solution $y$ is for $x$, and the closer $R(x, y)$ to $\infty$, the worse the solution.
+
+\begin{definition}
+  An \emph{approximation scheme} for an optimization problem is a function $A$ such that for all $x$ and all positive integers $k$ we have $(x, A(x, k)) \in S$ and $R(x, A(x, k)) \leq 1 + \frac{1}{k}$.
+\end{definition}
+
+An approximation scheme induces a family of functions, $\{A_k\}_{k \in \mathbb{N}}$, that form progressively better approximations for the optimization problem.
+
+%% \begin{definition}
+%%   An optimization problem $O$ has an \emph{$\NC$ approximation scheme} if there is an approximation scheme $A$ for $O$ such that for each $k$, we have $A_k \in \FNC$, where $A_k(x) = A(x, k)$ for each $x$.
+%% \end{definition}
+
+\begin{definition}
+  Suppose $O$ is an optimization problem with $O = (I, S, m, t)$ with $I$ and $S$ in $\NC$ and $m$ in $\FNC$.
+  An optimization problem $O$ is in $\NCAS$ if there is an approximation scheme $A$ for $O$ such that for each $k$, we have $A_k \in \FNC$, where $A_k(x) = A(x, k)$ for each $x$.
+  The problem is in $\FNCAS$ if there is an approximation scheme $A$ for $O$ such that $A \in \FNC$ (i.e. on both inputs).
+\end{definition}
+
+This definition is adapted from \autocite[Definition~1.31]{fg06}
+
+\begin{definition}
+  An optimization problem $O$ is in $\ENCAS$ if there is a circuit family $\{A_{n, k}\}$ and a circuit-computable function $f$ such that
+  \begin{itemize}
+  \item $\{A_{n, k}\}$ is an approximation scheme for $O$,
+  \item $\size(A_{n, k}) \leq f(k) n^{O(1)}$,
+  \item $\depth(A_{n, k}) \leq f(k) + \log^{O(1)} n$.
+  \end{itemize}
+\end{definition}
+
+\begin{proposition}\label{prop:encas}
+  $\FNCAS \subseteq \ENCAS \subseteq \NCAS$.
+\end{proposition}
+
+%% \todo{Positive linear programming is in $\NCAS$, is it also in $\ENCAS$?}
+%% positive linear programming has a depth bound of about f(k) \log^3 n, so no.
+
+This theorem is an adaptation of \autocite[Theorem~1.32]{fg06}.
+
+\begin{theorem}\label{thm:encasfpp}
+  Let $O$ be an optimization problem.
+  If $O$ is in $\ENCAS$, then $p\dash{O}$ is in $\para \NC$.
+\end{theorem}
+\begin{proof}
+  Assume without loss of generality that $O$ is a minimization problem; the proof is similar if it is a maximization problem.
+  Let $\{m_n\}$ be the $\NC$ circuit family that computes the measure function.
+  Let $\{A_{n, k}\}$ be the circuit family such that
+  \begin{itemize}
+  \item $R(x, A_{n, k}(x, k)) \leq 1 + \frac{1}{k}$ for each $x$ and $k$,
+  \item $\size(A_{n, k}) \leq f(k) n^{O(1)}$,
+  \item $\depth(A_{n, k}) \leq f(k) + O(\log^{O(1)} n)$,
+  \end{itemize}
+  for some circuit-computable function $f$.
+  Define the circuit family $\{C_{n, k}\}$ as
+  \[
+  C_{n, k}(x, k) = 1 \iff m(x, A_{n, k + 1}(x, k + 1)) \leq k,
+  \]
+  so $C_{n, k}$ outputs 1 if and only if the approximate solution corresponding to parameter $k + 1$ measures less than $k + 1$.
+  (The function $m$ is really a circuit as well, chosen from a family of circuits depending on the number of bits in its inputs.)
+
+  The size of $C_{n, k}$ is $O(\size(m) + \size(A_{n, k + 1}))$ and the depth is $O(\depth(m) + \depth(A_{n, k + 1})$.
+  For some sufficiently large circuit-computable function $f'$, the size and depth bounds are $f'(k + 1) n^{O(1)}$ and $f'(k + 1) + O(\log^{O(1)} n)$, respectively.
+  It remains to show correctness of $C_{n, k}$.
+
+  Let $x$ be a string, let $k$ be a natural number, and let $y = A_{n, k + 1}(x, k + 1)$.
+  If $C_{n, k} = 1$, then $m(x, y) \leq k$, so $m^*(k) \leq k$ and therefore $(x, k) \in p \dash O$.
+  For the converse, if $C_{n, k} = 0$, then $m(x, y) \geq k + 1$, so
+  \[
+  m^*(x) \geq \frac{m(x, y)}{1 + \frac{1}{k + 1}} \geq \frac{k + 1}{1 + \frac{1}{k + 1}} = \frac{(k + 1)^2}{k + 2} > k.
+  \]
+  Thus $(x, k) \notin p \dash O$.
+  Therefore, we conclude that $p \dash O$ is in $\para \NC$.
+\end{proof}
+
+The converse does not hold: the minimum vertex cover problem is a counterexample because it is in $\para \NC$ \autocite[Theorem~4.5]{bst15}.
+%% \todo{Show an example of an optimization problem whose budget problem is $\P$-complete and whose standard parameterization is in $\para \NC$ but for which no $\ENCAS$ exists.}
+
+Our goal now reduces to finding an optimization problem in $\ENCAS$ whose budget problem is $\P$-complete.
+%% There exist problems that are $\P$-complete and have randomized $\FNCAS$ algorithms, so under a derandomization assumption, we can show a problem that fits the requirement.
+
+\begin{definition}[\textsc{Maximum Flow}]
+  \mbox{} \\
+  \begin{tabular}{r p{9.2cm}}
+    \textbf{Instance:} & directed graph $G$, a natural number capacity $c_e$ for each edge $e$, source node $s$, and target node $t$. \\
+    \textbf{Solution:} & flow $F$, defined as a real number $F_e$ for each edge $e$ such that $F_e \leq c_e$ and at each vertex the total in-flow is at least the total out-flow. \\
+    \textbf{Measure:} & total in-flow at $t$. \\
+    \textbf{Type:} & maximization.
+  \end{tabular}
+\end{definition}
+
+%% edge flows can have weights exponential in n
+
+\begin{theorem}\label{thm:maxflow}
+  If $\NC = \RNC$, then the budget problem for \textsc{Maximum Flow} is $\P$-complete and the standard parameterization is in $\para \NC$.
+\end{theorem}
+\begin{proof}
+  The budget problem for \textsc{Maximum Flow} is $\P$-complete \autocite[Problem~A.4.4]{ghr95}.
+  The \textsc{Maximum Flow} problem is in randomized $\FNCAS$ \autocite[Theorem~4.5.2]{dsst97}.
+  If $\NC = \RNC$, then randomized $\FNCAS$ equals deterministic $\FNCAS$.
+  Thus, the problem is in $\ENCAS$, by \autoref{prop:encas}.
+  Finally, the standard parameterization is in $\para \NC$ by \autoref{thm:encasfpp}.
+\end{proof}
+
+%% \todo{Can the randomization part of the RNC algorithm for MaxFlow be absorbed in the fixed-parameter part of the algorithm?}
+
+% The positive linear programming problem is only in NCAS, not FNCAS.

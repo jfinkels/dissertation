@@ -1,3 +1,555 @@
+\newcommand{\PCPcs}[5]{\PCP^{#1}_{#2, #3}\left[#4, #5\right]}
+\newcommand{\loglog}{\log\log}
+\newcommand{\ceil}[1]{\left\lceil{#1}\right\rceil}
+
 \chapter{Decision problems}
 \label{chp:decision}
-fill me in
+
+\section{Introduction}
+
+In this work we provide some initial structural complexity results for classes of probabilistically checkable proof systems (PCPs) for nondeterministic \NC{} (\NNC) circuit families, as a first step towards characterizing probabilistic proof systems for \P.
+One of the major successes of the characterization of \NP{} as a class of PCPs (with polynomial-time verifiers) is that it provides a route to proving that approximating certain computationally intractable optimization problems is as difficult as solving them exactly.
+The growth of multiprocessor systems in general purpose personal computers highlights the urgency of proving the analagous inapproximability (or approximability) of \emph{inherently sequential} optimization problems by \emph{highly parallel} algorithms.
+The \P-complete problems are generally considered to be inherently sequential, whereas problems in \NC{} are considered highly parallel.
+Our guiding question is now, ``For which \P-complete problems are there \NC{} approximation algorithms, and for which are there none?''
+
+Unfortunately, the techniques used to prove the original PCP Theorem rely on the fact that $\NP$ can be interpreted as the class of languages for which there is an efficient verification procedure given a brief witness to language membership; no such obvious interpretation of $\P$ exists.
+Indeed, this question was already on the minds of researchers soon after the original proof of the PCP Theorem.
+\begin{quote}
+  An intriguing question is whether the known non-approximability results for sequential algorithms can be improved when we restrict to \NC{} algorithms (under the assumption that $\P \neq \NC$).
+  A possible way may be to devise \emph{probabilistic proof systems for \P} more efficient that the currently known proof systems for \NP{}.
+  Such a result would have a great independent interest.
+  However, it is not clear why proofs for \P{} should be \emph{easier to check} than proofs for \NP{} (they only appear to be \emph{easier to generate}).~\autocite{trevisan98}
+\end{quote}
+Perhaps $\P$ has proof systems that are easy to check in $\NC$, but this remains unclear.
+Instead, we consider proof systems for the class $\NNC(\polylog)$, the class of languages decidable by $\NC$ circuit families augmented with a polylogarithmic number of nondeterministic gates.
+We hope that this will be a valuable first step toward understanding proof systems for $\P$.
+Other researchers have had similar questions about classes like this.
+\begin{quote}
+  The fundamental question remains whether there are problems in $\P$ that can be computed more quickly with limited nondeterminism than without it.~\autocite{bg93}
+\end{quote}
+We consider $\NNC(\polylog)$ for two reasons.
+First, it is defined in such a way that it explicitly has short proof systems which are easy to verify in parallel, just as \NP{} is defined in such a way that it explicitly has short proof systems which are easy to verify efficiently.
+Second, it, like \P, lies between \NC{} and \NP{}.
+
+Although our original intention was to show a result like $\NNC(\polylog) = \PCP[O(\loglog n), O(1)]$, our research reveals that proving such an equality is equivalent to proving $\NNC(\polylog) = \NC$, or in other words, that a polylogarithmic amount of nondeterminism can be simulated deterministically by an \NC{} circuit family.
+This should be seen as evidence that such a result is unlikely; in fact, we show that such a simulation implies a deterministic subexponential time algorithm for \textsc{Satisfiability}!
+We are still, however, able to show that certain PCP classes are contained in $\NNC(\polylog)$.
+
+Recent work by other authors has focused on the practicality of implementing proof systems for \NP{} on real computers.
+Unlike this work, in which we completely ignore the resources required for the prover to transform the proof of membership in a language to a probabilistically checkable proof in the appropriate format, other works focus on efficient implementation of both the verifier and the prover.
+Also, some other works consider a model of proof system in which the prover and the verifier have some limited communication.
+See \autocites{bcgt13}{smbw12}{svpbbw12}{trmp12}{gkr08} for more information.
+
+\section{Preliminaries}
+
+Throughout this work, $\log n$ denotes the base 2 logarithm of $n$.
+In the definitions below, $\mathbb{N}$ denotes the set of non-negative integers and $\mathbb{R}$ denotes the set of real numbers.
+
+\begin{definition}
+  For all functions $f, g \colon \mathbb{N} \to \mathbb{R}$, the function $f$ is in the class $O(g(n))$ if there exist real numbers $c$ and $N$ such that for all natural numbers $n$ we have $n > N$ implies $f(n) \leq c \cdot g(n)$.
+  If $f(n) < c \cdot g(n)$ then $f(n)$ is in $o(g(n))$.
+  If $f(n) \geq c \cdot g(n)$ then $f(n)$ is in $\Omega(g(n))$.
+  If $f(n) > c \cdot g(n)$ then $f(n)$ is in $\omega(g(n))$.
+\end{definition}
+
+We assume the reader knows the basic definitions from complexity theory, including those of the complexity classes \P, \NP, \DTIME, and \DSPACE{}.
+We define the class $\L^k$ by $\L^k = \DSPACE(\log^k n)$ for all non-negative integers $k$ and the class \polyL{} by $\polyL = \cup_{k \in \mathbb{N}} \DSPACE(\log^k n)$.
+We denote the class $\L^1$ by simply \L.
+We define the complexity class \SUBEXP{}, the class of languages decidable by deterministic ``subexponential'' time Turing machines, as
+\begin{equation*}
+  \SUBEXP = \cap_{\epsilon > 0} \DTIME(2^{n^\epsilon})
+\end{equation*}
+and \QP{}, the class of languages decidable by a deterministic ``quasipolynomial'' time Turing machine, as
+\begin{equation*}
+  \QP = \cup_{k \in \mathbb{N}} \DTIME(2^{\log^k n}).
+\end{equation*}
+We will also be considering $\NC^k$, the class of languages decidable by a family of logarithmic space uniform Boolean circuits of polynomial size, $O(\log^k n)$ depth, and unbounded fan-in.
+We will denote by $\NC$ the union of all the $\NC^k$ classes.
+A language in $\NC^k$ can also be described as a language which admits an algorithm which uses a polynomial number of processors running in $O(\log^k n)$ time on a parallel random-access machine (PRAM).
+In this work, we describe \NC{} algorithms using this paradigm.
+
+\begin{definition}[{\autocite[Definition~1.1]{dinur07}}]
+  Let $V$ be a finite set of variables, defined by $V = \{x_1, x_2, \dotsc, x_n\}$, let $\Gamma$ be a finite alphabet, and let $q$ be a natural number.
+  A \emph{$q$-ary constraint} is a $q + 1$ tuple, $(C, i_1, i_2, \dotsc, i_q)$, where $C \subseteq \Gamma^q$ and $i_k \in \{1, 2, \dotsc, n\}$ for all $k \in \{1, 2, \ldots, q\}$.
+  Here, $C$ is considered the set of ``acceptable'' values for the variables.
+
+  An \emph{assignment} is a function $a \colon V \to \Gamma$.
+  An assignment \emph{satisfies} a constraint if $(a(v_{i_1}), a(v_{i_2}), \dotsc, a(v_{i_q})) \in C$.
+\end{definition}
+
+\begin{definition}[\textsc{$q$-CSP}]
+  \mbox{}
+
+  \textbf{Instance:} finite alphabet $\Gamma$ with $|\Gamma| > 1$, finite set of variables $V$, finite set of $q$-ary constraints $D$.
+
+  \textbf{Question:} Are all constraints in $D$ satisfiable?
+\end{definition}
+
+\begin{definition}[\textsc{$\frac{1}{2}$-gap $q$-CSP}]
+  \mbox{}
+
+  \textbf{Instance:} finite alphabet $\Gamma$ with $|\Gamma| > 1$, finite set of variables $V$, finite set of $q$-ary constraints $D$ with the restriction that for any assignment, either all constraints are satisfied or fewer than half are.
+
+  \textbf{Question:} Are all constraints in $D$ satisfiable?
+\end{definition}
+
+In the special case in which $q = 2$, that is, all constraints are binary, we may interpret an instance of the constraint satisfaction problem as an undirected graph with vertex set $V$ and an edge labeled $C$ between vertices $v_i$ and $v_j$ for each $(C, i, j)$ in $D$.
+We call such a graph a \emph{constraint graph} and we consider the size of this graph to be $|V| + |E|$ where $V$ is the set of vertices (equivalently, variables) and $E$ is the set of edges.
+
+\begin{definition}
+  A \emph{PCP verifier} is a probabilistic Turing machine which has sequential access to an input string $x$, sequential access to a random string $\rho$, and \emph{nonadaptive random access} to a proof string $\pi$.
+\end{definition}
+
+The initialism ``PCP'' stands for ``probabilistically checkable proof''.
+
+\begin{definition}
+  Let $r(n)$ and $q(n)$ be bounded above by polynomials in $n$, and let $c(n)$ and $s(n)$ be functions whose values are in the interval $[0, 1]$.
+  A language $L$ has a $(r(n), q(n), c(n), s(n))$-\emph{PCP verifier} if there exists a PCP verifier $V$ such that $V$ uses at most $r(n)$ bits of the random string $\rho$, makes at most $q(n)$ \emph{nonadaptive} queries to bits of the proof $\pi$, and satisfies the following conditions.
+  \begin{enumerate}
+  \item If $x \in L$, then
+    \begin{equation*}
+      \exists \pi \in \Sigma^* \colon \Pr_{\rho \in \Sigma^{r(n)}}{\left[V(x, \pi; \rho) \textnormal{ accepts}\right]} \geq c(n).
+    \end{equation*}
+  \item If $x \notin L$, then
+    \begin{equation*}
+      \forall \pi \in \Sigma^* \colon \Pr_{\rho \in \Sigma^{r(n)}}{\left[V(x, \pi; \rho) \textnormal{ accepts}\right]} < s(n).
+    \end{equation*}
+  \end{enumerate}
+  The value $c(n)$ is the \emph{completeness} and the value $s(n)$ the \emph{soundness} of the verifier.
+\end{definition}
+
+In this work, we will consider only nonadaptive PCP verifiers.
+Since a (nonadaptive) $(r(n), q(n), c(n), s(n))$-PCP verifier can read at most $2^{r(n)} q(n)$ locations of the proof string with nonzero probability, we assume without loss of generality that the proof provided to the verifier is of length at most $2^{r(n)} q(n)$ \autocite[Remark~11.6]{ab09}.
+(Note that a verifier which uses $q(n)$ adaptive random access queries to the proof string can be simulated by a verifier which uses $2^{q(n)}$ nonadaptive random access queries to the proof string, so in the adaptive case, the proof string could be of length $2^{r(n) + q(n)}$.)
+
+\begin{definition}
+  Let $\PCPcs{\mathcal{C}}{c(n)}{s(n)}{r(n)}{q(n)}$ be the class of all languages $L$ such that $L$ has a $(r(n), q(n), c(n), s(n))$-PCP verifier $V$ computable by a $\mathcal{C}$ algorithm.
+
+  More generally, if $\mathcal{F}$ and $\mathcal{G}$ are classes of functions,
+  \begin{equation*}
+    \PCPcs{\mathcal{C}}{c(n)}{s(n)}{\mathcal{F}}{\mathcal{G}} = \bigcup_{f \in \mathcal{C}, g \in \mathcal{G}}{\PCPcs{\mathcal{C}}{c(n)}{s(n)}{f(n)}{g(n)}},
+    \end{equation*}
+
+  Since completeness 1 and soundness $\frac{1}{2}$ are common parameters, and for the sake of brevity, we write $\PCP^{\mathcal{C}}[r(n), q(n)]$ to denote $\PCPcs{\mathcal{C}}{1}{\frac{1}{2}}{r(n)}{q(n)}$, and $\PCP^{\mathcal{C}}[\mathcal{F}, \mathcal{G}]$ to denote $\PCPcs{\mathcal{C}}{1}{\frac{1}{2}}{\mathcal{F}}{\mathcal{G}}$.
+\end{definition}
+
+Please notice that the complexity class given in the superscript in the above definition does \emph{not} denote an oracle; it merely describes the computational power of the PCP verifier.
+
+From the definition, we see immediately that
+\begin{equation*}
+  \PCPcs{\mathcal{C}}{c(n)}{s(n)}{O(r(n))}{O(q(n))} = \bigcup_{a \in \mathbb{N}, b \in \mathbb{N}}{\PCPcs{\mathcal{C}}{c(n)}{s(n)}{a \cdot r(n)}{b \cdot q(n)}}.
+\end{equation*}
+
+\section{Probabilistically checkable proofs for nondeterministic circuits}
+
+We first provide a PCP characterization of $\NNC(\polylog)$, then later we provide upper and lower bounds for the randomness and query complexity parameters of such a PCP verifier.
+
+\begin{theorem}\label{thm:qplusr}
+  For all non-negative integers $q$ and $r$,
+  \begin{equation*}
+    \NNC(\log^q n) \subseteq \PCP^{\NC}[r \loglog n, O(\log^q n)] \subseteq \NNC(\log^{q + r} n),
+  \end{equation*}
+  and specifically
+  \begin{equation*}
+    \NNC(\log^q n) \subseteq \PCP^{\NC}[\loglog n, O(\log^q n)] \subseteq \NNC(\log^{q + 1} n).
+  \end{equation*}
+\end{theorem}
+\begin{proof}
+  Let $q$ and $r$ be non-negative integers.
+  The inclusion $\NNC(\log^q n) \subseteq \PCP^\NC[r \loglog n, O(\log^q n)]$ follows immediately from the definitions.
+  For the other direction, suppose $L \in \PCP^{\NC}[r \loglog n, c \log^q n]$ for some constant $c$.
+  Construct an $\NNC$ machine $M$ which proceeds as follows on input $x$ of length $n$.
+  \begin{enumerate}
+  \item Guess a proof string $\pi$ of length $2^{r \loglog n} c \log^q n$.
+  \item For each $\rho$ of length $r \loglog n$ \emph{in parallel} simulate $V(x, \pi; \rho)$.
+  \item Accept if and only if at least half of the simulations accept.
+  \end{enumerate}
+In the initial step, guessing a proof string requires $O(\log^{q + r} n)$ bits.
+In the second step, since $V$ is an \NC{} machine, a polylogarithmic number of parallel simulations of $V$ can be executed with only a polylogarithmic factor increase in size and no increase in depth.
+In the final step, computing the majority of a polylogarithmic number of bits can be done by an \NC{} circuit.
+Therefore $M$ is an $\NNC(\log^{q + r} n)$ machine.
+The correctness of $M$ follows from the completeness and soundness of $V$.
+\end{proof}
+
+\begin{corollary}\label{cor:polylogeq}
+  $\NNC(\polylog) = \PCP^{\NC}[O(\loglog n), \polylog]$.
+\end{corollary}
+
+Next, consider the chain of inclusions
+\begin{equation*}
+  \NNC(\log n) \subseteq \NNC(\polylog) \subseteq \NNC(\poly).
+\end{equation*}
+In fact, $\NC = \NNC(\log n)$ and $\NNC(\poly) = \NP$ \autocite{wolf94}, so we can rewrite this as
+\begin{equation}\label{eq:chain}
+  \NC \subseteq \NNC(\polylog) \subseteq \NP.
+\end{equation}
+We now wish to provide \NC{} PCP characterizations for both \NC{} and \NP{}.
+
+In \autocite{fs96}, the authors prove that $\P = \PCP^\P[O(\loglog n), O(1)]$ (implicitly; they state only that $\NP = \PCP^\P[O(\loglog n), O(1)]$ if and only if $\P = \NP$).
+The same proof techniques can be used in the \NC{} setting with essentially no changes.
+(The idea of the proof is to simulate $O(\loglog n)$ bits of randomness with $\loglog n + O(1)$ bits by making a random walk of an appropriate length on a fully explicit constant degree expander graph.)
+
+\begin{theorem}\label{thm:ncpcp}
+  $\NC = \PCP^\NC[O(\loglog n), O(1)]$.
+\end{theorem}
+
+As a generalization of the result of \autocite{fs96}, we know $\NP = \PCP^\P[o(\log n), o(\log n)]$ if and only if $\P = \NP$ \autocites{as98}{fglss91}.
+%The equality $\P = \PCP^\P[O(\loglog n), O(1)]$ is actually a special case of $\P = \PCP^\P[o(\log n), o(\log n)]$, which is proven (again implicitly) in \autocite{as98} using a reduction from \autocite{fglss91}.
+Unfortunately, the obvious strategy for translating that proof to the \NC{} setting fails.
+The proof would have shown that $\NP = \PCP^{\NC^k}[o(\frac{\loglog n}{\log^k n}), O(1)]$ if and only if $\NC = \NP$, but this is already proven by \autoref{thm:ncpcp} and the fact that $\frac{\loglog n}{\log^k n} \leq \loglog n$.
+
+We also know the following strengthening of the original PCP Theorem; the proof of this theorem is in \autoref{sec:dinur}.
+\begin{theorem}\label{thm:pcpnp}
+  $\PCP^\NC[O(\log n), O(1)] = \NP$.
+\end{theorem}
+
+From \autoref{eq:chain}, \autoref{thm:ncpcp}, and \autoref{thm:pcpnp}, we have the two equivalent inclusion chains
+\begin{equation*}
+  \NC \subseteq \NNC(\polylog) \subseteq \NP
+\end{equation*}
+and
+\begin{equation*}
+  \PCP[O(\loglog n), O(1)] \subseteq \PCP[O(\loglog n), \polylog] \subseteq \PCP[O(\log n), O(1)],
+\end{equation*}
+where the PCP verifier is an \NC{} machine.
+If we can provide evidence that $\NC \neq \NNC(\polylog)$ and that $\NNC(\polylog) \neq \NP$, we can conclude that the corresponding PCP classes are also likely distinct.
+This theorem, adapted from \autocite[Theorem~1]{dt90} (therein attributed to R. Beigel), provides that evidence.
+
+\todo{There is further evidence that $\NC \neq \NNC(\polylog)$: the fact that $\NNC(\polylog) = \NC \subseteq \P$ implies $\W[P]$ collapses to $\FPT$}
+
+\begin{theorem}\label{thm:npinqp}
+  \mbox{}
+  \begin{enumerate}
+  \item If $\NC = \NNC(\polylog)$, then $\NP \subseteq \SUBEXP$.
+  \item If $\NNC(\polylog) = \NP$, then $\NP \subseteq \QP$.
+  \end{enumerate}
+\end{theorem}
+%% TODO link to explanation of ETH, link to NP in QP implies EXP = NEXP
+Each of the two conclusions in this theorem implies that the exponential time hypothesis is false.
+Furthermore, in the latter case, the conclusion implies that $\EXP = \NEXP$.
+\begin{proof}[Proof of \autoref{thm:npinqp}]
+  If $\NNC(\polylog) = \NP$, then
+  \begin{align*}
+    \NP & = \NNC(\polylog) \\
+        & \subseteq \DSPACE(\polylog) && \text{by \autocite{wolf94}} \\
+        & \subseteq \DTIME(2^{\polylog}) && \text{by exhaustive search} \\
+        & = \QP && \text{by definition}.
+  \end{align*}
+  Now suppose $\NC = \NNC(\polylog)$.
+  Since \textsc{Satisfiability} is complete for $\NP$ under deterministic polynomial-time many-one reductions, it suffices to show a deterministic subexponential time algorithm for \textsc{Satisfiability}.
+
+  The proof uses a padding argument.
+  First we observe that there is an $\NNC^1(n)$ machine, call it $M$, that decides \textsc{Satisfiability}: given a Boolean formula $\phi$, guess a satisfying assignment to $\phi$ (of length $O(n)$) and evaluate the formula (Boolean formula evaluation is in $\NC^1$ \autocite{buss87}).
+  Let $\epsilon$ be an arbitrarily small positive constant, and define $L$, the padded version of \textsc{Satisfiability}, as
+  \begin{equation*}
+    L = \left\{ \phi \# 1^P \, \middle| \, \phi \in \textsc{Satisfiability} \text{ and } P = 2^{n^\epsilon} - (n + 1) \right\},
+  \end{equation*}
+  where $n = |\phi|$.
+  We claim $L$ is in $\NNC(\log^\frac{1}{\epsilon} n)$ by the following machine, $M_j$.
+  On input $\phi'$, check that $\phi'$ is in the format $\phi \# 1^P$, then accept if and only if $M$ accepts $\phi$.
+  The correctness of this algorithm follows from the correctness of $M$, so it remains to check the size and depth of the circuit for $M_j$, and the amount of nondeterminism used.
+
+  Checking that $x'$ is in the correct format can be performed (deterministically) by an $\NC^1$ circuit by computing the conjunction of all the bits after the $\#$ symbol.
+  Observe now that $|x'| = 2^{n^\epsilon}$, so $n = \log^\frac{1}{\epsilon}{|x'|}$.
+  The amount of nondeterminism used by $M_j$ is the same as the amount used by $M$, which is $O(n)$, or $O(\log^\frac{1}{\epsilon} |x'|)$.
+  The size of $M$ is polynomial in $n$, which is polylogarithmic in $|x'|$, and hence polynomial in the length of the input $x'$.
+  The depth of $M$ is $O(\log n)$, which is $O(\log \log^\frac{1}{\epsilon} |x'|)$, or simply $O(\log \log |x'|)$.
+  We conclude that the size of $M_j$ is polynomial in $|x'|$, the depth of $M_j$ is logarithmic in $|x'|$, and $M_j$ uses $O(\log^\frac{1}{\epsilon} |x'|)$ bits of nondeterminism.
+  Hence $L$ is in $\NNC(\log^\frac{1}{\epsilon} n)$.
+
+  By hypothesis, $L$ is also in $\NC$.
+  Let $M_i$ be the $\NC$ machine that decides it.
+  We claim that we can now construct a subexponential time algorithm for \textsc{Satisfiability} on inputs $\phi$ of length $n$.
+  \begin{enumerate}
+  \item Let $\phi' = \phi \# 1^P$, where $P = 2^{n^\epsilon} - (n + 1)$.
+  \item Accept if and only if $M_i$ accepts $\phi'$.
+  \end{enumerate}
+  The correctness of this algorithm follows immediately from the correctness of $M_i$.
+  The first step can be performed by a deterministic algorithm running in time $2^{n^\epsilon}$.
+  The second step can be performed by an $\NC$ machine.
+  Since $\NC \subseteq \P$, and $2^{n^\epsilon}$ is greater than any polynomial for sufficiently large $n$, the first step is the bottleneck in this algorithm.
+  Therefore, this algorithm for \textsc{Satisfiability} can be implemented by a deterministic algorithm running in $O(2^{n^\epsilon})$ time for arbitrarily small $\epsilon$.
+\end{proof}
+
+One interpretation of this theorem is that the difference in complexity between languages in $\NC$ and languages in $\NNC(\polylog)$ is smaller than the difference in complexity between languages in $\NNC(\polylog)$ and languages in $\NP$.
+This makes sense: the ratio of a polynomial in $\log n$ to $\log n$ is smaller than the ratio of a polynomial in $n$ to a polynomial in $\log n$.
+
+\begin{corollary}
+  \mbox{}
+  \begin{enumerate}
+  \item If $\PCP^\NC[O(\loglog n), O(1)] = \PCP^\NC[O(\loglog n), \polylog]$, then $\NP \subseteq \SUBEXP$.
+  \item If $\PCP^\NC[O(\loglog n), \polylog] = \PCP^\NC[O(\log n), O(1)]$, then $\NP \subseteq \QP$.
+  \end{enumerate}
+\end{corollary}
+
+The first part of this corollary provides evidence that for certain classes of computational problems, an \NC{} PCP verifier cannot reduce the number of necessary queries.
+(However, it could still be the case that for some fixed positive integer $k$, we have $\PCP^\NC[O(\loglog n), O(1)] = \PCP^\NC[O(\loglog n), O(\log^k n)]$; see \autoref{con:smallqueries} below.)
+The second part provides evidence that for certain classes of computational problems, a verifier cannot reduce randomness in exchange for an increase in the number of necessary queries.
+Contrast this with \autocite[Corollary~10]{fs96} which states that
+\begin{equation*}
+  \PCP^\NC[O(\log^k \log n), O(\log^d \log n)] \subseteq \PCP^\NC[O(\loglog n), O(\log^{d + k - 1} \log n)]
+\end{equation*}
+(they actually prove the result for polynomial-time verifiers, but it holds for \NC{} ones as well).
+This yields the equality
+\begin{equation*}
+  \PCP^\NC[\poly(\loglog n), \poly(\loglog n)] = \PCP^\NC[O(\loglog n), \poly(\loglog n)],
+\end{equation*}
+which provides an even more severe collapse, assuming the following conjecture.
+\begin{conjecture}\label{con:smallqueries}
+  $\PCP^\NC[O(\loglog n), O(\log n)] = \PCP^\NC[O(\loglog n), O(1)]$.
+\end{conjecture}
+This is a scaled down version (that is, scaled from a \P{} verifier down to an \NC{} verifier) of some of the results of the research which led to the original PCP Theorem.
+If this conjecture holds, then $\poly(\loglog n)$ randomness and a logarithmic number of queries to the proof can be simulated deterministically.
+\begin{theorem}
+  If \autoref{con:smallqueries} holds, then $\PCP^\NC[\poly(\loglog n), O(\log n)] = \NC$.
+\end{theorem}
+\begin{proof}
+  Combining \autoref{con:smallqueries} with the fact that $O(\log^\alpha \log n) \subseteq O(\log n)$ for all non-negative integers $\alpha$, we have
+  \begin{align*}
+    \NC & \subseteq \PCP^\NC[\poly(\loglog n), \poly(\loglog n)] \\
+    & \subseteq \PCP^\NC[O(\loglog n), \poly(\loglog n)] \\
+    & \subseteq \PCP^\NC[O(\loglog n), O(\log n)] \\
+    & \subseteq \PCP^\NC[O(\loglog n), O(1)] \\
+    & \subseteq \NC.
+    \qedhere
+  \end{align*}
+\end{proof}
+
+Now we return to our original goal, finding a PCP characterization of $\P$.
+The classes $\P$ and $\NNC(\polylog)$ are conjectured incomparable \autocite{wolf94}.
+Using the results above, this conjecture implies that $\P$ and $\PCP^\NC[O(\loglog n), \polylog]$ are incomparable.
+\autoref{thm:pinpcp} shows negative consequences of a PCP characterization for $\P$.
+
+\begin{theorem}\label{thm:pinpcp}
+  \mbox{}
+  \begin{enumerate}
+  \item If $\P \subseteq \PCP^\NC[O(\loglog n), \polylog]$ then $\P \subsetneq \polyL$.
+  \item If $\polyL \subsetneq \P$ then $\PCP^\NC[O(\loglog n), \polylog] \subsetneq \P$.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  These implications are a consequence of three facts.
+  \begin{enumerate}
+  \item $\PCP^\NC[O(\loglog n), \polylog] \subseteq \NNC(\polylog)$ (\autoref{cor:polylogeq}).
+  \item $\NNC(\polylog) \subseteq \polyL$ (\autocite[Corollary~3.2]{wolf94}).
+  \item $\P \neq \polyL$ (\autocite[Theorem~3.10]{book76}). \qedhere
+  \end{enumerate}
+\end{proof}
+
+Although $\P \neq \polyL$, whether one is a strict subset of the other remains unknown; the two are conjectured to be incomparable \autocite[Section~2.5.1]{johnson90}.
+If $\P \subsetneq \polyL$, then $\P \subsetneq \QP$ (by exhaustive search over the quasipolynomial number of configurations of the $\polyL$ machine).
+If $\polyL \subsetneq \P$, then $\L \subsetneq \L^2 \subsetneq \dotsb \subsetneq \polyL \subsetneq \P$.
+
+\section{Inapproximability from PCPs}
+
+Consider the \emph{maximum high degree subgraph problem}.
+
+\begin{definition}[\textsc{Maximum High Degree Subgraph}]
+  \mbox{} \\
+  \begin{tabular}{r p{9.2cm}}
+    \textbf{Instance:} & undirected graph $G$, integer $d$. \\
+    \textbf{Solution:} & subset $S$ of vertices whose induced subgraph has minimum degree at least $d$. \\
+    \textbf{Measure:} & $|S|$. \\
+    \textbf{Type:} & maximization.
+  \end{tabular}
+\end{definition}
+
+This problem is a relaxation of the maximum clique problem, in which we require that the minimum degree of the induced subgraph is at least $|S| - 1$.
+There is a simple polynomial-time algorithm that outputs optimal solutions for this problem: repeatedly remove vertices of degree less than $d$ from the graph.
+
+We know that the clique problem is inapproximable via a gap-introducing reduction from an arbitrary probabilistically checkable proof system \autocite{fglss91}.
+Can we use a similar reduction to provide a gap-introducing reduction from our restricted PCPs to the maximum high degree subgraph problem?
+
+%% \section{Approximability implies simulation of PCP}
+
+%% \begin{definition}
+%%   Suppose $P$ is an optimization problem with $P = (I, S, m, t)$ and $\mathcal{C}$ is a complexity class.
+%%   $P$ is \emph{$\mathcal{C}$-additive} if there is a binary operation $\oplus$ on $I$ such that for all $x_1$ and $x_2$ in $I$,
+%%   \begin{enumerate}
+%%     %% TODO should this first condition allow O()?
+%%   \item $m^*(x_1 \oplus x_2) = m^*(x_1) + m^*(x_2)$,
+%%   \item $|x_1 \oplus x_2| = O(|x_1| + |x_2|)$, and
+%%   \item $\oplus$ is computable by a $\mathcal{C}$ algorithm.
+%%   \end{enumerate}
+%% \end{definition}
+
+%% \begin{definition}
+%%   Suppose $P$ is an optimization problem with $P = (I, S, m, t)$.
+%%   For any instance $x$ in $I$, the \emph{parameterized solution set of $x$}, denoted $S_{\geq k}(x)$, is defined by $S_{\geq k}(x) = \{ y \in S(x) \,|\, m(x, y) \geq k \}$.
+%%   The \emph{parameterized existence problem} for $P$, denoted $P_{\exists \geq k}$, is defined by $P_{\exists \geq k} = \{ x \in I \,|\, S_{\geq k}(x) \neq \emptyset \}$.
+%% \end{definition}
+
+%% \begin{definition}
+%%   Suppose $\mathcal{C}$ is a complexity class and $c$ and $s$ are real numbers in $[0, 1]$.
+%%   The \emph{acceptance problem for $\PCP^\mathcal{C}_{c, s}$ verifiers} is defined as
+%%   \begin{equation*}
+%%     \left\{(V, x, \rho) \, \middle| \, V \text{ is a $\PCP^\mathcal{C}_{c, s}$ verifier and } \, \exists \pi \colon V(x, \pi; \rho) \text{ accepts}\right\}.
+%%   \end{equation*}
+%% \end{definition}
+
+%% The following theorem is a generalization of \autocite[Theorem~18]{trevisan98} that uses approximability of problems for which an exact solution is infeasible to construct an efficient deterministic simulation of PCP verifiers.
+
+%% \begin{todo}
+%%   There is a problem with the following theorem.
+%%   The way we have defined the acceptance problem has the existential quantification for $\pi$ after the random string $\rho$ has been chosen.
+%%   This means that the we could have a different proof string $\pi$ for each random string $\rho$.
+%%   This does not correspond to the PCP model, in which a single $\pi$ exists that works for many random strings $\rho$.
+%%   We need to somehow ensure that the reduction ensures that all the reduced instances have parts that are consistent with a single proof string.
+%% \end{todo}
+
+%% \begin{theorem}
+%%   Suppose $P$ is an optimization problem in \NPO, and suppose $c$ and $s$ are real numbers with $0 \leq s \leq 0.5 < c \leq 1$.
+%%   If
+%%   \begin{enumerate}
+%%   \item $P$ is \P-additive,
+%%     %% TODO can we allow just the budget problem here?
+%%   \item for some positive integer $k$, there is a polynomial time many-one reduction from the acceptance problem for $\PCP^\P_{c, s}$ verifiers to $P_{\exists \geq k}$, and
+%%   \item $P$ has a polynomial time $\frac{c}{s}$-approximator,
+%%   \end{enumerate}
+%%   then $\PCP^\P_{c, s}[r \log n, q] \subseteq \P$.
+%% \end{theorem}
+%% \begin{proof}
+%%   Suppose $L \in \PCP^\P_{c, s}[r \log n, q]$, and let $V$ be the PCP verifier that decides $L$.
+%%   Let $\oplus$ be the operation guaranteed by the first condition of the hypothesis, $T$ the reduction guaranteed by the second, and $A$ the approximator guaranteed by the third.
+%%   Let $m$ be the measure function of the optimization problem $P$.
+
+%%   Construct deterministic Turing machine $M$ that proceeds as follows on inputs $x$ of length $n$.
+%%   \begin{enumerate}
+%%   \item For each string $\rho$ of length $r \log n$, let $z_i = T(V, x, \rho)$.
+%%   \item Let $Z = \bigoplus_{i = 1}^{n^r} z_i$.
+%%   \item Accept if and only if $m(Z, A(Z)) \geq k s n^r$.
+%%   \end{enumerate}
+
+%%   This algorithm halts in polynomial time (note that $|Z|$ is in $O(n^r \max_i |z_i|)$, polynomial in $n$ since the size of each $z_i$ is).
+%%   If $x \in L$ then at least $c n^r$ of the $(V, x, \rho)$ correspond to accepting computations, so the same number of the $z_i$ have $m^*(z_i) \geq k$.
+%%   By the additivity of $P$ we have
+%%   \begin{equation*}
+%%     m^*(Z) = \sum_{i = 1}^{n^r} m^*(z_i) \geq k c n^r.
+%%   \end{equation*}
+%%   By the $\frac{c}{s}$-approximability of $P$, we have
+%%   \begin{equation*}
+%%     \frac{c}{s} \geq \frac{m^*(Z)}{m(Z, A(Z))} \geq \frac{k c n^r}{m(Z, A(Z))}.
+%%   \end{equation*}
+%%   By rearranging this inequality, we find $m(Z, A(Z)) \geq k s n^r$, and hence the machine $M$ accepts $x$.
+%%   On the other hand, if $x \notin L$ then by similar reasoning, $m(Z, A(Z)) \leq m^*(Z) < k s n^r$, and thus $M$ rejects $x$.
+%%   We conclude that $M$ is a correct deterministic polynomial time Turing machine that decides $L$, and therefore $\PCP^\P_{c, s}[r \log n, q] \subseteq \P$
+%% \end{proof}
+
+%% %% We can translate this result first to the setting of somewhat parallel approximations for infeasible problems, then to highly parallel approximations for somewhat parallel problems, and finally to highly parallel approximations for inherently sequential problems.
+%% A similar proof applies for \NC{} simulation of restricted PCP verifiers.
+
+%% \begin{corollary}
+%%   Suppose $P$ is an optimization problem in $\NNCO(\polylog)$, and suppose $c$ and $s$ are real numbers with $0 \leq s \leq 0.5 < c \leq 1$.
+%%   If
+%%   \begin{enumerate}
+%%   \item $P$ is $\NC$-additive,
+%%     %% TODO can we allow just the budget problem here?
+%%   \item for some positive integer $k$, there is an $\NC$ many-one reduction from the acceptance problem for $\PCP^\NC_{c, s}$ verifiers to $P_{\exists \geq k}$, and
+%%   \item $P$ has an \NC{} $\frac{c}{s}$-approximator,
+%%   \end{enumerate}
+%%   then $\PCP^\NC_{c, s}[r \log n, q] \subseteq \NC$.
+%% \end{corollary}
+
+\section{Probabilistically checkable proofs for nondeterministic polynomial time}\label{sec:dinur}
+
+One method of showing $\PCP^\NC[O(\log n), O(1)] = \NP$ is to revisit a proof of the PCP Theorem and ensure that all computation can be performed by an \NC{} PCP verifier without affecting the correctness of the proof.
+We will consider Dinur's proof of the PCP Theorem \autocite{dinur07}, which reduces the problem of proving $\PCP^\P[O(\log n), O(1)] = \NP$ to the problem of showing \textsc{$\frac{1}{2}$-gap $q$-CSP} is hard for \NP{}.
+Meir observes that although we would like a verifier running in polylogarithmic time, Dinur's proof requires $O(\log n)$ iterations of a polynomial-time procedure, which yields a polynomial-time procedure \autocite[Section~1.2.1]{meir09}.
+We show that a closer look reveals that parallel polylogarithmic time is indeed possible without any new machinery.
+
+We begin with the \NC{} version of the necessary reduction.
+
+\begin{lemma}\label{lem:inapprox}
+  If there is a positive integer $q$ such that \textsc{$\frac{1}{2}$-gap $q$-CSP} is hard for \NP{} under \NC{} many-one reductions, then $\PCP^\NC[O(\log n), O(1)] = \NP$.
+\end{lemma}
+\begin{proof}
+  One inclusion in the conclusion of the theorem is true unconditionally, following from the PCP Theorem \autocite{almss92}.
+  For the other inclusion, let $L$ be a language in \NP{}.
+  By hypothesis there is a many-one reduction computable in \NC{} from $L$ to \textsc{$\frac{1}{2}$-gap $q$-CSP}.
+  We construct the PCP verifier as follows.
+  \begin{enumerate}
+  \item Compute the reduction to produce a set of constraints.
+  \item Use $O(\log n)$ random bits to choose a constraint uniformly at random.
+  \item Check that the constraint is satisfied by querying the proof string at the appropriate locations (the locations corresponding to the $q$ variables in the constraint).
+  \end{enumerate}
+
+  If $x \in L$ then all constraints are satisfiable, so there exists an assignment such that the verifier will accept on all random choices of the constraint.
+  If $x \notin L$ then fewer than half of the constraints are satisfiable, so for any assignment the probability that the verifier will select a satisfied constraint is less than half.
+  Therefore we have shown a correct PCP verifier with the appropriate parameters for an arbitrary language in \NP{}.
+\end{proof}
+
+Now we examine Dinur's proof that \textsc{$\frac{1}{2}$-gap $q$-CSP} is hard for \NP{} \autocite{dinur07}.
+That proof shows that the problem is hard under polynomial-time many-one reductions, but we show here that it is in fact hard under \NC{} many-one reductions.
+First, we claim without proof that \textsc{$q$-CSP} is hard for \NP{} under \NC{} many-one reductions (because the standard polynomial-time many-one reductions showing that it is \NP-complete are in fact computable in logarithmic space).
+Next, consider (the high-level description of) the polynomial-time many-one reduction from \textsc{$q$-CSP} to \textsc{$\frac{1}{2}$-gap $q$-CSP}: given constraint graph $G_0$ as input, compute and output $G_{O(\log n)}$, where $G_{i + 1} = \mathcal{P}({\left(X(G_i)\right)}^t)$ and $t \in O(1)$.
+Here, $X$ is a preprocessing function, the exponent $t$ denotes a constant number of constraint graph powering operations, and $\mathcal{P}$ denotes an assignment testing composition function.
+If each of these three functions is computable by an \NC{} algorithm, then $G_{i + 1}$ can be computed from $G_i$ by an \NC{} algorithm, and hence so can $G_{O(\log n)}$ from $G_0$.
+We will consider each of the three functions below.
+
+The preprocessing function $X$ requires a \emph{mildly explicit} construction of a constant degree expander.
+The standard definition of mildly explicit is that a representation of the graph (for example, its adjacency matrix) is computable in time polynomial in the number of vertices in the graph; for comparison, in a \emph{fully explicit} expander, the $i$th neighbor of vertex $v$ can be computed in time polynomial in the size of the binary representation of $v$, that is, polynomial in $\log n$ where $n$ is the number of nodes in the graph.
+We will refer to graphs which meet these definitions as \emph{polynomial-time mildly explicit} and \emph{polynomial-time fully explicit}.
+Since we are constructing an \NC{} algorithm, we will require the representation of the graph to be computable by an \NC{} algorithm.
+More formally, we require an \emph{\NC{} mildly explicit} graph, that is, a graph for which a representation can be computed by an \NC{} algorithm with respect to input $n$, the number of nodes of the graph.
+Fortunately, an \NC{} mildly explicit expander is equivalent to a polynomial-time fully explicit expander.
+
+\begin{proposition}
+  Suppose $G$ is a $d$-regular expander graph.
+  $G$ is \NC{} mildly explicit if and only if $G$ is polynomial-time fully explicit.
+\end{proposition}
+\begin{proof}
+  First suppose $G$ is \NC{} mildly explicit, so there exists an \NC{} algorithm that outputs, say, the adjacency list of the graph given $n$ as input.
+  The following algorithm computes the $i$th neighbor of vertex $v$ in time polynomial in $\log n$: construct the adjacency list of the graph, then find and output the $i$th neighbor of vertex $v$.
+  When constructing the adjacency list, we simulate each of the polynomial number of processors sequentially, each one running for $\poly(\log n)$ time, so the overall running time of this step remains $\poly(\log n)$.
+  The list corresponding to vertex $v$ can be found in $O(\log n)$ steps (by using a binary search tree), and the $i$th element of that list can be found in constant time (since $i$ is bounded above by $d$, a constant).
+  Therefore we have presented an algorithm which runs in $\poly(\log n)$ time which correctly computes the $i$th number of $v$ in the graph $G$.
+
+  Now suppose $G$ is polynomial-time fully explicit, so there exists an algorithm which computes the $i$th neighbor of $v$ in time polynomial in $\log n$.
+  Let $f(v, i)$ denote this algorithm.
+  The following \NC{} algorithm computes the adjacency list of $G$ given the number of nodes $n$: for each vertex $v$ \emph{in parallel} and each index $i$ less than $d$ \emph{in parallel} add $f(v, i)$ to the list corresponding to $v$.
+  This algorithm can be computed with $dn$ processors, which is polynomial in $n$.
+  Since the $f(v, i)$ can be computed in time polynomial in $\log n$, the running time for each parallel processor is also polynomial in $\log n$.
+  Therefore we have presented an \NC{} algorithm which correctly computes a representation of the graph $G$.
+\end{proof}
+
+This proposition allows us to replace any polynomial-time mildly explicit expander in Dinur's proof with a polynomial-time fully explicit one.
+(polynomial-time fully explicit constant degree expander graphs exist; see \autocite{rvw00}, for example.)
+
+Now, let us return to the preprocessing function $X$, which is defined in two parts, \autocite[Definition~4.1]{dinur07} and \autocite[Definition~4.2]{dinur07}.
+In the first part, each vertex $v$ is replaced by an \NC{} mildly explicit $d$-regular expander on $\deg(v)$ vertices in which the constraints on the edges of the expander are the equality constraint.
+In the second part, a constant number of self-loops along with the edges of a $d'$-regular \NC{} mildly explicit expander on $n$ vertices are added to the graph with null constraints on the added edges.
+Both of these parts are computable by an \NC{} algorithm; note that the size of the output graph in each case is linear in the size of the input graph, so a linear number of processors will suffice (with an additional multiplicative factor of a polynomial number of processors when constructing the expander graphs).
+We conclude the following.
+
+\begin{lemma}
+  The preprocessing function $X$ is computable by an \NC{} algorithm.
+\end{lemma}
+
+Constraint graph powering, defined in \autocite[Section~1.2]{dinur07}, is the standard graph powering operation with an additional operation on the alphabet and the set of constraints.
+Standard graph powering can be performed in \NC{} because matrix multiplication is in \NC{}, and a constant number of matrix multiplications remains in \NC{}.
+If the alphabet is of constant size, the power graph also has an alphabet of constant size, and each of the constraints becomes a new constraint of constant size (see \autocite[Section~1.2]{dinur07} for the constraint construction).
+Each of the constraints (which is the same as the number of edges) can be written by a distinct processor in parallel constant time.
+We conclude the following.
+
+\begin{lemma}
+  Computing the $k$th power of a $d$-regular constraint graph is computable by an \NC{} algorithm if both $k$ and $d$ are in $O(1)$.
+\end{lemma}
+
+The assignment testing composition \autocite[Definition~5.1]{dinur07} consists of two parts.
+In the first part, each constraint is transformed into a Boolean circuit of constant size.
+In the second part, each circuit constructed in this way is provided as input to a computable assignment tester function (which we know exists \autocite[Theorem~5.1]{dinur07}), and the output graph is the union of the output of all the assignment testers.
+Since the size of the input to the assignment tester is constant, the assignment tester need only be computable.
+Hence, each constraint can be processed this way, in parallel, in constant time with respect to the size of the input graph.
+
+\begin{lemma}
+  The assignment testing composition is computable by an \NC{} algorithm.
+\end{lemma}
+
+Since the preprocessing function, constraint graph powering, and assignment testing composition are all computable by an \NC{} algorithm, we conclude the following.
+
+\begin{lemma}\label{lem:reduction}
+  There is a positive integer $q$ such that \textsc{$\frac{1}{2}$-gap $q$-CSP} is hard for \NP{} under \NC{} many-one reductions.
+\end{lemma}
+
+\autoref{thm:pcpnp} follows immediately from \autoref{lem:inapprox} and \autoref{lem:reduction}.
