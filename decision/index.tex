@@ -342,23 +342,14 @@ If $\polyL \subsetneq \P$, then $\L \subsetneq \L^2 \subsetneq \dotsb \subsetneq
 
 \section{Inapproximability from PCPs}
 
-Consider the \emph{maximum high degree subgraph problem}.
-
-\begin{definition}[\textsc{Maximum High Degree Subgraph}]
-  \mbox{} \\
-  \begin{tabular}{r p{9.2cm}}
-    \textbf{Instance:} & undirected graph $G$, integer $d$. \\
-    \textbf{Solution:} & subset $S$ of vertices whose induced subgraph has minimum degree at least $d$. \\
-    \textbf{Measure:} & $|S|$. \\
-    \textbf{Type:} & maximization.
-  \end{tabular}
-\end{definition}
-
-This problem is a relaxation of the maximum clique problem, in which we require that the minimum degree of the induced subgraph is at least $|S| - 1$.
+Consider the \emph{maximum high degree subgraph problem} (\autocite{am84}): given an undirected graph $G$ find the largest integer $d$ such that $G$ has a vertex-induced subgraph of minimum degree $d$.
+This is a relaxation of the maximum clique problem, in which the minimum degree of the induced subgraph $S$ is required to be at least $|S| - 1$.
 There is a simple polynomial-time algorithm that outputs optimal solutions for this problem: repeatedly remove vertices of degree less than $d$ from the graph.
+The subgraph that remains has minimum degree $d$; for more information, see \autocite[Problem~A.2.7]{ghr95}.
 
 We know that the clique problem is inapproximable via a gap-introducing reduction from an arbitrary probabilistically checkable proof system \autocite{fglss91}.
-Can we use a similar reduction to provide a gap-introducing reduction from our restricted PCPs to the maximum high degree subgraph problem?
+It would be satisfying to use a similar reduction to provide a gap-introducing reduction from our restricted PCPs to the maximum high degree subgraph problem.
+However, research in this direction failed to reveal such a reduction.
 
 %% \section{Approximability implies simulation of PCP}
 
