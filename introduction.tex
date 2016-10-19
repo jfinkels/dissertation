@@ -30,6 +30,11 @@ Similarly, just as there are fixed-parameter tractable algorithms for some intra
 For example, the problem of evaluating a Boolean circuit on a given input is inherently sequential, but the circuit can be evaluated quickly in parallel when the depth of the circuit is considered a parameter of the problem.
 These facts, which require proofs, give practicioners the confidence that when faced with inherently sequential problems, all hope is not lost.
 
+Our guiding question is whether there are efficient but inherently sequential problems that admit a ``relaxed'' highly parallel algorithm.
+For decision problems, are there inherently sequential problems that can be solved by highly parallel algorithms when augmented with a small amount of nondeterminism?
+For optimization problems, are there inherently sequential problems that can be approximated by highly parallel algorithms?
+For parameterized problems, are there inherently sequential problems that can be solved by highly parallel algorithms under certain parameterizations?
+
 %
 % %% Task (author - why me?) %%
 %
@@ -110,70 +115,10 @@ Double lines represent equality, solid lines represent strict inequality under s
 \section{TODO Make sure the introduction of each section covers these points}
 We aim to show that there is a $\P$-complete problem that is also
 \begin{enumerate}
-\item[(D1)] not in $\NNC[\polylog]$ (\autocite[Theorem~3.9]{ncpcp} provides one unless $P \subsetneq \polyL$),
+\item[(D1)] not in $\NNC[\polylog]$ (\autoref{thm:pinpcp} provides one unless $P \subsetneq \polyL$),
 \item[(D2)] in $\NNC[\polylog]$ but not in $\NC$ (unknown),
 \item[(O1)] not in $\ApxNCO$ (\autocite[Theorem~3.25]{ncapproximation} provides one unless $\NC = \P$),
 \item[(O2)] in $\ApxNCO$ but not in $\NCO$ (\autocite[Theorem~3.25]{ncapproximation} provides on unless $\NC = \P$),
 \item[(P1)] not in $\para \WNC[1]$ (unknown),
 \item[(P2)] in $\para \WNC[1]$ but not in $\para \NC$ (unknown).
-\end{enumerate}
-
-\section{Outline}
-
-The referenced theorems correspond to the theorems in the respective papers.
-
-\paragraph{Decision Problems.}
-Completed:
-\begin{enumerate}
-\item $\NC = \PCP[O(\log \log n, O(1)]$ (Theorem~3.3).
-\item $\NNC[\polylog] = \PCP[O(\log \log n), \polylog]$ (Corollary~3.2).
-\item $\NP = \PCP[O(\log n), O(1)]$ (Theorem~3.4).
-\item negative consequences $\PCP$ hierarchy collapses (Corollary~3.6) (\emph{relates to parameterized problems})
-\item consequences of $\P = \PCP[O(\log \log n), \polylog]$ (Theorem~3.9).
-\end{enumerate}
-To-do:
-\begin{enumerate}
-\item \textbf{Low priority:} Inapproximability of the High Degree Subgraph problem (Section~4) (\emph{relates to optimization problems}).
-\end{enumerate}
-
-\paragraph{Optimization problems.}
-
-Completed:
-\begin{enumerate}
-\item $\NNCO$-complete problem (Theorem~3.3).
-\item $\NPO$-complete problem (Corollary~3.4).
-\item $\NNCO = \NPO \iff \NC = \P$ (Theorem~3.5).
-
-\item $\PO$-complete problem (Theorems~3.8 and 3.9).
-\item $(\PO \cap \NNCO)$-complete problem (Corollary~3.11).
-\item $\PO \cap \NNCO = \PO \iff \NC = \P$ (Theorem~3.12).
-
-\item $\PO \cap \NNCO$ is not closed under $\leq_m^{AP}$ reductions (Corollary~3.10).
-
-\item Strictness of $\NNCO$ approximation hierarchy (Theorem~3.24).
-\item Strictness of $\PO \cap \NNCO$ approximation hierarchy (Theorem 3.25).
-\end{enumerate}
-To-do:
-\begin{enumerate}
-\item \textbf{Low priority:} $\ApxNCO$-complete problem (Section~3.3).
-\item \textbf{High priority:} descriptive complexity characterization of $\ApxNCO$ (Section~4) (\emph{relates to parameterized problems}).
-\item \textbf{High priority:} reduction preserving both verification complexity and approximability.
-\end{enumerate}
-
-\paragraph{Parameterized problems.}
-Completed:
-\begin{enumerate}
-\item Circuit value problem is $\P$-complete but in $\para \AC^{0 \uparrow}$ (Theorems~3.3 and 3.5).
-\item Nonuniform circuits for proving $\NC = \NNC[i(n) \log n] \implies \para \NC = \para \WNC$.
-\item $\mathcal{O} \in \ENCAS \implies p \dash \mathcal{O} \in \para \NC$ (Theorem~3.18)
-\item $\para \P$-complete problems (Section~4.2).
-\item Definition of $\para \WNC[t]$?
-\item $\para\NC = \para \WNC[t] \iff \Pi_t\LOGTIME[i(n) \log n] \subseteq \NC^d$, if it's correct (Section~6.4).
-\end{enumerate}
-To-do:
-\begin{enumerate}
-\item \textbf{High priority:} extend \autocite[Corollary~3.8]{est15} to $\para \WNC^d \subseteq \para \P$ implies $\W[\NC^d \textsc{sat}] = \para \P$?
-\item \textbf{Very high priority:} show that collapses in the inclusion chain $\para \WNC^1$ through $\para \WP$ imply corresponding collapses in decision problems? This should follow from ``Describing parameterized complexity classes'' by Flum and Grohe (Section~5.6) (\emph{relates to decision problems}).
-\item \textbf{Low priority:} provide descriptive complexity characterizations of the $\para \W \mathcal{C}$ classes?
-\item \textbf{High priority:} $\para \WNC^1[t] \subseteq \para \P$ if and only if a class between $\W[t] = \para \P$?
 \end{enumerate}
