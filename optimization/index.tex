@@ -10,12 +10,10 @@
 \chapter{Optimization problems}
 \label{chp:optimization}
 
-\section{Introduction}
-
-In this work we study classes of optimization problems that require inherently sequential algorithms to solve exactly but permit highly parallel algorithms for approximation solutions.
+In this chapter we study classes of optimization problems that require inherently sequential algorithms to solve exactly but permit highly parallel algorithms for approximate solutions.
 $\NC$ is the class of computational problems decidable by a logarithmic space uniform family of Boolean circuits of bounded fan-in, polynomial size, and polylogarithmic depth.
 Such problems are considered both ``efficient'' (since $\NC \subseteq \P$) and ``highly parallel'' (since we might consider each gate in the circuit to be a processor working in parallel and the small depth of the circuit a small number of steps).
-By contrast, problems which are $\P$-complete (under logarithmic space or even $\NC$ many-one reductions) are considered ``inherently sequential''.
+By contrast, problems that are $\P$-complete (under logarithmic space or even $\NC$ many-one reductions) are considered ``inherently sequential''.
 Furthermore, all $\NP$-hard and $\PSPACE$-hard problems are also inherently sequential, since $\P \subseteq \NP \subseteq \PSPACE$.
 Just as we hope to find efficient approximation algorithms for optimization problems for which it is intractable to compute an exact solution, so too do we hope to find efficient and highly parallel approximation algorithms for optimization problems for which computing the exact solution is inherently sequential.
 (However, just like hardness of approximation for $\NP$-hard problems, in some cases even \emph{approximating} a solution is inherently sequential!)
@@ -38,7 +36,7 @@ We adapt the definitions of \cite{tantau07} from logarithmic space approximabili
   An \emph{optimization problem} is a four-tuple, $(I, S, m, t)$, where the set $I \subseteq \Sigma^*$ is called the \emph{instance set}, the set $S \subseteq I \times \Sigma^*$ is called the \emph{solution relation}, the function $m \colon S \to \mathbb{Z}^+$ is called the \emph{measure function}, and $t \in \{\min, \max\}$ is called the \emph{type} of the optimization.
 \end{definition}
 
-An optimization problem in which the measure function has rational values can be transformed into one in which the measure function has integer values \cite[Page~23]{acgkmp99} (for example, by expressing each measure as the integer numerator of the equivalent rational number whose denominator is the greatest common divisor of all the values $m(x, y)$ for each fixed $x$).
+An optimization problem in which the measure function has rational values can be transformed into one in which the measure function has integer values \cite[page~23]{acgkmp99} (for example, by expressing each measure as the integer numerator of the equivalent rational number whose denominator is the greatest common divisor of all the values $m(x, y)$ for each fixed $x$).
 
 \begin{definition}[\cite{tantau07}]
   Let $P$ be an optimization problem, so $P = (I, S, m, t)$, and let $x \in I$.
