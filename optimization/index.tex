@@ -20,7 +20,7 @@ Just as we hope to find efficient approximation algorithms for optimization prob
 
 \section{Definitions}
 
-Throughout this work, $\Sigma=\{0, 1\}$ and inputs and outputs are encoded in binary.
+Throughout this chapter, $\Sigma=\{0, 1\}$ and inputs and outputs are encoded in binary.
 The set of all finite strings is denoted $\Sigma^*$, and for each $x \in \Sigma^*$, we denote the length of $x$ by $|x|$.
 We denote the set of all polynomials by $\poly$ and the set of all polylogarithmic functions by $\polylog$.
 The set of integers is denoted $\mathbb{Z}$, the set of rationals $\mathbb{Q}$, and their positive subsets $\mathbb{Z}^+$ and $\mathbb{Q}^+$.
@@ -151,62 +151,19 @@ We can now proceed to define classes of approximable optimization problems conta
 
 For the $\NC$ approximation classes defined above, it is crucial that the solution relation is verifiable in $\NC$.
 In all previous works (for example, \cite{dsst97, sx95}), the implicit definition of, say, $\NCX$, which corresponds to our class $\ApxNCO$, requires only that the solution relation is verifiable \emph{in polynomial time}.
-We believe we are the first to make this important distinction; some solution relations are harder to verify than others.
+This important distinction does not seem to have been addressed before.
 
 Each of the classes in \autoref{def:ncx} includes the one defined below it.
-This chain of inclusions provides a hierarchy that classifies approximability of problems in $\NNCO$, and hence in $\NPO$.
+This chain of inclusions provides a hierarchy that classifies approximability of problems in $\NNCO$, and hence in $\NPO$,
+$$
+\NCO \subseteq \FNCAS \subseteq \NCAS \subseteq \ApxNCO \subseteq \NNCO.
+$$
 However, our intention is to determine the approximability of optimization problems corresponding to $\P$-complete decision problems, not those corresponding to $\NP$-complete decision problems.
-Therefore we consider the classes $\PO \cap \NNCO$, $\PO \cap \ApxNCO$, etc. in order to more accurately capture the notion of highly parallel approximability of inherently sequential problems.
+Therefore we consider the classes $\PO \cap \NNCO$, $\PO \cap \ApxNCO$, etc. in order to more accurately capture the notion of highly parallel approximability of inherently sequential problems,
+$$
+\NCO \subseteq \PO \cap \FNCAS \subseteq \PO \cap \NCAS \subseteq \PO \cap \ApxNCO \subseteq \PO.
+$$
 The instance set, solution relation, and measure function of optimization problems in these classes are computable in $\NC$, and furthermore, there is a polynomial time algorithm that produces optimal solutions.
-
-\autoref{fig:inclusions} shows the inclusions among some of the complexity classes defined in this section.
-\begin{figure}
-  \caption{%
-    The structure of classes of optimization problems that have both efficiently computable exact solutions and highly parallel approximate solutions, the subclasses of $\PO \cap \NNCO$.
-    Many of these inclusions are strict under some widely-held complexity-theoretic assumptions; see \autoref{sec:hierarchies}.
-    \label{fig:inclusions}}
-  \begin{center}
-    \begin{tikzpicture}
-
-      \draw (0, 7) node(NPO) {\NPO};
-
-      \draw (1, 5) node(NNCO) {\NNCO};
-      \draw (1, 4) node(ApxNCO) {\ApxNCO};
-      \draw (1, 3) node(NCAS) {\NCAS};
-
-      \draw (-2, 6) node(ApxPO) {\ApxPO};
-      \draw (-2, 5) node(PTAS) {\PTAS};
-      \draw (-2, 4) node(PO) {\PO};
-      \draw (-2, 3) node(POp) {$\PO \cap \NNCO$};
-      \draw (-2, 2) node(ApxNCOp) {$\PO \cap \ApxNCO$};
-      \draw (-2, 1) node(NCASp) {$\PO \cap \NCAS$};
-
-      \draw (0, 0) node(NCO) {\NCO};
-
-      \path[->]
-      (NCO) edge (NCASp)
-      (NCO) edge (NCAS)
-
-      (NCASp) edge (ApxNCOp)
-      (ApxNCOp) edge (POp)
-      (POp) edge (PO)
-      (PO) edge (PTAS)
-      (PTAS) edge (ApxPO)
-      (ApxPO) edge (NPO)
-
-      (NCAS) edge (ApxNCO)
-      (ApxNCO) edge (NNCO)
-
-      (NCASp) edge (NCAS)
-      (ApxNCOp) edge (ApxNCO)
-      (POp) edge (NNCO)
-
-      (NCAS) edge (PTAS)
-      (ApxNCO) edge (ApxPO)
-      (NNCO) edge (NPO);
-    \end{tikzpicture}
-  \end{center}
-\end{figure}
 
 \subsection{Reductions among approximation problems}
 
@@ -234,9 +191,7 @@ Although the original definition is from \cite[Definition~9]{ckst95} (a prelimin
 For a class $\mathcal{C}$ of optimization problems, we say a problem $Q$ is \emph{hard for $\mathcal{C}$} if for all problems $P$ in $\mathcal{C}$ there is a logarithmic space AP reduction from $P$ to $Q$.
 If furthermore $Q$ is in $\mathcal{C}$ we say $Q$ is \emph{complete for $\mathcal{C}$}.
 
-\section{Completeness and collapses in classes of approximable optimization problems}
-
-\subsection{Completeness in classes of inapproximable problems}
+\section{Completeness in classes of inapproximable problems}
 
 This section shows that \textsc{Maximum Variable-Weighted Satisfiability} is complete for $\NNCO$ and \textsc{Maximum Weighted Circuit Satisfiability} is complete for $\NPO$.
 Furthermore, the latter problem is not in $\NNCO$ unless $\NC = \P$.
@@ -283,7 +238,7 @@ By converting a Boolean formula into its equivalent Boolean circuit, we get the 
   \textsc{Maximum Weighted Circuit Satisfiability} is complete for $\NPO$ under logarithmic space AP reductions.
 \end{corollary}
 
-Sam H. suggested an initial version of the following theorem.
+An initial version of this theorem was suggested in \autocite{haney13}.
 
 \begin{theorem}\label{thm:nnconpo}
   $\NNCO = \NPO$ if and only if $\NC = \P$.
@@ -299,7 +254,7 @@ Sam H. suggested an initial version of the following theorem.
 Contrast this with the fact that $\NNC[\poly] = \NP$ \autocite[Theorem~2.2]{wolf94} (and in fact, $\NNC^1[\poly] = \NP$).
 So the classes of decision problems are equal whereas the classes of corresponding optimization problems are not, unless $\NC = \P$.
 
-\subsection{Completeness in classes of polynomal time solvable problems}
+\section{Completeness in classes of polynomal time solvable problems}
 
 This section shows results nearly analogous to those in the previous section, but in the intersection of both $\NPO$ and $\NNCO$ with $\PO$.
 The results here show completeness with respect to maximization problems only; we conjecture that both of the problems defined below are also complete with respect to minimization problems.
@@ -419,7 +374,7 @@ An equivalence analogous to that of \autoref{thm:nnconpo} also holds in the inte
   An $\NC$ algorithm for a $\P$-complete decision problem implies $\NC = \P$.
 \end{proof}
 
-\subsection{Completeness in classes of approximable problems}
+\section{Completeness in classes of approximable problems}
 
 In order to construct an optimization problem complete for, say, $\PO \cap \ApxNCO$, we need to use either
 \begin{enumerate}
@@ -438,7 +393,7 @@ If the problem were approximable for all $r > 1$, then it would be in $\NCAS$.
 If the problem were not approximable for any $r \geq 1$, then it would not even be in $\ApxNCO$.
 Therefore there should be some constant $r_0$ such that the problem is approximable for all $r \in (r_0, \infty)$ and not approximable for all $r \in (1, r_0)$.
 
-\subsubsection{High weight subgraph problems}
+\subsection{High weight subgraph problems}
 
 There is in fact a family of maximization problems that has these properties: \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} \cite[Chapter~3]{dsst97}.
 A concrete example of a maximization problem in this family is \textsc{Maximum High Degree Subgraph}.
@@ -462,7 +417,7 @@ We suspect this family of problems is complete for $\PO \cap \ApxNCO$ under loga
   \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} is complete for the class of maximization problems in $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
 \end{conjecture}
 
-\subsubsection{Restrictions of linear programming}
+\subsection{Restrictions of linear programming}
 
 Although \textsc{Linear Programming} is \P-complete and admits no $\NC$ approximation algorithm, \textsc{Positive Linear Programming}, the restriction of \textsc{Linear Programming} to inputs in which all entries of $A$, $\mathbf{b}$, and $\mathbf{c}$ are non-negative, admits a $\NC$ approximation scheme \cite{ln93}, even though the corresponding budget problem remains \P-complete \cite[Theorem~4]{tx98}.
 These results beg the question ``is there some restriction of \textsc{Linear Programming} less strict than \textsc{Positive Linear Programming} that exhibits the properties of a complete problem for $\PO \cap \ApxNCO$ as defined above?''
@@ -476,11 +431,10 @@ There remains one candidate restriction that may have the properties we seek.
 \begin{definition}[\textsc{Linear Programming with Triplets}]
   \mbox{} \\
   \begin{tabular}{r p{9.5cm}}
-    \textbf{Instance:} & $m \times n$ Boolean matrices $A^{(1)}$, $A^{(2)}$, and $A^{(3)}$, non-negative rational vectors $\mathbf{b}^{(1)}$ and $\mathbf{b}^{(2)}$ of length $m$, non-negative rational vector $\mathbf{c}$ of length $n$, and set of triples of indices $T \subseteq \{1, \dotsc, n\}^3$ satisfying
-    \begin{enumerate}
-    \item there is at least one non-zero entry in each row of $A^{(1)}$ and each row of $A^{(2)}$, and
-    \item there is a constant $\gamma \in (1, \infty)$ such that $M^* \leq \gamma M$ for all measures $M$ of this instance, where $M^*$ is the optimal measure of the instance.
-    \end{enumerate} \\
+    \textbf{Instance:} & $m \times n$ Boolean matrices $A^{(1)}$, $A^{(2)}$, and $A^{(3)}$, non-negative rational vectors $\mathbf{b}^{(1)}$ and $\mathbf{b}^{(2)}$ of length $m$, non-negative rational vector $\mathbf{c}$ of length $n$, and set of triples of indices $T \subseteq \{1, \dotsc, n\}^3$ satisfying two conditions.
+    First, there is at least one non-zero entry in each row of $A^{(1)}$ and each row of $A^{(2)}$.
+    Second, there is a constant $\gamma \in (1, \infty)$ such that $M^* \leq \gamma M$ for all measures $M$ of this instance, where $M^*$ is the optimal measure of the instance.
+    \\
     \textbf{Solution:} & non-negative rational vectors $\mathbf{x}$ and $\mathbf{f}$ of length $n$ satisfying the inequalities
            {
              \setmyleftlen{x_k + (1 - f_j)}
@@ -510,7 +464,7 @@ Although this optimization problem is not approximable within $\frac{2 n^\epsilo
   \textsc{Linear Programming with Triplets} is complete for the class of maximization problems in $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
 \end{conjecture}
 
-\subsubsection{Linear program for high degree subgraph}
+\subsection{Linear program for high degree subgraph}
 
 Perhaps we can consider a linear programming relaxation of \textsc{Maximum High Degree Subgraph} and show that such a restriction is more approximable than \textsc{Linear Programming} but less approximable than \textsc{Positive Linear Programming}.
 
@@ -570,7 +524,7 @@ Now let us define this in the language of an optimization problem.
   \textsc{Special Linear Programming} is complete for $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
 \end{conjecture}
 
-\subsubsection{Approximable problems in \texorpdfstring{$\NNC[\polylog]$}{NNC[polylog]}}
+\subsection{Approximable problems in \texorpdfstring{$\NNC[\polylog]$}{NNC[polylog]}}
 
 In the previous sections we sought a problem complete for $\PO \cap \ApxNCO$.
 Perhaps we can find a problem complete for $\NNCO[\polylog] \cap \ApxNCO$.
