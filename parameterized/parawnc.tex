@@ -733,7 +733,7 @@ It is the ``opposite'' of \autoref{lem:upperinverse}.
 
 \begin{lemma}\label{lem:lowerinverse}
   Suppose $d$ is a positive integer.
-  For each increasing, circuit-computable function $f$, there is a function $i_{f, d}$ such that
+  For each increasing and circuit-computable function $f$, there is a function $i_{f, d}$ such that
   \[
   f(i_{f, d}(n)) \leq \min(n, \log^d n)
   \]
@@ -861,7 +861,7 @@ As before, we wish to generalize this equivalence to allow for an interpolation 
   If $\para \WNC^d \subseteq \para \P$, then $\pNCSAT$ is in $\para \P$, so the closure of $\pNCSAT$ under $\para \P$ many-one reductions is contained in the closure of $\para \P$ under the same reductions, which is just $\para \P$.
   Thus $\para \P = \W[\NC^d \SAT]$.
 
-  If $\para \P = \W[\NC^d \SAT]$, then every parameterized problem that reduces to $\pNCSAT$ under $\para \P$ many-one reductions is in $\para \P$.
+  If $\para \P = \W[\NC^d \SAT]$, then every problem that reduces to $\pNCSAT$ under $\para \P$ many-one reductions is in $\para \P$.
   Since $\pNCSAT$ is complete for $\para \WNC^d$ under $\para \NC^d$ many-one reductions, every problem in $\para \WNC^d$ reduces to $\pNCSAT$ under $\para \NC^d$ many-one reductions, and hence under $\para \P$ many-one reductions as well.
   Thus $\para \WNC^d \subseteq \para \P$.
 \end{proof}

@@ -1,8 +1,3 @@
-\newcommand{\lb}{\left\{}
-\newcommand{\rb}{\right\}}
-\newcommand{\st}{\,\middle|\,}
-\newcommand{\Er}{\leq_E^{L}}
-\newcommand{\APr}{\leq_{AP}^{L}}
 \newcommand{\cl}{\operatorname{cl}}
 
 %% For use in nested aligns
@@ -48,27 +43,27 @@ An optimization problem in which the measure function has rational values can be
 \begin{definition}[\cite{tantau07}]
   Let $P$ be an optimization problem, so $P = (I, S, m, t)$, and let $x \in I$.
   \begin{enumerate}
-  \item Let $S(x)=\lb y \in \Sigma^* \st (x, y) \in S \rb$; we call this the \emph{solutions for $x$}.
+  \item Let $S(x)=\left\{ y \in \Sigma^* \,\middle|\, (x, y) \in S \right\}$; we call this the \emph{solutions for $x$}.
   \item Define $m^*(x)$ by
     \begin{displaymath}
       m^*(x) =
       \begin{cases}
-        \min \lb m(x, y) \st y \in S(x) \rb & \text{if } t = \min \\
-        \max \lb m(x, y) \st y \in S(x) \rb & \text{if } t = \max
+        \min \left\{ m(x, y) \,\middle|\, y \in S(x) \right\} & \text{if } t = \min \\
+        \max \left\{ m(x, y) \,\middle|\, y \in S(x) \right\} & \text{if } t = \max
       \end{cases}
     \end{displaymath}
     for all $x \in \Sigma^*$; we call this the \emph{optimal measure for $x$}.
     Let $m^*(x)$ be undefined if $S(x) = \emptyset$.
-  \item Let $S^*(x) = \lb y \in \Sigma^* \st m(x, y) = m^*(x) \rb$; we call this the \emph{set of optimal solutions for $x$}.
+  \item Let $S^*(x) = \left\{ y \in \Sigma^* \,\middle|\, m(x, y) = m^*(x) \right\}$; we call this the \emph{set of optimal solutions for $x$}.
   \item Let $R(x, y) = \max \left(\frac{m(x, y)}{m^*(x)}, \frac{m^*(x)}{m(x, y)}\right)$; we call this the \emph{performance ratio of the solution $y$}.
-  \item Let $P_\exists = \lb x \in \Sigma^* \st S(x) \neq \emptyset \rb$; we call this the \emph{existence problem}.
+  \item Let $P_\exists = \left\{ x \in \Sigma^* \,\middle|\, S(x) \neq \emptyset \right\}$; we call this the \emph{existence problem}.
   \item Let
     \begin{displaymath}
-      P_{opt<} = \lb (x, z) \in P_\exists \times \mathbb{N} \st \exists y \in \Sigma^* \colon m(x, y) < z \rb
+      P_{opt<} = \left\{ (x, z) \in P_\exists \times \mathbb{N} \,\middle|\, \exists y \in \Sigma^* \colon m(x, y) < z \right\}
     \end{displaymath}
     and
     \begin{displaymath}
-      P_{opt>}=\lb (x, z) \in P_\exists \times \mathbb{N} \st \exists y \in \Sigma^* \colon m(x, y) > z \rb;
+      P_{opt>}=\left\{ (x, z) \in P_\exists \times \mathbb{N} \,\middle|\, \exists y \in \Sigma^* \colon m(x, y) > z \right\};
     \end{displaymath}
     we call these the \emph{budget problems}.
   \item Let $f \colon \Sigma^* \to \Sigma^*$.
@@ -223,7 +218,7 @@ Although the original definition is from \cite[Definition~9]{ckst95} (an prelimi
 
 \begin{definition}{{\cite[Definition~8.3]{acgkmp99}}}
   Let $P$ and $Q$ be optimization problems in \NNCO, with $P = (I_P, S_P, m_p, t_P)$ and $Q = (I_Q, S_Q, m_Q, t_Q)$.
-  We say \emph{$P$ AP reduces to $Q$} and write $P \APr Q$ if there are functions $f$ and $g$ and a constant $\alpha \in \mathbb{R} \cap [1, \infty)$ such that
+  We say \emph{$P$ AP reduces to $Q$} and write $P \leq_{AP}^{L} Q$ if there are functions $f$ and $g$ and a constant $\alpha \in \mathbb{R} \cap [1, \infty)$ such that
   \begin{enumerate}
   \item for all $x \in I_P$ and all $r \in \mathbb{Q} \cap (1, \infty)$, we have $f(x, r) \in I_Q$,
   \item for all $x \in I_P$ and all $r \in \mathbb{Q} \cap (1, \infty)$, if $S_P(x) \neq \emptyset$ then $S_Q(f(x, r)) \neq \emptyset$,
@@ -263,7 +258,7 @@ Thus there are optimization problems whose corresponding budget problems are of 
   \mbox{} \\
   \begin{tabular}{r p{9.5cm}}
     \textbf{Instance:} & Boolean circuit $C$ with inputs $x_1, \dotsc, x_n$, weights in $\mathbb{Q}^+$ for each input $w_1, \dotsc, w_n$. \\
-    \textbf{Solution:} & assignment $\alpha$ to the inputs such that $C(\alpha(x_1), \dotsc, \alpha(x_n))$ outputs 1. \\
+    \textbf{Solution:} & assignment $\alpha$ such that $C(\alpha(x_1), \dotsc, \alpha(x_n)) = 1$. \\
     \textbf{Measure:} & $\max(1, \Sigma_{i = 1}^n \alpha(x_i) w_i$). \\
     \textbf{Type:} & maximization.
   \end{tabular}
@@ -718,7 +713,7 @@ This result is true if we replace the first equality with $\NCAS = \PTAS$, or, i
 In this section, $\cl(\mathcal{C}, \leq)$ denotes the closure of the complexity class $\mathcal{C}$ under $\leq$ reductions.
 
 In \cite{py91}, the authors introduce a wealth of problems which are complete under ``L reductions'' for \MaxSNP, the class of maximization problems in syntactic \NP{} (\SNP), which is a syntactic characterization of \NP.
-Further work showed that $\cl\left(\MaxSNP, \leq^P_E\right) = \ApxPO_{pb}$ \cite[Theorem~1]{kmsv99}, and since $\cl\left(\ApxPO_{pb}, \leq^P_{PTAS}\right) = \ApxPO$ \cite{ct00}, we conclude $\cl\left(\MaxSNP, \leq^P_{PTAS}\right) = \ApxPO$ \cite{kmsv99}.
+Further work showed that $\cl\left(\MaxSNP, \leq^P_E\right) = \ApxPO_{pb}$ \cite[Theorem~1]{kmsv99}, and since $\cl\left(\ApxPO_{pb}, \leq^P_{PTAS}\right) = \ApxPO$ \cite{ct00}, we conclude that $\cl\left(\MaxSNP, \leq^P_{PTAS}\right) = \ApxPO$ \cite{kmsv99}.
 We also have $\cl\left(\MaxSNP, \leq^P_E\right) = \cl\left(\MaxNP, \leq^P_E\right)$ \cite[Theorem~2]{kmsv99} and \textsc{Maximum Satisfiability} is complete for \MaxNP{} under $\leq^P_E$ reductions.
 Can these results translate to \NC{} in any way?
 

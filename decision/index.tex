@@ -31,7 +31,7 @@ We consider $\NNC[\polylog]$ for two reasons.
 First, it is defined in such a way that it explicitly has short proof systems which are easy to verify in parallel, just as $\NP$ is defined in such a way that it explicitly has short proof systems which are easy to verify efficiently.
 Second, it, like $\P$, lies between $\NC$ and $\NP$.
 
-Although our original intention was to show a result like $\NNC[\polylog] = \PCP[O(\loglog n), O(1)]$, our research reveals that proving such an equality is equivalent to proving $\NNC[\polylog] = \NC$, or in other words, that a polylogarithmic amount of nondeterminism can be simulated deterministically by an $\NC$ circuit family.
+Although our original intention was to show something like $\NNC[\polylog] = \PCP[O(\loglog n), O(1)]$, our research reveals that proving such an equality is equivalent to proving $\NNC[\polylog] = \NC$, or in other words, that a polylogarithmic amount of nondeterminism can be simulated deterministically by an $\NC$ circuit family.
 This should be seen as evidence that such a result is unlikely; in fact, we show that such a simulation implies a deterministic subexponential time algorithm for the Boolean formula satisfiability problem!
 We are still, however, able to show that certain PCP classes are contained in $\NNC[\polylog]$.
 
@@ -156,7 +156,7 @@ We first provide a PCP characterization of $\NNC[\polylog]$, then later we provi
 \end{theorem}
 \begin{proof}
   Let $q$ and $r$ be non-negative integers.
-  The inclusion $\NNC[\log^q n] \subseteq \PCP^\NC[r \loglog n, O(\log^q n)]$ follows immediately from the definitions.
+  The first inclusion, $\NNC[\log^q n] \subseteq \PCP^\NC[r \loglog n, O(\log^q n)]$, follows immediately from the definitions.
   For the other direction, suppose $L \in \PCP^{\NC}[r \loglog n, c \log^q n]$ for some constant $c$.
   Construct an $\NNC$ machine $M$ which proceeds as follows on input $x$ of length $n$.
   \begin{enumerate}
@@ -274,10 +274,12 @@ Furthermore, in the latter case, the conclusion implies that $\EXP = \NEXP$.
 One interpretation of this theorem is that the difference in complexity between languages in $\NC$ and languages in $\NNC[\polylog]$ is smaller than the difference in complexity between languages in $\NNC[\polylog]$ and languages in $\NP$.
 This makes sense: the ratio of a polynomial in $\log n$ to $\log n$ is smaller than the ratio of a polynomial in $n$ to a polynomial in $\log n$.
 
+Substituting the PCP characterizations of each nondeterministic $\NC$ complexity class in the previous theorem provides evidence against the simulation of certain resources in probabilistically checkable proof systems.
+
 \begin{corollary}
   \mbox{}
   \begin{enumerate}
-  \item If $\PCP^\NC[O(\loglog n), O(1)] = \PCP^\NC[O(\loglog n), \polylog]$, then $\NP \subseteq \SUBEXP$.
+  \item If $\PCP^\NC[O(\loglog n), O(1)] = \PCP^\NC[O(\loglog n), \polylog]$, then \\ $\NP \subseteq \SUBEXP$.
   \item If $\PCP^\NC[O(\loglog n), \polylog] = \PCP^\NC[O(\log n), O(1)]$, then $\NP \subseteq \QP$.
   \end{enumerate}
 \end{corollary}
