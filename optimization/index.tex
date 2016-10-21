@@ -374,191 +374,7 @@ An equivalence analogous to that of \autoref{thm:nnconpo} also holds in the inte
   An $\NC$ algorithm for a $\P$-complete decision problem implies $\NC = \P$.
 \end{proof}
 
-\section{Completeness in classes of approximable problems}
-
-In order to construct an optimization problem complete for, say, $\PO \cap \ApxNCO$, we need to use either
-\begin{enumerate}
-\item an analog of the PCP theorem with $\NC$ verifiers for polynomial time decision problems, or
-\item a canonical, ``universal'' complete problem for $\PO \cap \ApxNCO$.
-\end{enumerate}
-These are the only two known ways for showing completeness in constant-factor approximation classes.
-The first approach is difficult to apply because it is not obvious how to construct a PCP for a deterministic time complexity class ($\PO$).
-See \cite{finkelstein13} for more information on that approach.
-The second approach is difficult to apply because although this technique has worked in the past for constructing a complete problem for $\ApxPO$ \cite[Lemma~2]{cp91}, it is not clear how to guarantee a polynomial time computable function that produces optimal solutions for such a problem.
-
-However, we know what a problem complete for $\PO \cap \ApxNCO$ should look like.
-It should be exactly solvable in polynomial time and admit an $\NC$ approximation algorithm.
-It should also have threshold behavior in the following sense.
-If the problem were approximable for all $r > 1$, then it would be in $\NCAS$.
-If the problem were not approximable for any $r \geq 1$, then it would not even be in $\ApxNCO$.
-Therefore there should be some constant $r_0$ such that the problem is approximable for all $r \in (r_0, \infty)$ and not approximable for all $r \in (1, r_0)$.
-
-\subsection{High weight subgraph problems}
-
-There is in fact a family of maximization problems that has these properties: \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} \cite[Chapter~3]{dsst97}.
-A concrete example of a maximization problem in this family is \textsc{Maximum High Degree Subgraph}.
-In the definition below, the degree of a graph $G$, denoted $\deg(G)$, is defined by $\deg(G) = \min_{v \in V(G)} \deg(v)$.
-
-\begin{definition}[\textsc{Maximum High Degree Subgraph}]
-  \mbox{} \\
-  \begin{tabular}{r l}
-    \textbf{Instance:} & undirected graph $G$. \\
-    \textbf{Solution:} & vertex-induced subgraph $H$. \\
-    \textbf{Measure:} & $\deg(H)$. \\
-    \textbf{Type:} & maximization.
-  \end{tabular}
-\end{definition}
-
-This problem is exactly solvable in polynomial time,  has an $r$-approximator in $\FNC$ for all $r \in (2, \infty)$ and has no $r$-approximator in $\FNC$ for all $r \in (1, 2)$ unless $\NC = \P$ \cite{am84}.
-(The existence or non-existence of a 2-approximator seems to remain unknown.)
-We suspect this family of problems is complete for $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
-
-\begin{conjecture}
-  \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} is complete for the class of maximization problems in $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
-\end{conjecture}
-
-\subsection{Restrictions of linear programming}
-
-Although \textsc{Linear Programming} is \P-complete and admits no $\NC$ approximation algorithm, \textsc{Positive Linear Programming}, the restriction of \textsc{Linear Programming} to inputs in which all entries of $A$, $\mathbf{b}$, and $\mathbf{c}$ are non-negative, admits a $\NC$ approximation scheme \cite{ln93}, even though the corresponding budget problem remains \P-complete \cite[Theorem~4]{tx98}.
-These results beg the question ``is there some restriction of \textsc{Linear Programming} less strict than \textsc{Positive Linear Programming} that exhibits the properties of a complete problem for $\PO \cap \ApxNCO$ as defined above?''
-If we relax the non-negativity requirement and allow a small number of equality constraints that can be violated by a small amount, then there is still an NC approximation scheme \cite[Theorem~5.2]{tx98}.
-On the other hand, if we have even just one equality constraint and don't allow the equality violations, the problem becomes hard to approximate again (to within a constant factor) \cite[Theorem~3.1]{es99} \cite[Remark~2]{tx98}.
-Similarly, if we allow $A$ to have negative entries, the problem is hard to approximate \cite[Corollary~2]{efraimidis08}.
-The $(\gamma, \kappa)$ form of \textsc{Linear Programming} is hard to approximate \cite[Proposition~1]{efraimidis08}; the $k$-normal form reduces to \textsc{Positive Linear Programming} and so has an approximation scheme \cite[Theorem~2]{trevisan00}.
-
-There remains one candidate restriction that may have the properties we seek.
-
-\begin{definition}[\textsc{Linear Programming with Triplets}]
-  \mbox{} \\
-  \begin{tabular}{r p{9.5cm}}
-    \textbf{Instance:} & $m \times n$ Boolean matrices $A^{(1)}$, $A^{(2)}$, and $A^{(3)}$, non-negative rational vectors $\mathbf{b}^{(1)}$ and $\mathbf{b}^{(2)}$ of length $m$, non-negative rational vector $\mathbf{c}$ of length $n$, and set of triples of indices $T \subseteq \{1, \dotsc, n\}^3$ satisfying two conditions.
-    First, there is at least one non-zero entry in each row of $A^{(1)}$ and each row of $A^{(2)}$.
-    Second, there is a constant $\gamma \in (1, \infty)$ such that $M^* \leq \gamma M$ for all measures $M$ of this instance, where $M^*$ is the optimal measure of the instance.
-    \\
-    \textbf{Solution:} & non-negative rational vectors $\mathbf{x}$ and $\mathbf{f}$ of length $n$ satisfying the inequalities
-           {
-             \setmyleftlen{x_k + (1 - f_j)}
-             \begin{align*}
-               & \left. \backup
-               \begin{aligned}
-                 x_k + (1 - f_i) & \leq 1 \\
-                 x_k + (1 - f_j) & \leq 1 \\
-                 f_k + f_i + f_j & \leq 2
-               \end{aligned}
-               \right\} && \text{for all } (i, j, k) \in T \\
-               A^{(1)} \mathbf{x} & = \mathbf{b}^{(1)} \\
-               A^{(2)} \mathbf{x} + A^{(3)} \mathbf{f} & = \mathbf{b}^{(2)} \\[0.5em]
-               \mathbf{x} & \leq \mathbf{1} \\
-               \mathbf{f} & \leq \mathbf{1}
-             \end{align*}
-           }
-           \\[-1em]
-    \textbf{Measure:} & $\max(1, \mathbf{c}^\intercal \mathbf{f})$. \\
-    \textbf{Type:} & maximization.
-  \end{tabular}
-\end{definition}
-
-Although this optimization problem is not approximable within $\frac{2 n^\epsilon}{n^\epsilon + 1}$ for any positive $\epsilon$ unless $\NC = \P$ \cite[Corollary~1]{sx02}, we know the value of the optimal measure of an instance to within a multiplicative factor of $\gamma$.
-
-\begin{conjecture}
-  \textsc{Linear Programming with Triplets} is complete for the class of maximization problems in $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
-\end{conjecture}
-
-\subsection{Linear program for high degree subgraph}
-
-Perhaps we can consider a linear programming relaxation of \textsc{Maximum High Degree Subgraph} and show that such a restriction is more approximable than \textsc{Linear Programming} but less approximable than \textsc{Positive Linear Programming}.
-
-Suppose the vertices of a graph $G$ are identified with the integers $\{1, \dotsc, n\}$.
-We can represent a subgraph $H$ of a graph as a subset of the vertices, and if the graph has $n$ vertices, this can be an indicator vector $\mathbf{x}$ of length $n$.
-Since we also want to maximize the minimum degree of the chosen subgraph, we introduce a new variable $d$ that has a value between $0$ and $n$ that will be bounded above by the degree of each vertex.
-We want the constraints to reflect that if a vertex is in the subgraph, then the degree of that vertex (with respect to the subgraph) is at least $d$, and if a vertex is not in the subgraph then we don't care about its degree.
-In other words, we want ``if $x_i = 1$ then $\deg(i) \geq d$'', where $\deg(i) = \Sigma_{j = 1}^n a_{ij} x_j$ and $a_{ij}$ is the entry at row $i$, column $j$ in the adjacency matrix of the graph.
-Equivalently, we want ``$x_i \neq 1$ or $\deg(i) \geq d$'', or more specifically, ``$x_i < 1$ or $\deg(i) \geq d$''.
-We can combine the two inequalities to get a single constraint ``$x_i + d \leq 1 + \deg(x_i)$''.
-However, as stated above we want this constraint to be always satisfied if $x_i = 0$ (that is, when the vertex $i$ is not in the subgraph $H$); in this form, that is not always true.
-We can assume without loss of generality that $d$, the minimum degree of $H$, will always be less than or equal to $n - 1$ (since a graph without self-loops cannot have a vertex of degree $n$ anyway).
-Thus we can ensure the constraint is always satisfied if we modify it so that $x_i = 0$ implies $d$ is less than the right side, ``$n x_i + d \leq n + \deg(x_i)$''.
-Now if $x_i = 1$ then $d \leq \deg(x_i)$ as required, and if $x_i = 0$ then $d \leq n- 1 \leq n \leq n + \deg(x_i)$ is always satisfied.
-
-There is one final restriction: we require a non-empty subgraph, so we want at least one of the entries of $\mathbf{x}$ to be $1$.
-Therefore, the proposed linear program is
-\begin{align*}
-  \text{maximize } & d \\
-  \text{subject to }
-  %% &
-  %% \begin{bmatrix}
-  %%   n I - A & \mathbf{1}
-  %% \end{bmatrix}
-  %% \begin{bmatrix}
-  %%   \mathbf{x} \\
-  %%   d
-  %% \end{bmatrix}
-  %% \leq n \mathbf{1} \\
-  & n \mathbf{x} + d \mathbf{1} \leq n \mathbf{1} + A \mathbf{x} \\
-  & \mathbf{1}^\intercal \mathbf{x} > 0 \\
-  & \mathbf{0} \leq \mathbf{x} \leq \mathbf{1} \\
-  & 0 \leq d \leq n - 1,
-\end{align*}
-where $A$ is the adjacency matrix of the graph $G$, $n$ is the number of vertices in $G$, $\mathbf{0}$ is the all zeros vector, $\mathbf{1}$ is the all ones vector, and $\leq$ for vectors denotes component-wise inequality.
-(If we restrict $\mathbf{x}$ and $d$ to be integer-valued, then this is exactly the same problem.)
-Now let us define this in the language of an optimization problem.
-\begin{definition}[\textsc{Special Linear Programming}]
-  \mbox{} \\
-  \begin{tabular}{r p{9.5cm}}
-    \textbf{Instance:} & $m \times n$ Boolean matrix $A$, non-negative rational vector $\mathbf{c}$ of length $n$, non-negative rational $c_0$. \\
-    \textbf{Solution:} & non-negative rational vector $\mathbf{x}$ of length $n$ and rational $d$ satisfying the inequalities
-           {
-             \begin{align*}
-               n \mathbf{x} + d \mathbf{1} & \leq n \mathbf{1} + A \mathbf{x} \\
-               \mathbf{1}^\intercal \mathbf{x} & > 0 \\
-               \mathbf{0} \leq \mathbf{x} & \leq \mathbf{1} \\
-               0 \leq d & \leq n - 1
-             \end{align*}
-           } \\[-1em]
-    \textbf{Measure:} & $\max(1, \mathbf{c}^\intercal \mathbf{x} + c_0 d)$. \\
-    \textbf{Type:} & maximization.
-  \end{tabular}
-\end{definition}
-
-\begin{conjecture}
-  \textsc{Special Linear Programming} is complete for $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
-\end{conjecture}
-
-\subsection{Approximable problems in \texorpdfstring{$\NNC[\polylog]$}{NNC[polylog]}}
-
-In the previous sections we sought a problem complete for $\PO \cap \ApxNCO$.
-Perhaps we can find a problem complete for $\NNCO[\polylog] \cap \ApxNCO$.
-
-\begin{definition}[\textsc{Partial Satisfiability}]
-  \mbox{} \\
-  \begin{tabular}{r p{9.5cm}}
-    \textbf{Instance:} & Boolean formula $\phi$ on variables $x_1, \dotsc, x_n$, non-negative rational weights $w_1, \dotsc, w_n$ such that $W \leq \Sigma_{i = 1}^n w_i \leq 2W$ for some positive rational $W$, partial truth assignment $\alpha$ to the first $n - \log^k n$ of the variables. \\
-    \textbf{Solution:} & partial truth assignment $\beta$ to the remaining $\log^k n$ variables. \\
-    \textbf{Measure:} & $\max(1, \Sigma_{i = 1}^n (\alpha \cup \beta)(x_i) w_i)$ if $\alpha \cup \beta$ satisfies $\phi$, otherwise $W$. \\
-    \textbf{Type:} & maximization.
-  \end{tabular}
-\end{definition}
-
-For each fixed positive integer $k$, the budget problem for \textsc{Partial Satisfiability} is complete for $\NNC^1[\log^k n]$.
-
-\begin{theorem}
-  For every positive integer $k$, $\textsc{Partial Satisfiability}_{opt>}$ is complete for $\NNC^1[\log^k n]$ under logarithmic space many-one reductions.
-\end{theorem}
-\begin{proof}
-  \begin{todo}
-    Fill me in.
-  \end{todo}
-\end{proof}
-
-The optimization problem is trivially 2-approximable (each assignment has measure at least $W$, and the optimal assignment has measure at most $2W$) so the problem is in $\ApxNCO$.
-
-\begin{conjecture}
-  \textsc{Partial Satisfiability} is complete for $\ApxNCO$ under logarithmic space AP reductions.
-\end{conjecture}
-
-This would be surprising if true because the optimization problem \todo{fill me in} is also complete for $\ApxNCO$, and therefore any optimization problem that permits a highly parallel approximation but requires a large solution can be transformed into a problem that requires a much smaller solution.
-
-\subsection{Hierarchies}\label{sec:hierarchies}
+\section{Hierarchies}\label{sec:hierarchies}
 
 The classes of approximable optimization problems are also likely distinct; this is well-known for polynomial time approximability.
 
@@ -660,11 +476,182 @@ The hierarchy theorem also provides a simple proof of a result of \cite{dsst97} 
 
 This result is true if we replace the first equality with $\NCAS = \PTAS$, or, indeed, any equality that implies $\PO \subseteq \NNCO$.
 
+\section{Completeness in classes of approximable problems}
+
+In order to construct an optimization problem complete for, say, $\PO \cap \ApxNCO$, we need to use either
+\begin{enumerate}
+\item an analog of the PCP theorem with $\NC$ verifiers for polynomial time decision problems, or
+\item a canonical, ``universal'' complete problem for $\PO \cap \ApxNCO$.
+\end{enumerate}
+These are the only two known ways for showing completeness in constant-factor approximation classes.
+The first approach is difficult to apply because it is not obvious how to construct a PCP for a deterministic time complexity class ($\PO$).
+See \autoref{chp:decision} for more information on that approach.
+The second approach is difficult to apply because although this technique has worked in the past for constructing a complete problem for $\ApxPO$ \cite[Lemma~2]{cp91}, it is not clear how to guarantee a polynomial time computable function that produces optimal solutions for such a problem.
+
+However, we know what a problem complete for $\PO \cap \ApxNCO$ should look like.
+It should be exactly solvable in polynomial time and admit an $\NC$ approximation algorithm.
+It should also have threshold behavior in the following sense.
+If the problem were approximable for all $r > 1$, then it would be in $\NCAS$.
+If the problem were not approximable for any $r \geq 1$, then it would not even be in $\ApxNCO$.
+Therefore there should be some constant $r_0$ such that the problem is approximable for all $r \in (r_0, \infty)$ and not approximable for all $r \in (1, r_0)$.
+
+\subsection{High weight subgraph problems}
+
+There is in fact a family of maximization problems that has these properties: \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} \cite[Chapter~3]{dsst97}.
+A concrete example of a maximization problem in this family is \textsc{Maximum High Degree Subgraph}.
+In the definition below, the degree of a graph $G$, denoted $\deg(G)$, is defined by $\deg(G) = \min_{v \in V(G)} \deg(v)$.
+
+\begin{definition}[\textsc{Maximum High Degree Subgraph}]
+  \mbox{} \\
+  \begin{tabular}{r l}
+    \textbf{Instance:} & undirected graph $G$. \\
+    \textbf{Solution:} & vertex-induced subgraph $H$. \\
+    \textbf{Measure:} & $\deg(H)$. \\
+    \textbf{Type:} & maximization.
+  \end{tabular}
+\end{definition}
+
+This problem is exactly solvable in polynomial time,  has an $r$-approximator in $\FNC$ for all $r \in (2, \infty)$ and has no $r$-approximator in $\FNC$ for all $r \in (1, 2)$ unless $\NC = \P$ \cite{am84}.
+(The existence or non-existence of a 2-approximator seems to remain unknown.)
+We suspect this family of problems is complete for $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
+
+\begin{conjecture}
+  \textsc{Maximum High Degree Subgraph} is complete for the class of maximization problems in $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
+\end{conjecture}
+
+\subsection{Restrictions of linear programming}
+
+Although \textsc{Linear Programming} is \P-complete and admits no $\NC$ approximation algorithm, \textsc{Positive Linear Programming}, the restriction of \textsc{Linear Programming} to inputs in which all entries of $A$, $\mathbf{b}$, and $\mathbf{c}$ are non-negative, admits a $\NC$ approximation scheme \cite{ln93}, even though the corresponding budget problem remains \P-complete \cite[Theorem~4]{tx98}.
+These results beg the question ``is there some restriction of \textsc{Linear Programming} less strict than \textsc{Positive Linear Programming} that exhibits the properties of a complete problem for $\PO \cap \ApxNCO$ as defined above?''
+If we relax the non-negativity requirement and allow a small number of equality constraints that can be violated by a small amount, then there is still an NC approximation scheme \cite[Theorem~5.2]{tx98}.
+On the other hand, if we have even just one equality constraint and don't allow the equality violations, the problem becomes hard to approximate again (to within a constant factor) \cite[Theorem~3.1]{es99} \cite[Remark~2]{tx98}.
+Similarly, if we allow $A$ to have negative entries, the problem is hard to approximate \cite[Corollary~2]{efraimidis08}.
+The $(\gamma, \kappa)$ form of \textsc{Linear Programming} is hard to approximate \cite[Proposition~1]{efraimidis08}; the $k$-normal form reduces to \textsc{Positive Linear Programming} and so has an approximation scheme \cite[Theorem~2]{trevisan00}.
+
+There remains one candidate restriction that may have the properties we seek, the \textsc{Linear Programming with Triplets} problem.
+An instance of this maximization problem comprises $m \times n$ Boolean matrices $A^{(1)}$, $A^{(2)}$, and $A^{(3)}$, non-negative rational vectors $\mathbf{b}^{(1)}$ and $\mathbf{b}^{(2)}$ of length $m$, a non-negative rational vector $\mathbf{c}$ of length $n$, and a set of triples of indices $T \subseteq \{1, \dotsc, n\}^3$ satisfying two conditions.
+First, there is at least one non-zero entry in each row of $A^{(1)}$ and each row of $A^{(2)}$.
+Second, there is a constant $\gamma \in (1, \infty)$ such that $M^* \leq \gamma M$ for all measures $M$ of this instance, where $M^*$ is the optimal measure of the instance.
+A valid solution is a pair of non-negative rational vectors $\mathbf{x}$ and $\mathbf{f}$ of length $n$ such that for all $(i, j, k) \in T$,
+\begin{align*}
+  x_k + (1 - f_i) & \leq 1 \\
+  x_k + (1 - f_j) & \leq 1 \\
+  f_k + f_i + f_j & \leq 2,
+\end{align*}
+as well as
+\begin{align*}
+  A^{(1)} \mathbf{x} & = \mathbf{b}^{(1)} \\
+  A^{(2)} \mathbf{x} + A^{(3)} \mathbf{f} & = \mathbf{b}^{(2)} \\[0.5em]
+  \mathbf{x} & \leq \mathbf{1} \\
+  \mathbf{f} & \leq \mathbf{1}
+\end{align*}
+The measure is $\max(1, \mathbf{c}^\intercal \mathbf{f})$.
+
+Although this optimization problem is not approximable within $\frac{2 n^\epsilon}{n^\epsilon + 1}$ for any positive $\epsilon$ unless $\NC = \P$ \cite[Corollary~1]{sx02}, we know the value of the optimal measure of an instance to within a multiplicative factor of $\gamma$.
+
+\begin{conjecture}
+  \textsc{Linear Programming with Triplets} is complete for the class of maximization problems in $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
+\end{conjecture}
+
+\subsection{Linear program for high degree subgraph}
+
+Perhaps we can consider a linear programming relaxation of \textsc{Maximum High Degree Subgraph} and show that such a restriction is more approximable than \textsc{Linear Programming} but less approximable than \textsc{Positive Linear Programming}.
+
+Suppose the vertices of a graph $G$ are identified with the integers $\{1, \dotsc, n\}$.
+We can represent a subgraph $H$ of a graph as a subset of the vertices, and if the graph has $n$ vertices, this can be an indicator vector $\mathbf{x}$ of length $n$.
+Since we also want to maximize the minimum degree of the chosen subgraph, we introduce a new variable $d$ that has a value between $0$ and $n$ that will be bounded above by the degree of each vertex.
+We want the constraints to reflect that if a vertex is in the subgraph, then the degree of that vertex (with respect to the subgraph) is at least $d$, and if a vertex is not in the subgraph then we don't care about its degree.
+In other words, we want ``if $x_i = 1$ then $\deg(i) \geq d$'', where $\deg(i) = \Sigma_{j = 1}^n a_{ij} x_j$ and $a_{ij}$ is the entry at row $i$, column $j$ in the adjacency matrix of the graph.
+Equivalently, we want ``$x_i \neq 1$ or $\deg(i) \geq d$'', or more specifically, ``$x_i < 1$ or $\deg(i) \geq d$''.
+We can combine the two inequalities to get a single constraint ``$x_i + d \leq 1 + \deg(x_i)$''.
+However, as stated above we want this constraint to be always satisfied if $x_i = 0$ (that is, when the vertex $i$ is not in the subgraph $H$); in this form, that is not always true.
+We can assume without loss of generality that $d$, the minimum degree of $H$, will always be less than or equal to $n - 1$ (since a graph without self-loops cannot have a vertex of degree $n$ anyway).
+Thus we can ensure the constraint is always satisfied if we modify it so that $x_i = 0$ implies $d$ is less than the right side, ``$n x_i + d \leq n + \deg(x_i)$''.
+Now if $x_i = 1$ then $d \leq \deg(x_i)$ as required, and if $x_i = 0$ then $d \leq n- 1 \leq n \leq n + \deg(x_i)$ is always satisfied.
+
+There is one final restriction: we require a non-empty subgraph, so we want at least one of the entries of $\mathbf{x}$ to be $1$.
+Therefore, the proposed linear program is
+\begin{align*}
+  \text{maximize } & d \\
+  \text{subject to }
+  %% &
+  %% \begin{bmatrix}
+  %%   n I - A & \mathbf{1}
+  %% \end{bmatrix}
+  %% \begin{bmatrix}
+  %%   \mathbf{x} \\
+  %%   d
+  %% \end{bmatrix}
+  %% \leq n \mathbf{1} \\
+  & n \mathbf{x} + d \mathbf{1} \leq n \mathbf{1} + A \mathbf{x} \\
+  & \mathbf{1}^\intercal \mathbf{x} > 0 \\
+  & \mathbf{0} \leq \mathbf{x} \leq \mathbf{1} \\
+  & 0 \leq d \leq n - 1,
+\end{align*}
+where $A$ is the adjacency matrix of the graph $G$, $n$ is the number of vertices in $G$, $\mathbf{0}$ is the all zeros vector, $\mathbf{1}$ is the all ones vector, and $\leq$ for vectors denotes component-wise inequality.
+(If we restrict $\mathbf{x}$ and $d$ to be integer-valued, then this is exactly the same problem.)
+Now let us define this in the language of an optimization problem.
+\begin{definition}[\textsc{HDS Linear Programming}]
+  \mbox{} \\
+  \begin{tabular}{r p{9.5cm}}
+    \textbf{Instance:} & $m \times n$ Boolean matrix $A$, non-negative rational vector $\mathbf{c}$ of length $n$, non-negative rational $c_0$. \\
+    \textbf{Solution:} & non-negative rational vector $\mathbf{x}$ of length $n$ and rational $d$ satisfying the inequalities
+           {
+             \begin{align*}
+               n \mathbf{x} + d \mathbf{1} & \leq n \mathbf{1} + A \mathbf{x} \\
+               \mathbf{1}^\intercal \mathbf{x} & > 0 \\
+               \mathbf{0} \leq \mathbf{x} & \leq \mathbf{1} \\
+               0 \leq d & \leq n - 1
+             \end{align*}
+           } \\[-1em]
+    \textbf{Measure:} & $\max(1, \mathbf{c}^\intercal \mathbf{x} + c_0 d)$. \\
+    \textbf{Type:} & maximization.
+  \end{tabular}
+\end{definition}
+
+\begin{conjecture}
+  \textsc{HDS Linear Programming} is complete for $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
+\end{conjecture}
+
+%% \subsection{Approximable problems in \texorpdfstring{$\NNC[\polylog]$}{NNC[polylog]}}
+
+%% In the previous sections we sought a problem complete for $\PO \cap \ApxNCO$.
+%% Perhaps we can find a problem complete for $\NNCO[\polylog] \cap \ApxNCO$.
+
+%% \begin{definition}[\textsc{Partial Satisfiability}]
+%%   \mbox{} \\
+%%   \begin{tabular}{r p{9.5cm}}
+%%     \textbf{Instance:} & Boolean formula $\phi$ on variables $x_1, \dotsc, x_n$, non-negative rational weights $w_1, \dotsc, w_n$ such that $W \leq \Sigma_{i = 1}^n w_i \leq 2W$ for some positive rational $W$, partial truth assignment $\alpha$ to the first $n - \log^k n$ of the variables. \\
+%%     \textbf{Solution:} & partial truth assignment $\beta$ to the remaining $\log^k n$ variables. \\
+%%     \textbf{Measure:} & $\max(1, \Sigma_{i = 1}^n (\alpha \cup \beta)(x_i) w_i)$ if $\alpha \cup \beta$ satisfies $\phi$, otherwise $W$. \\
+%%     \textbf{Type:} & maximization.
+%%   \end{tabular}
+%% \end{definition}
+
+%% For each fixed positive integer $k$, the budget problem for \textsc{Partial Satisfiability} is complete for $\NNC^1[\log^k n]$.
+
+%% \begin{theorem}
+%%   For every positive integer $k$, $\textsc{Partial Satisfiability}_{opt>}$ is complete for $\NNC^1[\log^k n]$ under logarithmic space many-one reductions.
+%% \end{theorem}
+%% \begin{proof}
+%%   \begin{todo}
+%%     Fill me in.
+%%   \end{todo}
+%% \end{proof}
+
+%% The optimization problem is trivially 2-approximable (each assignment has measure at least $W$, and the optimal assignment has measure at most $2W$) so the problem is in $\ApxNCO$.
+
+%% \begin{conjecture}
+%%   \textsc{Partial Satisfiability} is complete for $\ApxNCO$ under logarithmic space AP reductions.
+%% \end{conjecture}
+
+%% This would be surprising if true because the optimization problem \todo{fill me in} is also complete for $\ApxNCO$, and therefore any optimization problem that permits a highly parallel approximation but requires a large solution can be transformed into a problem that requires a much smaller solution.
+
 \section{Syntactic characterization of \texorpdfstring{\ApxNCO}{ApxNCO}}
 
 In this section, $\cl(\mathcal{C}, \leq)$ denotes the closure of the complexity class $\mathcal{C}$ under $\leq$ reductions.
 
-In \cite{py91}, the authors introduce a wealth of problems which are complete under ``L reductions'' for $\MaxSNP$, the class of maximization problems in syntactic $\NP$ ($\SNP$), which is a syntactic characterization of $\NP$.
+In \cite{py91}, the authors introduce a wealth of problems which are complete under ``L reductions'' for $\MaxSNP$, the class of maximization problems in strict $\NP$ ($\SNP$), which is a syntactic characterization of $\NP$.
 Further work showed that $\cl\left(\MaxSNP, \leq^P_E\right) = \ApxPO_{pb}$ \cite[Theorem~1]{kmsv99}, and since $\cl\left(\ApxPO_{pb}, \leq^P_{PTAS}\right) = \ApxPO$ \cite{ct00}, we conclude that $\cl\left(\MaxSNP, \leq^P_{PTAS}\right) = \ApxPO$ \cite{kmsv99}.
 We also have $\cl\left(\MaxSNP, \leq^P_E\right) = \cl\left(\MaxNP, \leq^P_E\right)$ \cite[Theorem~2]{kmsv99} and \textsc{Maximum Satisfiability} is complete for $\MaxNP$ under $\leq^P_E$ reductions.
 Can these results translate to $\NC$ in any way?
@@ -678,13 +665,13 @@ It may help to know that if $P$ is complete for $\MaxSNP$ under $\leq^L_L$ reduc
   Can we more easily construct a complete problem using this characterization?
 \end{todo}
 
-\section{Further questions}
+%% \section{Further questions}
 
-\begin{todo}
-  We may propose a Frankenstein reduction that accounts for both the complexity of approximation and the complexity of verification.
-\end{todo}
+%% \begin{todo}
+%%   We may propose a Frankenstein reduction that accounts for both the complexity of approximation and the complexity of verification.
+%% \end{todo}
 
-\begin{todo}[Thanks to Rita for this one]
-  Do there exist, for example, \ApxPO-complete optimization problems which are based on both \NP-complete problems and \PSPACE-complete problems?
-  \STP-complete problems?
-\end{todo}
+%% \begin{todo}[Thanks to Rita for this one]
+%%   Do there exist, for example, \ApxPO-complete optimization problems which are based on both \NP-complete problems and \PSPACE-complete problems?
+%%   \STP-complete problems?
+%% \end{todo}
