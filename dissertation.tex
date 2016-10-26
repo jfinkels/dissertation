@@ -10,17 +10,17 @@
 
 %% Requirement 1.1.2 Typeface size and style
 \usepackage{titlesec}
-%% HACK In titlesec version 2.10.1 (the version provided by Ubuntu 16.04) there
-%% is a bug that removes section numbers from section headings. The following
-%% code fixes that regression. If titlesec version 2.10.2 or later is
-%% available, this code can be safely removed. See
-%% <http://tex.stackexchange.com/a/300259/4430>.
-\usepackage{etoolbox}
-\makeatletter
-\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
-\patchcmd{\ttlh@hang}{\noindent}{}{}{}
-\makeatother
-%% END HACK
+%% %% HACK In titlesec version 2.10.1 (the version provided by Ubuntu 16.04) there
+%% %% is a bug that removes section numbers from section headings. The following
+%% %% code fixes that regression. If titlesec version 2.10.2 or later is
+%% %% available, this code can be safely removed. See
+%% %% <http://tex.stackexchange.com/a/300259/4430>.
+%% \usepackage{etoolbox}
+%% \makeatletter
+%% \patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+%% \patchcmd{\ttlh@hang}{\noindent}{}{}{}
+%% \makeatother
+%% %% END HACK
 \titleformat*{\section}{\normalsize\bfseries}
 \titleformat*{\subsection}{\normalsize\bfseries}
 \titleformat*{\subsubsection}{\normalsize\bfseries}
