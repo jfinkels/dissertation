@@ -520,6 +520,8 @@ The closer $R(x, y)$ is to 1, the better the solution $y$ is for $x$, and the cl
 \end{definition}
 
 An approximation scheme induces a family of functions, $\{A_k\}_{k \in \mathbb{N}}$, that form progressively better approximations for the optimization problem.
+A problem is in $\NCAS$ if it admits an approximation scheme whose slices are in $\NC$.
+The problem is in $\FNCAS$ if it admits an approximation scheme that is in $\NC$ with respect to both inputs $n$ and $k$.
 
 %% \begin{definition}
 %%   An optimization problem $O$ has an \emph{$\NC$ approximation scheme} if there is an approximation scheme $A$ for $O$ such that for each $k$, we have $A_k \in \FNC$, where $A_k(x) = A(x, k)$ for each $x$.
@@ -531,9 +533,10 @@ An approximation scheme induces a family of functions, $\{A_k\}_{k \in \mathbb{N
   The problem is in $\FNCAS$ if there is an approximation scheme $A$ for $O$ such that $A \in \FNC$ (i.e. on both inputs).
 \end{definition}
 
+These two complexity classes lead us to a natural interpolation using the ideas of parameterized complexity theory.
 This definition is adapted from \autocite[Definition~1.31]{fg06}
 
-\begin{definition}
+\begin{definition}[$\ENCAS$]
   An optimization problem $O$ is in $\ENCAS$ if there is a circuit family $\{A_{n, k}\}$ and a circuit-computable function $f$ such that
   \begin{itemize}
   \item $\{A_{n, k}\}$ is an approximation scheme for $O$,
@@ -542,6 +545,10 @@ This definition is adapted from \autocite[Definition~1.31]{fg06}
   \end{itemize}
 \end{definition}
 
+When we consider $k$ as a parameter, then $\ENCAS$ interpolates between $\FNCAS$ and $\NCAS$.
+If $f(k)$ is polylogarithmic in $n$, then the definition yields $\FNCAS$.
+If $f(k)$ is considered a fixed constant, then the definition yields $\NCAS$.
+
 \begin{proposition}\label{prop:encas}
   $\FNCAS \subseteq \ENCAS \subseteq \NCAS$.
 \end{proposition}
@@ -549,6 +556,8 @@ This definition is adapted from \autocite[Definition~1.31]{fg06}
 %% \todo{Positive linear programming is in $\NCAS$, is it also in $\ENCAS$?}
 %% positive linear programming has a depth bound of about f(k) \log^3 n, so no.
 
+We can use an $\ENCAS$ algorithm to construct a $\para \NC$ algorithm for the standard parameterization of an optimization problem.
+The converse does not hold: as a counterexample, the minimum vertex cover problem not in $\ENCAS$ \todo{citation here} but in $\para \NC$ \autocite[Theorem~4.5]{bst15}.
 This theorem is an adaptation of \autocite[Theorem~1.32]{fg06}.
 
 \begin{theorem}\label{thm:encasfpp}
@@ -586,10 +595,10 @@ This theorem is an adaptation of \autocite[Theorem~1.32]{fg06}.
   Therefore, we conclude that $p \dash O$ is in $\para \NC$.
 \end{proof}
 
-The converse does not hold: the minimum vertex cover problem is a counterexample because it is in $\para \NC$ \autocite[Theorem~4.5]{bst15}.
 %% \todo{Show an example of an optimization problem whose budget problem is $\P$-complete and whose standard parameterization is in $\para \NC$ but for which no $\ENCAS$ exists.}
 
 Our goal now reduces to finding an optimization problem in $\ENCAS$ whose budget problem is $\P$-complete.
+We can provide one under a derandomization assumption.
 %% There exist problems that are $\P$-complete and have randomized $\FNCAS$ algorithms, so under a derandomization assumption, we can show a problem that fits the requirement.
 
 \begin{definition}[\textsc{Maximum Flow}]

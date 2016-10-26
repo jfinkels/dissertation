@@ -150,6 +150,8 @@ This assumption is reasonable because it is equivalent to the inequality $\NC \n
   See \autocite[Proposition~8]{fg03}, for example.
 \end{proof}
 
+Completeness is defined for $\para \P$ with respect to $\para \NC$ many-one reductions, in order that a $\para \NC$ algorithm for any one $\para \P$-complete problem implies a $\para \NC$ algorithm for every $\para \P$ problem.
+
 \begin{definition}[$\para \P$-completeness]
   A parameterized problem $(Q, \kappa)$ is \emph{$\para \P$-hard} if for each parameterized problem $(R, \lambda)$, there is a $\para \NC$ many-one reduction from $(R, \lambda)$ to $(Q, \kappa)$.
   If furthermore $(Q, \kappa)$ is in $\para \P$, then it is \emph{$\para \P$-complete}.
