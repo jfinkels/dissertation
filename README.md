@@ -25,10 +25,10 @@ This document requires `pdflatex` to compile and `biber` for bibliography
 management. The complete list of LaTeX packages required to compile this
 document can be found at the head of the file `dissertation.tex`.
 
-To install the necessary packages on Ubuntu, run
+To install the necessary packages on Ubuntu 16.10, run
 
     sudo apt-get install texlive-base texlive-latex-base texlive-latex-extra \
-      texlive-science biber
+      texlive-generic-extra texlive-science biber
 
 
 Compiling
