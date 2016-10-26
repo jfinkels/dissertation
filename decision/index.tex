@@ -6,13 +6,25 @@
 \chapter{Decision problems}
 \label{chp:decision}
 
-\lettrine{I}{n this chapter} we provide some initial structural complexity results for classes of probabilistically checkable proof systems (PCPs) for nondeterministic $\NC$ ($\NNC$) circuit families, as a first step towards characterizing probabilistic proof systems for $\P$.
-One of the major successes of the characterization of $\NP$ as a class of PCPs (with polynomial-time verifiers) is that it provides a route to proving that approximating certain computationally intractable optimization problems is as difficult as solving them exactly.
-The growth of multiprocessor systems in general purpose personal computers highlights the urgency of proving the analagous inapproximability (or approximability) of \emph{inherently sequential} optimization problems by \emph{highly parallel} algorithms.
-The $\P$-complete problems are generally considered to be inherently sequential, whereas problems in $\NC$ are considered highly parallel.
-Our guiding question is now, ``For which $\P$-complete problems are there $\NC$ approximation algorithms, and for which are there none?''
-
+% % Foreword %
+%
+% %% Context (anyone - why now?) %%
+%
+% What is the current situation, and why is the need so important?
+%
+\lettrine{O}{ne of the major successes} of the PCP Theorem, a characterization of $\NP$ as a class of probabilistically checkable proof systems (with polynomial-time verifiers), is that it provides a route to proving that approximating certain computationally intractable optimization problems is as difficult as solving them exactly.
+%
+% %% Need (readers - why you?) %%
+%
+% Why is this relevant to the reader, and why does something need to be done?
+% (Also reference relevant existing work.)
+%
+The growth of multiprocessor systems in both general purpose personal computing and large-scale big data computations highlights the urgency of proving the analagous inapproximability (or approximability) of inherently sequential optimization problems by highly parallel algorithms.
+However, there has been little theoretical work toward proving parallel inapproximability.
 Unfortunately, the techniques used to prove the original PCP Theorem rely on the fact that $\NP$ can be interpreted as the class of languages for which there is an efficient verification procedure given a brief witness to language membership; no such obvious interpretation of $\P$ exists.
+
+If we consider the $\P$-complete problems to be tractable but inherently sequential and $\NC$ problems to be highly parallelizable, then our guiding question is whether there is a probabilistically checkable proof (PCP) characterization of $\P$ with $\NC$ verifiers.
+Such a characterization would potentially provide a path to proving parallel inapproximability.
 Indeed, this question was already on the minds of researchers soon after the original proof of the PCP Theorem.
 \begin{quote}
   An intriguing question is whether the known non-approximability results for sequential algorithms can be improved when we restrict to $\NC$ algorithms (under the assumption that $\P \neq \NC$).
@@ -20,9 +32,29 @@ Indeed, this question was already on the minds of researchers soon after the ori
   Such a result would have a great independent interest.
   However, it is not clear why proofs for $\P$ should be \emph{easier to check} than proofs for $\NP$ (they only appear to be \emph{easier to generate}).~\autocite{trevisan98}
 \end{quote}
+%
+% %% Task (author - why me?) %%
+%
+% What was undertaken to address the need?
+%
+As a first step towards characterizing probabilistic proof systems for $\P$,
+%
+% %% Object (document - why this document?) %%
+%
+% What does this document cover?
+%
+this chapter provides some initial structural complexity results for classes of probabilistically checkable proof systems for nondeterministic $\NC$ circuit families
+
+%
+% % Summary %
+%
+% %% Findings (author - what?)
+%
+% What did the work reveal when performing the task?
+%
 Perhaps $\P$ has proof systems that are easy to check in $\NC$, but this remains unclear.
 Instead, we consider proof systems for the class $\NNC[\polylog]$, the class of languages decidable by $\NC$ circuit families augmented with a polylogarithmic number of nondeterministic gates.
-We hope that this will be a valuable first step toward understanding proof systems for $\P$.
+%% We hope that this will be a valuable first step toward understanding proof systems for $\P$.
 Other researchers have had similar questions about classes like this.
 \begin{quote}
   The fundamental question remains whether there are problems in $\P$ that can be computed more quickly with limited nondeterminism than without it.~\autocite{bg93}
@@ -31,14 +63,57 @@ We consider $\NNC[\polylog]$ for two reasons.
 First, it is defined in such a way that it explicitly has short proof systems which are easy to verify in parallel, just as $\NP$ is defined in such a way that it explicitly has short proof systems which are easy to verify efficiently.
 Second, it, like $\P$, lies between $\NC$ and $\NP$.
 
+%
+% %% Conclusion (readers - so what?)
+%
+% What did the findings mean for the audience?
+%
 Although our original intention was to show something like $\NNC[\polylog] = \PCP[O(\loglog n), O(1)]$, our research reveals that proving such an equality is equivalent to proving $\NNC[\polylog] = \NC$, or in other words, that a polylogarithmic amount of nondeterminism can be simulated deterministically by an $\NC$ circuit family.
 This should be seen as evidence that such a result is unlikely; in fact, we show that such a simulation implies a deterministic subexponential time algorithm for the Boolean formula satisfiability problem!
 We are still, however, able to show that certain PCP classes are contained in $\NNC[\polylog]$.
 
+%
+% %% Perspective (anyone - what now?)
+%
+% What should be done next?
 Recent work by other authors has focused on the practicality of implementing proof systems for $\NP$ on real computers.
 Unlike this work, in which we completely ignore the resources required for the prover to transform the proof of membership in a language to a probabilistically checkable proof in the appropriate format, other works focus on efficient implementation of both the verifier and the prover.
 Also, some other works consider a model of proof system in which the prover and the verifier have some limited communication.
 See \autocites{bcgt13}{gkr08}{smbw12}{svpbbw12}{trmp12} for more information.
+
+%% In this chapter we provide some initial structural complexity results for classes of probabilistically checkable proof systems (PCPs) for nondeterministic $\NC$ ($\NNC$) circuit families, as a first step towards characterizing probabilistic proof systems for $\P$.
+%% One of the major successes of the PCP Theorem, a characterization of $\NP$ as a class of probabilistically checkable proof systems (with polynomial-time verifiers), is that it provides a route to proving that approximating certain computationally intractable optimization problems is as difficult as solving them exactly.
+%% The growth of multiprocessor systems in general purpose personal computers highlights the urgency of proving the analagous inapproximability (or approximability) of \emph{inherently sequential} optimization problems by \emph{highly parallel} algorithms.
+%% The $\P$-complete problems are generally considered to be inherently sequential, whereas problems in $\NC$ are considered highly parallel.
+%% Our guiding question is now, ``For which $\P$-complete problems are there $\NC$ approximation algorithms, and for which are there none?''
+
+%% Unfortunately, the techniques used to prove the original PCP Theorem rely on the fact that $\NP$ can be interpreted as the class of languages for which there is an efficient verification procedure given a brief witness to language membership; no such obvious interpretation of $\P$ exists.
+%% Indeed, this question was already on the minds of researchers soon after the original proof of the PCP Theorem.
+%% \begin{quote}
+%%   An intriguing question is whether the known non-approximability results for sequential algorithms can be improved when we restrict to $\NC$ algorithms (under the assumption that $\P \neq \NC$).
+%%   A possible way may be to devise \emph{probabilistic proof systems for $\P$} more efficient that the currently known proof systems for $\NP$.
+%%   Such a result would have a great independent interest.
+%%   However, it is not clear why proofs for $\P$ should be \emph{easier to check} than proofs for $\NP$ (they only appear to be \emph{easier to generate}).~\autocite{trevisan98}
+%% \end{quote}
+%% Perhaps $\P$ has proof systems that are easy to check in $\NC$, but this remains unclear.
+%% Instead, we consider proof systems for the class $\NNC[\polylog]$, the class of languages decidable by $\NC$ circuit families augmented with a polylogarithmic number of nondeterministic gates.
+%% We hope that this will be a valuable first step toward understanding proof systems for $\P$.
+%% Other researchers have had similar questions about classes like this.
+%% \begin{quote}
+%%   The fundamental question remains whether there are problems in $\P$ that can be computed more quickly with limited nondeterminism than without it.~\autocite{bg93}
+%% \end{quote}
+%% We consider $\NNC[\polylog]$ for two reasons.
+%% First, it is defined in such a way that it explicitly has short proof systems which are easy to verify in parallel, just as $\NP$ is defined in such a way that it explicitly has short proof systems which are easy to verify efficiently.
+%% Second, it, like $\P$, lies between $\NC$ and $\NP$.
+
+%% Although our original intention was to show something like $\NNC[\polylog] = \PCP[O(\loglog n), O(1)]$, our research reveals that proving such an equality is equivalent to proving $\NNC[\polylog] = \NC$, or in other words, that a polylogarithmic amount of nondeterminism can be simulated deterministically by an $\NC$ circuit family.
+%% This should be seen as evidence that such a result is unlikely; in fact, we show that such a simulation implies a deterministic subexponential time algorithm for the Boolean formula satisfiability problem!
+%% We are still, however, able to show that certain PCP classes are contained in $\NNC[\polylog]$.
+
+%% Recent work by other authors has focused on the practicality of implementing proof systems for $\NP$ on real computers.
+%% Unlike this work, in which we completely ignore the resources required for the prover to transform the proof of membership in a language to a probabilistically checkable proof in the appropriate format, other works focus on efficient implementation of both the verifier and the prover.
+%% Also, some other works consider a model of proof system in which the prover and the verifier have some limited communication.
+%% See \autocites{bcgt13}{gkr08}{smbw12}{svpbbw12}{trmp12} for more information.
 
 \section{Preliminaries}
 
@@ -66,7 +141,7 @@ and \QP{}, the class of languages decidable by a deterministic ``quasipolynomial
 We will also be considering $\NC^k$, the class of languages decidable by a family of logarithmic space uniform Boolean circuits of polynomial size, $O(\log^k n)$ depth, and unbounded fan-in.
 We will denote by $\NC$ the union of all the $\NC^k$ classes.
 A language in $\NC^k$ can also be described as a language which admits an algorithm which uses a polynomial number of processors running in $O(\log^k n)$ time on a parallel random-access machine (PRAM).
-In this work, we describe $\NC$ algorithms using this paradigm.
+We describe $\NC$ algorithms using this paradigm.
 
 \begin{definition}[{\autocite[Definition~1.1]{dinur07}}]
   Let $V$ be a finite set of variables, defined by $V = \{x_1, x_2, \dotsc, x_n\}$, let $\Gamma$ be a finite alphabet, and let $q$ be a natural number.
@@ -118,7 +193,7 @@ The initialism ``PCP'' stands for ``probabilistically checkable proof''\kern-0.4
   The value $c(n)$ is the \emph{completeness} and the value $s(n)$ the \emph{soundness} of the verifier.
 \end{definition}
 
-In this work, we will consider only nonadaptive PCP verifiers.
+In this chapter, we will consider only nonadaptive PCP verifiers.
 Since a (nonadaptive) $(r(n), q(n), c(n), s(n))$-PCP verifier can read at most $2^{r(n)} q(n)$ locations of the proof string with nonzero probability, we assume without loss of generality that the proof provided to the verifier is of length at most $2^{r(n)} q(n)$ \autocite[Remark~11.6]{ab09}.
 (Note that a verifier which uses $q(n)$ adaptive random access queries to the proof string can be simulated by a verifier which uses $2^{q(n)}$ nonadaptive random access queries to the proof string, so in the adaptive case, the proof string could be of length $2^{r(n) + q(n)}$.)
 
