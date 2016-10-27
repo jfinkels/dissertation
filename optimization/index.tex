@@ -1,22 +1,64 @@
 \newcommand{\cl}{\operatorname{cl}}
 
-%% For use in nested aligns
-%% Source: http://tex.stackexchange.com/a/68592
-\newlength{\myleftlen}
-\newcommand{\setmyleftlen}[1]{\settowidth{\myleftlen}{\( \displaystyle
-#1\)}}
-\newcommand{\backup}{\hskip-\myleftlen\mkern-7mu}
-
 \chapter{Optimization problems}
 \label{chp:optimization}
 
-\lettrine{I}{n this chapter} we study classes of optimization problems that require inherently sequential algorithms to solve exactly but permit highly parallel algorithms for approximate solutions.
-$\NC$ is the class of computational problems decidable by a logarithmic space uniform family of Boolean circuits of bounded fan-in, polynomial size, and polylogarithmic depth.
-Such problems are considered both ``efficient'' (since $\NC \subseteq \P$) and ``highly parallel'' (since we might consider each gate in the circuit to be a processor working in parallel and the small depth of the circuit a small number of steps).
-By contrast, problems that are $\P$-complete (under logarithmic space or even $\NC$ many-one reductions) are considered ``inherently sequential''\kern-0.45em.\kern+0.45em
-Furthermore, all $\NP$-hard and $\PSPACE$-hard problems are also inherently sequential, since $\P \subseteq \NP \subseteq \PSPACE$.
-Just as we hope to find efficient approximation algorithms for optimization problems for which it is intractable to compute an exact solution, so too do we hope to find efficient and highly parallel approximation algorithms for optimization problems for which computing the exact solution is inherently sequential.
-(However, just like hardness of approximation for $\NP$-hard problems, in some cases even \emph{approximating} a solution is inherently sequential!)
+% % Foreword %
+%
+% %% Context (anyone - why now?) %%
+%
+% What is the current situation, and why is the need so important?
+%
+\lettrine{M}{any natural computational problems} can be expressed as optimization problems, allowing for a more refined analysis of the computational complexity of the problem.
+%
+% %% Need (readers - why you?) %%
+%
+% Why is this relevant to the reader, and why does something need to be done?
+% (Also reference relevant existing work.)
+%
+Much research has focused on efficient approximations of intractable optimization problems, with little work done to understand highly parallel approximations for tractable but otherwise inherently sequential optimization problems.
+%% $\NC$ is the class of computational problems decidable by a logarithmic space uniform family of Boolean circuits of bounded fan-in, polynomial size, and polylogarithmic depth.
+%% Such problems are considered both ``efficient'' (since $\NC \subseteq \P$) and ``highly parallel'' (since we might consider each gate in the circuit to be a processor working in parallel and the small depth of the circuit a small number of steps).
+%% By contrast, problems that are $\P$-complete (under logarithmic space or even $\NC$ many-one reductions) are considered ``inherently sequential''\kern-0.45em.\kern+0.45em
+%% Furthermore, all $\NP$-hard and $\PSPACE$-hard problems are also inherently sequential, since $\P \subseteq \NP \subseteq \PSPACE$.
+%
+% %% Task (author - why me?) %%
+%
+% What was undertaken to address the need?
+%
+Our task is to define the complexity classes associated with this notion and determine whether there are inherently sequential optimization problems that admit parallel approximations as well as whether there are sequential problems for which no parallel approximation exists.
+%
+% %% Object (document - why this document?) %%
+%
+% What does this document cover?
+%
+This chapter provides these complexity theoretic foundations.
+
+%
+% % Summary %
+%
+% %% Findings (author - what?)
+%
+% What did the work reveal when performing the task?
+%
+Under reasonable complexity-theoretic assumptions, we prove that $\NNCO \subsetneq \NPO$ (\autoref{thm:nnconpo}) and $\PO \cap \NNCO \subsetneq \PO$ (\autoref{thm:poppo}).
+Furthermore, we prove that the hierarchies of classes of optimization problems approximable in parallel are strict (\autoref{thm:hierarchy} and \autoref{thm:hierarchy2}).
+Finally, we provide three candidates that we conjecture to be complete for the class of optimization problems that are solvable exactly in polynomial time and approximable up to a constant factor by a highly parallel approximation.
+
+%
+% %% Conclusion (readers - so what?)
+%
+% What did the findings mean for the audience?
+%
+These findings provide evidence that viewing computational problems through the lens of optimization provides a finer-grained understanding of their complexity, since $\NNC[\poly] = \NP$ but $\NNCO \subsetneq \NPO$ (under the appropriate assumptions).
+Also, the strictness of the hierarchy intersecting $\PO$ demonstrates that there are efficiently solvable problems of various levels of parallel approximability.
+Analagous to the hardness of approximation results for intractable problems, in some cases even approximating a solution is inherently sequential.
+
+%
+% %% Perspective (anyone - what now?)
+%
+% What should be done next?
+Altogether, this chapter reinforces the idea that the complexity of verifying a solution is an important factor in consider the overall computational complexity of an optimization problem.
 
 \section{Definitions}
 
