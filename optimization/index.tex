@@ -170,13 +170,13 @@ Wolf \cite{wolf94} notes that $\NNC[\log n]=\NC$ and $\NNC[\poly]=\NP$, and sugg
 Cai and Chen \cite{cc97} prove that for each natural number $k$ and $i$, there is a complete problem for $\NNC^k\left[\log^i n\right]$ under logarithmic space many-one reductions.
 
 \begin{definition}\label{def:nnco}
-  The complexity class $\NNCOpoly$ is the class of all optimization problems $(I, S, m, t)$ such that the following conditions hold.
+  The complexity class $\NNCO[\poly]$ is the class of all optimization problems $(I, S, m, t)$ such that the following conditions hold.
   \begin{enumerate}
   \item The instance set $I$ is decidable by an $\NC$ circuit family.
   \item The solution relation $S$ is decidable by an $\NC$ circuit family and is polynomially bounded (that is, the length of $y$ is bounded by a polynomial in the length of $x$ for all $(x, y)\in S$).
   \item The measure function $m$ is computable by an $\FNC$ circuit family.
   \end{enumerate}
-  For the sake of brevity, we write $\NNCO$ instead of $\NNCOpoly$.
+  For the sake of brevity, we write $\NNCO$ instead of $\NNCO[\poly]$.
 \end{definition}
 
 We can now proceed to define classes of approximable optimization problems contained in $\NNCO$.
