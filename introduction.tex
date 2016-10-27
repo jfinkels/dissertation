@@ -71,9 +71,8 @@ In \autoref{chp:parameterized}, we formalize the tradeoffs between time, paralle
 %
 % What did the findings mean for the audience?
 %
-\textbf{Add another conclusion paragraph HERE}
-
-Under the assumption that $\NC \neq \P$, the fact that $\NNC[\poly] = \NP$ (\autocite{wolf94}) but $\NNCO \neq \NPO$ (\autoref{thm:nnconpo}) leads us to conclude that viewing a computational problem as merely a decision problem is too coarse-grained an approach---it does not give enough information about the computational complexity of the problem.
+Our findings demonstrate that, under reasonable complexity theoretic assumptions, there are inherently sequential problems that do not admit parallel algorithms, and even parallel algorithms augmented with some additional resources or relaxed objectives.
+Furthermore, under the assumption that $\NC \neq \P$, the fact that $\NNC[\poly] = \NP$ (\autocite{wolf94}) but $\NNCO \neq \NPO$ (\autoref{thm:nnconpo}) leads us to conclude that viewing a computational problem as merely a decision problem is too coarse-grained an approach---it does not give enough information about the computational complexity of the problem.
 The conjecture that $\para \WNC \neq \para \WP$ if and only if $\NNC[\omega(\log n)] = \NP[\omega(\log n)]$ (\autoref{con:wncwp}) supports this view as well, if the conjecture holds.
 This means that considering the complexity of decision, both parameterized and unparameterized, and of approximation independently is insufficient.
 Researchers and practicioners should consider the complexity of verification in addition to the complexity of decision and optimization.
@@ -84,41 +83,3 @@ Researchers and practicioners should consider the complexity of verification in 
 % What should be done next?
 This line of research, along with the fact that the complexity of solving a decision problem seems to have little to with the approximability or parameterized complexity of that problem, emphasizes the need to further determine the relative difficulty of computational problems with respect to the complexity of decision, verification, and approximation.
 Descriptive complexity seems like a promising way of unifying the complexity analyses of the different kinds of computational problems explored here; there are descriptive complexity characterizations for classes of decision problems \autocite{immerman99}, classes of approximable optimization problems \autocite{kt93}, and classes of parameterized problems \autocite{fg06}.
-
-\section{TODO Incorporate these diagrams somewhere}
-
-%% We study the structural complexity of sequential versus parallel computation in decision problems, optimization problems, and parameterized problems.
-
-\begin{minipage}[t]{0.31\linewidth}
-  \centering
-  \input{figures/inclusions-decision}
-\end{minipage}%
-\begin{minipage}[t]{0.31\linewidth}
-  \centering
-  \input{figures/inclusions-optimization}
-\end{minipage}%
-\begin{minipage}[t]{0.31\linewidth}
-  \centering
-  \input{figures/inclusions-parameterized}
-\end{minipage}
-
-These inclusion diagrams shape how we approach all the problems in this paper.
-Double lines represent equality, solid lines represent strict inequality under some reasonable complexity-theoretic assumptions, and dashed lines represent inclusions of unknown strictness or equality.
-%% The fact that $\NNC[\poly] = \NP$ but $\NNCO \neq \NPO$ and $\para \WNC \neq \para \WP$ (under the assumption $\NC \neq \P$) leads us to conclude that viewing a computational problem as merely a decision problem is too coarse-grained an approach---it does not give enough information about the computational complexity of the problem.
-
-%There is another view that we approach only indirectly in this work, the complexity of verification.
-%% This is why $\NNCO$ differs from $\NPO$ and $\para \WNC$ differs from $\para \WP$: these classes take into account the complexity of verifying a solution.
-%% The classes of decision problems $\NNC[\poly]$ and $\NP$ do not.
-
-%% \todo{Descriptive complexity encompasses all of these; specifically for parallel complexity of optimization problems, see \autocite{kt93}.}
-
-\section{TODO Make sure the introduction of each section covers these points}
-We aim to show that there is a $\P$-complete problem that is also
-\begin{enumerate}
-\item[(D1)] not in $\NNC[\polylog]$ (\autoref{thm:pinpcp} provides one unless $P \subsetneq \polyL$),
-\item[(D2)] in $\NNC[\polylog]$ but not in $\NC$ (unknown),
-\item[(O1)] not in $\ApxNCO$ (\autocite[Theorem~3.25]{ncapproximation} provides one unless $\NC = \P$),
-\item[(O2)] in $\ApxNCO$ but not in $\NCO$ (\autocite[Theorem~3.25]{ncapproximation} provides on unless $\NC = \P$),
-\item[(P1)] not in $\para \WNC[1]$ (unknown),
-\item[(P2)] in $\para \WNC[1]$ but not in $\para \NC$ (unknown).
-\end{enumerate}
