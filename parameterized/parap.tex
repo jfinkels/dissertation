@@ -1,3 +1,5 @@
+\newcommand{\clo}[1]{\left[{#1}\right]}
+
 \section{Fixed-parameter tractability}
 
 % % Foreword %
@@ -54,7 +56,7 @@ Contrast this parameterized inherent sequentiality with the highly parallelizabl
 % %% Perspective (anyone - what now?)
 %
 % What should be done next?
-In light of this, we recommend that researchers consider $\para \P$-completeness when determining membership of a parameterized problem in $\para \P$ (also known as $\FPT$).
+In light of this, we recommend that researchers consider $\para \P$-completeness when determining membership of a parameterized problem in $\para \P$.
 
 %% Consider the parameterized high degree subgraph problem.
 
@@ -403,19 +405,19 @@ Instead, we use a problem that is a little less silly while still equivalent und
 
 In the setting of decision problems, we know that $\NP$ can be characterized as the closure of the circuit satisfiability problem under polynomial-time many-one reductions,
 \[
-\NP = \cl{\textsc{Circuit Satisfiability}}^{\leq_m^\P},
+\NP = \clo{\textsc{Circuit Satisfiability}}^{\leq_m^\P},
 \]
 and $\P$ as the closure of the circuit evaluation problem under $\NC^1$ many-one reductions,
 \[
-\P = \cl{\textsc{Circuit Evaluation}}^{\leq_m^{\NC^1}}.
+\P = \clo{\textsc{Circuit Evaluation}}^{\leq_m^{\NC^1}}.
 \]
 In the setting of parameterized problems, the class $\para \WP$ can be characterized as the closure of the parameterized weighted circuit satisfiability problem under fixed-parameter tractable many-one reductions,
 \[
-\para \WP = \cl{\pCkSAT}^{\leq_m^{\para \P}}.
+\para \WP = \clo{\pCkSAT}^{\leq_m^{\para \P}}.
 \]
 Following the above pattern, we define a new class as the closure of the parameterized weighted circuit evaluation problem under fixed-parameter parallelizable many-one reductions,
 \[
-\para \EP = \cl{\pWCE}^{\leq_m^{\para \NC}}
+\para \EP = \clo{\pWCE}^{\leq_m^{\para \NC}}
 \]
 (``E'' for evaluation).
 %% \todo{This is a name conflict with an existing class called $\EP$.}
