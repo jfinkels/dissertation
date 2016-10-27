@@ -45,6 +45,7 @@
 %% This is strongly recommended by biblatex.
 \usepackage[english]{babel}
 \usepackage[backend=biber]{biblatex}
+\usepackage{enumitem}
 \usepackage[T1]{fontenc}
 %% This must come before csquotes.
 \usepackage[utf8]{inputenc}
@@ -60,6 +61,8 @@
 \usepackage{complexity}
 \usepackage[final]{microtype}
 \usepackage{tikz}
+
+\setlist[description]{font=\normalfont\scshape}
 
 \LoadMicrotypeFile{cmr}
 \SetProtrusion
@@ -121,7 +124,7 @@
 %\listoftables
 %\listoffigures
 \input{abbrevs}
-\input{glossary}
+%\input{glossary}
 
 \mainmatter
 \input{introduction}
