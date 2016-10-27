@@ -494,6 +494,7 @@ One thing we are unable to show in this section is an optimization problem whose
 %% Yet another way to do this is to find an optimization problem whose budget problem is $\P$-complete while admitting a highly parallel approximation scheme.
 
 We start with the necessary definitions for optimization problems and approximation schemes.
+Some of these definitions appear in \autoref{chp:optimization}, but we repeat them here in a more concise form so that this section is self-contained.
 
 \begin{definition}
   An \emph{optimization problem} $O$ is a four-tuple $(I, S, m, t)$, where $I$ is the set of instances, $S$ is the set of pairs $(x, w)$ where $w$ is a solution for $x$, the function $m$ computes the \emph{measure} (or \emph{objective value}) for such a pair, and $t$ is either $\min$ or $\max$.
@@ -557,7 +558,7 @@ If $f(k)$ is considered a fixed constant, then the definition yields $\NCAS$.
 %% positive linear programming has a depth bound of about f(k) \log^3 n, so no.
 
 We can use an $\ENCAS$ algorithm to construct a $\para \NC$ algorithm for the standard parameterization of an optimization problem.
-The converse does not hold: as a counterexample, the minimum vertex cover problem not in $\ENCAS$ \todo{citation here} but in $\para \NC$ \autocite[Theorem~4.5]{bst15}.
+The converse does not hold: as a counterexample, the minimum vertex cover problem is not in $\ENCAS$ (since no polynomial-time approximation algorithm with approximation ratio better than $7 / 6$ exists \autocite[Theorem~8.1]{hastad01}) but in $\para \NC$ \autocite[Theorem~4.5]{bst15}.
 This theorem is an adaptation of \autocite[Theorem~1.32]{fg06}.
 
 \begin{theorem}\label{thm:encasfpp}
