@@ -641,24 +641,24 @@ This is a slight improvement, since \autocite[Theorem~3.6]{cc97lim} proves that 
   (If we wish to have uniform completeness, we can require that $i(n)$ be computable in uniform depth $O(\log n)$.)
 \end{proof}
 
-This technique also gives us an alternate proof of the completeness $\pFSAT$ \autocite[Theorem~3.6]{est15}.
-However, we can prove only completeness under the $\para \NC^1$ reduction instead of the tighter $\para \FO$ reduction.
+%% This technique also gives us an alternate proof of the completeness $\pFSAT$ \autocite[Theorem~3.6]{est15}.
+%% However, we can prove only completeness under the $\para \NC^1$ reduction instead of the tighter $\para \FO$ reduction.
 
-\begin{theorem}\label{thm:pfsatcomplete}
-  $\pFSAT$ is complete for $\para \WNC^1$ under $\para \NC^1$ many-one reductions.
-  %% Also, the underlying decision problem is in $\NNC^1[\poly]$.
-\end{theorem}
-\begin{proof}
-  Membership in $\para \WNC^1$ was proven in \autoref{lem:pfsatmem}.
+%% \begin{theorem}\label{thm:pfsatcomplete}
+%%   $\pFSAT$ is complete for $\para \WNC^1$ under $\para \NC^1$ many-one reductions.
+%%   %% Also, the underlying decision problem is in $\NNC^1[\poly]$.
+%% \end{theorem}
+%% \begin{proof}
+%%   Membership in $\para \WNC^1$ was proven in \autoref{lem:pfsatmem}.
 
-  To prove hardness, it suffices to show a $\para \NC^1$ reduction from $p \dash k \dash \NC^1 \textsc{CSat}$ to $\pFSAT$, since the circuit problem is complete for $\para \WNC^1$ by the previous theorem.
-  The reduction is $(C, k) \mapsto (\phi, k)$, where $\phi$ is the standard reduction for logarithmic depth circuits to polynomial size Boolean formulas.
-  This reduction recursively replaces each subcircuit with its corresponding formula, using the input gates of the circuit as the variables for the formula.
-  Since the depth of the (fan-in 2) circuit is $O(\log n)$, where $n$ is the number if inputs to $C$, the size of the formula is $2^{O(\log n)}$, which is polynomial in $n$.
-  Furthermore, since the variables appearing in the formula are exactly the input gates of the circuit, the circuit has a satisfying assignment of weight $k$ if and only if the formula has a satisfying assignment of weight $k$.
-  Finally, the reduction is computable by circuit of size $O(|\phi|)$ and depth $O(\depth(C))$, so it is computable in $\NC^1$ \todo{someone verify this}.
-  Since furthermore the parameter is unchanged by the reduction, the $\NC^1$-computable function trivially induces a $\para \NC^1$ reduction.
-\end{proof}
+%%   To prove hardness, it suffices to show a $\para \NC^1$ reduction from $p \dash k \dash \NC^1 \textsc{CSat}$ to $\pFSAT$, since the circuit problem is complete for $\para \WNC^1$ by the previous theorem.
+%%   The reduction is $(C, k) \mapsto (\phi, k)$, where $\phi$ is the standard reduction for logarithmic depth circuits to polynomial size Boolean formulas.
+%%   This reduction recursively replaces each subcircuit with its corresponding formula, using the input gates of the circuit as the variables for the formula.
+%%   Since the depth of the (fan-in 2) circuit is $O(\log n)$, where $n$ is the number if inputs to $C$, the size of the formula is $2^{O(\log n)}$, which is polynomial in $n$.
+%%   Furthermore, since the variables appearing in the formula are exactly the input gates of the circuit, the circuit has a satisfying assignment of weight $k$ if and only if the formula has a satisfying assignment of weight $k$.
+%%   Finally, the reduction is computable by circuit of size $O(|\phi|)$ and depth $O(\depth(C))$, so it is computable in $\NC^1$ \todo{someone verify this}.
+%%   Since furthermore the parameter is unchanged by the reduction, the $\NC^1$-computable function trivially induces a $\para \NC^1$ reduction.
+%% \end{proof}
 
 Finally, we extend \autocite[Corollary~3.7]{est15} using this new family of complete problems.
 That theorem states that $\NC^1 = \P$ implies $\W[\SAT] = \W[\P] (= \para \WP)$, so we wish to generalize it to allow for an interpolation between $\NC^1$ and $\P$.
