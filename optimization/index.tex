@@ -43,7 +43,7 @@ This chapter provides these complexity theoretic foundations.
 %
 Under reasonable complexity-theoretic assumptions, we prove that $\NNCO \subsetneq \NPO$ (\autoref{thm:nnconpo}) and $\PO \cap \NNCO \subsetneq \PO$ (\autoref{thm:poppo}).
 Furthermore, we prove that the hierarchies of classes of optimization problems approximable in parallel are strict (\autoref{thm:hierarchy} and \autoref{thm:hierarchy2}).
-Finally, we provide three candidates that we conjecture to be complete for the class of optimization problems that are solvable exactly in polynomial time and approximable up to a constant factor by a highly parallel approximation.
+Finally, we propose three candidate complete problems that we conjecture complete for the class of efficiently solvable but constant-factor parallel approximable optimization problems.
 
 %
 % %% Conclusion (readers - so what?)
@@ -72,13 +72,13 @@ The all-ones vector is denoted $\mathbf{1}$.
 
 \subsection{Optimization problems and approximation algorithms}
 
-We adapt the definitions of \cite{tantau07} from logarithmic space approximability to $\NC$ approximability.
+We adapt the definitions of \cite{tantau07} from $\L$ approximability to $\NC$ approximability.
 
 \begin{definition}[\cite{acgkmp99}]
   An \emph{optimization problem} is a four-tuple, $(I, S, m, t)$, where the set $I \subseteq \Sigma^*$ is called the \emph{instance set}, the set $S \subseteq I \times \Sigma^*$ is called the \emph{solution relation}, the function $m \colon S \to \mathbb{Z}^+$ is called the \emph{measure function}, and $t \in \{\min, \max\}$ is called the \emph{type} of the optimization.
 \end{definition}
 
-An optimization problem in which the measure function has rational values can be transformed into one in which the measure function has integer values \cite[page~23]{acgkmp99} (for example, by expressing each measure as the integer numerator of the equivalent rational number whose denominator is the greatest common divisor of all the values $m(x, y)$ for each fixed $x$).
+An optimization problem in which the measure function has rational values can be transformed into one in which the measure function has integer values \cite[page~23]{acgkmp99}.
 
 \begin{definition}[\cite{tantau07}]
   Let $P$ be an optimization problem, so $P = (I, S, m, t)$, and let $x \in I$.
@@ -238,6 +238,8 @@ If furthermore $Q$ is in $\mathcal{C}$ we say $Q$ is \emph{complete for $\mathca
 This section shows that \textsc{Maximum Variable-Weighted Satisfiability} is complete for $\NNCO$ and \textsc{Maximum Weighted Circuit Satisfiability} is complete for $\NPO$.
 Furthermore, the latter problem is not in $\NNCO$ unless $\NC = \P$.
 Thus there are optimization problems whose corresponding budget problems are of equal computational complexity---they are both $\NP$-complete---but whose solution relations are of different computational complexity, under reasonable complexity theoretic assumptions.
+
+The difference in the verification complexity between circuit and formula satisfiability problems appears also in \autoref{chp:parameterized}; compare these optimization problems with the parameterized problems $p \dash \textsc{FSat}$ and $p \dash \textsc{CSat}$.
 
 \begin{definition}[\textsc{Maximum Variable-Weighted Satisfiability}]
   \mbox{} \\
@@ -597,6 +599,7 @@ Although this optimization problem is not approximable within $\frac{2 n^\epsilo
 
 \subsection{Linear program for high degree subgraph}
 
+Is there a way to relax the high degree subgraph problem to make it easier to work with?
 Perhaps we can consider a linear programming relaxation of \textsc{Maximum High Degree Subgraph} and show that such a restriction is more approximable than \textsc{Linear Programming} but less approximable than \textsc{Positive Linear Programming}.
 
 Suppose the vertices of a graph $G$ are identified with the integers $\{1, \dotsc, n\}$.
@@ -607,6 +610,7 @@ In other words, we want ``if $x_i = 1$ then $\deg(i) \geq d$''\kern-0.45em,\kern
 Equivalently, we want ``$x_i \neq 1$ or $\deg(i) \geq d$''\kern-0.45em,\kern+0.45em or more specifically, ``$x_i < 1$ or $\deg(i) \geq d$''\kern-0.45em.\kern+0.45em
 We can combine the two inequalities to get a single constraint ``$x_i + d \leq 1 + \deg(x_i)$''\kern-0.45em.\kern+0.45em
 However, as stated above we want this constraint to be always satisfied if $x_i = 0$ (that is, when the vertex $i$ is not in the subgraph $H$); in this form, that is not always true.
+
 We can assume without loss of generality that $d$, the minimum degree of $H$, will always be less than or equal to $n - 1$ (since a graph without self-loops cannot have a vertex of degree $n$ anyway).
 Thus we can ensure the constraint is always satisfied if we modify it so that $x_i = 0$ implies $d$ is less than the right side, ``$n x_i + d \leq n + \deg(x_i)$''\kern-0.45em.\kern+0.45em
 Now if $x_i = 1$ then $d \leq \deg(x_i)$ as required, and if $x_i = 0$ then $d \leq n- 1 \leq n \leq n + \deg(x_i)$ is always satisfied.
@@ -632,24 +636,10 @@ Therefore, the proposed linear program is
 \end{align*}
 where $A$ is the adjacency matrix of the graph $G$, $n$ is the number of vertices in $G$, $\mathbf{0}$ is the all zeros vector, $\mathbf{1}$ is the all ones vector, and $\leq$ for vectors denotes component-wise inequality.
 (If we restrict $\mathbf{x}$ and $d$ to be integer-valued, then this is exactly the same problem.)
-Now let us define this in the language of an optimization problem.
-\begin{definition}[\textsc{HDS Linear Programming}]
-  \mbox{} \\
-  \begin{tabular}{r p{9.5cm}}
-    \textbf{Instance:} & $m \times n$ Boolean matrix $A$, non-negative rational vector $\mathbf{c}$ of length $n$, non-negative rational $c_0$. \\
-    \textbf{Solution:} & non-negative rational vector $\mathbf{x}$ of length $n$ and rational $d$ satisfying the inequalities
-           {
-             \begin{align*}
-               n \mathbf{x} + d \mathbf{1} & \leq n \mathbf{1} + A \mathbf{x} \\
-               \mathbf{1}^\intercal \mathbf{x} & > 0 \\
-               \mathbf{0} \leq \mathbf{x} & \leq \mathbf{1} \\
-               0 \leq d & \leq n - 1
-             \end{align*}
-           } \\[-1em]
-    \textbf{Measure:} & $\max(1, \mathbf{c}^\intercal \mathbf{x} + c_0 d)$. \\
-    \textbf{Type:} & maximization.
-  \end{tabular}
-\end{definition}
+
+Thus the instances of the \textsc{HDS Linear Programming} maximization problem are an $m \times n$ Boolean matrix $A$, nonnegative rational vector $\mathbf{c}$ of length $n$, and a nonnegative rational $c_0$.
+The solution is a nonnegative rational vector $\mathbf{x}$ of length $n$ and rational $d$ satisfying the linear inequalities above.
+The measure is $\max(1, \mathbf{c}^\intercal \mathbf{x} + c_0 d)$.
 
 \begin{conjecture}
   \textsc{HDS Linear Programming} is complete for $\PO \cap \ApxNCO$ under logarithmic space AP reductions.

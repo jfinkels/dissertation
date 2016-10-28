@@ -128,7 +128,7 @@ In the definitions below, $\mathbb{N}$ denotes the set of non-negative integers 
 \end{definition}
 
 We assume the reader knows the basic definitions from complexity theory, including those of the complexity classes $\P$, $\NP$, $\DTIME$, and $\DSPACE$.
-We define the class $\L^k$ by $\L^k = \DSPACE(\log^k n)$ for all non-negative integers $k$ and the class $\polyL$ by $\polyL = \cup_{k \in \mathbb{N}} \DSPACE(\log^k n)$.
+We define the class $\L^k$ by $\L^k = \DSPACE(\log^k n)$ for all nonnegative integers $k$ and the class $\polyL$ by $\polyL = \cup_{k \in \mathbb{N}} \DSPACE(\log^k n)$.
 We denote the class $\L^1$ by simply $\L$.
 We define the complexity class $\SUBEXP$, the class of languages decidable by deterministic ``subexponential'' time Turing machines, as
 \begin{equation*}
@@ -142,34 +142,6 @@ We will also be considering $\NC^k$, the class of languages decidable by a famil
 We will denote by $\NC$ the union of all the $\NC^k$ classes.
 A language in $\NC^k$ can also be described as a language which admits an algorithm which uses a polynomial number of processors running in $O(\log^k n)$ time on a parallel random-access machine (PRAM).
 We describe $\NC$ algorithms using this paradigm.
-
-\begin{definition}[{\autocite[Definition~1.1]{dinur07}}]
-  Let $V$ be a finite set of variables, defined by $V = \{x_1, x_2, \dotsc, x_n\}$, let $\Gamma$ be a finite alphabet, and let $q$ be a natural number.
-  A \emph{$q$-ary constraint} is a $q + 1$ tuple, $(C, i_1, i_2, \dotsc, i_q)$, where $C \subseteq \Gamma^q$ and $i_k \in \{1, 2, \dotsc, n\}$ for all $k \in \{1, 2, \ldots, q\}$.
-  Here, $C$ is considered the set of ``acceptable'' values for the variables.
-
-  An \emph{assignment} is a function $a \colon V \to \Gamma$.
-  An assignment \emph{satisfies} a constraint if $(a(v_{i_1}), a(v_{i_2}), \dotsc, a(v_{i_q})) \in C$.
-\end{definition}
-
-\begin{definition}[\textsc{$q$-CSP}]
-  \mbox{} \\
-  \begin{tabular}{r p{9.5cm}}
-    \textbf{Instance:} & finite alphabet $\Gamma$ with $|\Gamma| > 1$, finite set of variables $V$, finite set of $q$-ary constraints $D$. \\
-    \textbf{Question:} & Are all constraints in $D$ satisfiable?
-  \end{tabular}
-\end{definition}
-
-\begin{definition}[\textsc{$\frac{1}{2}$-gap $q$-CSP}]
-  \mbox{} \\
-  \begin{tabular}{r p{9.5cm}}
-    \textbf{Instance:} & finite alphabet $\Gamma$ with $|\Gamma| > 1$, finite set of variables $V$, finite set of $q$-ary constraints $D$ with the restriction that for any assignment, either all constraints are satisfied or fewer than half are. \\
-    \textbf{Question:} & Are all constraints in $D$ satisfiable?
-  \end{tabular}
-\end{definition}
-
-In the special case in which $q = 2$, that is, all constraints are binary, we may interpret an instance of the constraint satisfaction problem as an undirected graph with vertex set $V$ and an edge labeled $C$ between vertices $v_i$ and $v_j$ for each $(C, i, j)$ in $D$.
-We call such a graph a \emph{constraint graph} and we consider the size of this graph to be $|V| + |E|$ where $V$ is the set of vertices (equivalently, variables) and $E$ is the set of edges.
 
 \begin{definition}
   A \emph{PCP verifier} is a probabilistic Turing machine which has sequential access to an input string $x$, sequential access to a random string $\rho$, and \emph{nonadaptive random access} to a proof string $\pi$.
@@ -218,16 +190,13 @@ From the definition, we see immediately that
 \section{Probabilistically checkable proofs for nondeterministic circuits}
 
 We first provide a PCP characterization of $\NNC[\polylog]$, then later we provide upper and lower bounds for the randomness and query complexity parameters of such a PCP verifier.
+The following theorem shows that a nondeterministic $\NC$ circuit can simulate a PCP verifier and vice versa with the appropriate tradeoff in parameters.
 
 \begin{theorem}\label{thm:qplusr}
-  For all non-negative integers $q$ and $r$,
-  \begin{equation*}
-    \NNC[\log^q n] \subseteq \PCP^{\NC}[r \loglog n, O(\log^q n)] \subseteq \NNC[\log^{q + r} n],
-  \end{equation*}
-  and specifically
-  \begin{equation*}
-    \NNC[\log^q n] \subseteq \PCP^{\NC}[\loglog n, O(\log^q n)] \subseteq \NNC[\log^{q + 1} n].
-  \end{equation*}
+  For all nonnegative integers $q$ and $r$,
+  $$
+    \NNC[\log^q n] \subseteq \PCP^{\NC}[r \loglog n, O(\log^q n)] \subseteq \NNC[\log^{q + r} n].
+  $$
 \end{theorem}
 \begin{proof}
   Let $q$ and $r$ be non-negative integers.
@@ -245,6 +214,12 @@ In the final step, computing the majority of a polylogarithmic number of bits ca
 Therefore $M$ is an $\NNC[\log^{q + r} n]$ machine.
 The correctness of $M$ follows from the completeness and soundness of $V$.
 \end{proof}
+
+Choosing $r = 1$ yields
+$$
+\NNC[\log^q n] \subseteq \PCP^{\NC}[\loglog n, O(\log^q n)] \subseteq \NNC[\log^{q + 1} n].
+$$
+On the other hand, allowing $r$ and $q$ to vary over the set of natural numbers proves the equality of the two hierarchies.
 
 \begin{corollary}\label{cor:polylogeq}
   $\NNC[\polylog] = \PCP^{\NC}[O(\loglog n), \polylog]$.
@@ -279,9 +254,9 @@ We also know the following strengthening of the original PCP Theorem; the proof 
 \end{theorem}
 
 From \autoref{eq:chain}, \autoref{thm:ncpcp}, and \autoref{thm:pcpnp}, we have the two equivalent inclusion chains
-\begin{equation*}
+$
   \NC \subseteq \NNC[\polylog] \subseteq \NP
-\end{equation*}
+$
 and
 \begin{equation*}
   \PCP[O(\loglog n), O(1)] \subseteq \PCP[O(\loglog n), \polylog] \subseteq \PCP[O(\log n), O(1)],
@@ -379,7 +354,7 @@ If this conjecture holds, then $\poly(\loglog n)$ randomness and a logarithmic n
   If \autoref{con:smallqueries} holds, then $\PCP^\NC[\poly(\loglog n), O(\log n)] = \NC$.
 \end{theorem}
 \begin{proof}
-  Combining \autoref{con:smallqueries} with the fact that $O(\log^\alpha \log n) \subseteq O(\log n)$ for all non-negative integers $\alpha$, we have
+  Combining \autoref{con:smallqueries} with the fact that $O(\log^\alpha \log n) \subseteq O(\log n)$ for all nonnegative integers $\alpha$, we have
   \begin{align*}
     \NC & \subseteq \PCP^\NC[\poly(\loglog n), \poly(\loglog n)] \\
     & \subseteq \PCP^\NC[O(\loglog n), \poly(\loglog n)] \\
@@ -393,7 +368,7 @@ If this conjecture holds, then $\poly(\loglog n)$ randomness and a logarithmic n
 Now we return to our original goal, finding a PCP characterization of $\P$.
 The classes $\P$ and $\NNC[\polylog]$ are conjectured incomparable \autocite{wolf94}.
 Using the results above, this conjecture implies that $\P$ and $\PCP^\NC[O(\loglog n), \polylog]$ are incomparable.
-\autoref{thm:pinpcp} shows negative consequences of a PCP characterization for $\P$.
+\autoref{thm:pinpcp} shows the negative consequences of a PCP characterization for $\P$.
 
 \begin{theorem}\label{thm:pinpcp}
   \mbox{}
@@ -524,7 +499,35 @@ We will consider Dinur's proof of the PCP Theorem \autocite{dinur07}, which redu
 Meir observes that although we would like a verifier running in polylogarithmic time, Dinur's proof requires $O(\log n)$ iterations of a polynomial-time procedure, which yields a polynomial-time procedure \autocite[Section~1.2.1]{meir09}.
 We show that a closer look reveals that parallel polylogarithmic time is indeed possible without any new machinery.
 
-We begin with the $\NC$ version of the necessary reduction.
+The proof provides a gap-introducing reduction from an arbitrary $\NP$ problem to a constraint satisfaction problem.
+
+\begin{definition}[{\autocite[Definition~1.1]{dinur07}}]
+  Let $V$ be a finite set of variables, defined by $V = \{x_1, x_2, \dotsc, x_n\}$, let $\Gamma$ be a finite alphabet, and let $q$ be a natural number.
+  A \emph{$q$-ary constraint} is a $q + 1$ tuple, $(C, i_1, i_2, \dotsc, i_q)$, where $C \subseteq \Gamma^q$ and $i_k \in \{1, 2, \dotsc, n\}$ for all $k \in \{1, 2, \ldots, q\}$.
+  Here, $C$ is considered the set of ``acceptable'' values for the variables.
+
+  An \emph{assignment} is a function $a \colon V \to \Gamma$.
+  An assignment \emph{satisfies} a constraint if $(a(v_{i_1}), a(v_{i_2}), \dotsc, a(v_{i_q})) \in C$.
+\end{definition}
+
+\begin{definition}[\textsc{$q$-CSP}]
+  \mbox{} \\
+  \begin{tabular}{r p{9.5cm}}
+    \textbf{Instance:} & finite alphabet $\Gamma$ with $|\Gamma| > 1$, finite set of variables $V$, finite set of $q$-ary constraints $D$. \\
+    \textbf{Question:} & Are all constraints in $D$ satisfiable?
+  \end{tabular}
+\end{definition}
+
+\begin{definition}[\textsc{$\frac{1}{2}$-gap $q$-CSP}]
+  \mbox{} \\
+  \begin{tabular}{r p{9.5cm}}
+    \textbf{Instance:} & finite alphabet $\Gamma$ with $|\Gamma| > 1$, finite set of variables $V$, finite set of $q$-ary constraints $D$ with the restriction that for any assignment, either all constraints are satisfied or fewer than half are. \\
+    \textbf{Question:} & Are all constraints in $D$ satisfiable?
+  \end{tabular}
+\end{definition}
+
+In the special case in which $q = 2$, that is, all constraints are binary, we may interpret an instance of the constraint satisfaction problem as an undirected graph with vertex set $V$ and an edge labeled $C$ between vertices $v_i$ and $v_j$ for each $(C, i, j)$ in $D$.
+We call such a graph a \emph{constraint graph} and we consider the size of this graph to be $|V| + |E|$ where $V$ is the set of vertices (equivalently, variables) and $E$ is the set of edges.
 
 \begin{lemma}\label{lem:inapprox}
   If there is a positive integer $q$ such that \textsc{$\frac{1}{2}$-gap $q$-CSP} is hard for $\NP$ under $\NC$ many-one reductions, then $\PCP^\NC[O(\log n), O(1)] = \NP$.

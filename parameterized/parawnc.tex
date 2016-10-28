@@ -187,6 +187,16 @@ The parameterized semigroup rank problem is in $\para \WNL$ \autocite[Theorem~3.
 % (Also reference relevant existing work.)
 %
 The group rank problem, a restricted version of the semigroup rank problem, is equally, if not more, useful in applications, so we would like to understand the parameterized complexity of that problem as well.
+
+\begin{definition}[$\pgrouprank$]
+  \mbox{} \\
+  \begin{tabular}{r p{9.2cm}}
+    \textbf{Instance:} & finite group $G$ given as a product table, positive integer $k$. \\
+    \textbf{Parameter:} & $k$. \\
+    \textbf{Question:} & Does $G$ have a generating set of cardinality $k$?
+  \end{tabular}
+\end{definition}
+
 %
 % %% Task (author - why me?) %%
 %
@@ -211,6 +221,7 @@ We show that the problem is in $\para \WL$.
 % What did the findings mean for the audience?
 %
 Although we are unable to show that the problem is in $\para \WNC^1$, membership in $\para \WL$ still implies membership in $\para \WNC^2$, so for this problem, parameterized verification is considered highly parallel.
+The high-level algorithm is quite simple: nondeterministically choose a subset and verify that the subset generates each element of the group.
 %
 % %% Perspective (anyone - what now?)
 %
@@ -218,15 +229,6 @@ Although we are unable to show that the problem is in $\para \WNC^1$, membership
 
 %% Let us consider the parameterized group rank problem, a restriction of the parameterized semigroup rank problem.
 %% We can show that this problem is in $\para \WL$, which is also in $\para \WNC^2$.
-
-\begin{definition}[$\pgrouprank$]
-  \mbox{} \\
-  \begin{tabular}{r p{9.2cm}}
-    \textbf{Instance:} & finite group $G$ given as a product table, positive integer $k$. \\
-    \textbf{Parameter:} & $k$. \\
-    \textbf{Question:} & Does $G$ have a generating set of cardinality $k$?
-  \end{tabular}
-\end{definition}
 
 %% This problem is highly parallelizable, given that a witness of size $O(k \log n)$ is provided.
 
@@ -300,7 +302,7 @@ These are the first defined problems in these parameterized complexity classes.
 In a later section, we will show that these problems are complete as well.
 
 Let $\|x\|_1$ denote the Hamming weight (that is, the number of ones) of a binary string.
-This problem is the restriction of $\pCSAT$ to bounded depth circuits.
+This problem is the restriction of $\pCSAT$ to bounded depth circuits, thus we expect it to be of lower computational complexity.
 
 \begin{definition}[$\pNCSAT$]
   \mbox{} \\
@@ -661,7 +663,8 @@ This is a slight improvement, since \autocite[Theorem~3.6]{cc97lim} proves that 
 %% \end{proof}
 
 Finally, we extend \autocite[Corollary~3.7]{est15} using this new family of complete problems.
-That theorem states that $\NC^1 = \P$ implies $\W[\SAT] = \W[\P] (= \para \WP)$, so we wish to generalize it to allow for an interpolation between $\NC^1$ and $\P$.
+That theorem states that $\NC^1 = \P$ implies $\W[\SAT] = \W[\P] (= \para \WP)$, where $\W[\SAT]$ is the closure of $\pFSAT$ under $\para \P$ many-one reductions and $\W[\P]$ is the closure of $\pCSAT$.
+We wish to generalize this to allow for an interpolation between $\NC^1$ and $\P$.
 This connects a collapse in parameterized complexity classes to one in classical complexity classes.
 
 \begin{corollary}
@@ -777,7 +780,7 @@ This theorem is an adaptation of \autocite[Theorem~3.29]{fg06}.
   If $(Q, \kappa)$ denotes $\pNCSAT$ and $i(n) \dash Q$ denotes $\iNCSAT$, then the latter is in $\NC^d$ by \autoref{cor:reducetoself}.
 \end{proof}
 
-As a corollary, we can relate the completeness of parameterized or decision problems to collapses in decision or parameterized classes, respectively.
+As expected, algorithms for complete problems are equivalent to collapsing classes.
 
 \begin{corollary}
   Suppose $d$ is a positive integer.
