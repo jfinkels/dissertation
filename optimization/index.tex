@@ -163,11 +163,11 @@ First we define the necessary circuit classes, then we define the corresponding 
   \end{enumerate}
 \end{definition}
 
-$\NNC[\poly]$, also known as $\GC(\poly, \NC)$ \cite{cc97} %% and $\beta\P$ \cite{kf80}
+$\NNC[\poly]$, also known as $\GC(\poly, \NC)$ \cite{cc97lim} %% and $\beta\P$ \cite{kf80}
 , is an unusual class which may warrant some further explanation.
 $\NC$ has the same relationship to $\NNC[\poly]$ as $\P$ does to $\NP$ (thus an equivalent definition of $\NNC[\poly]$ is one in which each language has an efficient and highly parallel verification procedure; as in the definition of $\NPO$ in \autoref{def:npo}, it is this formulation which we use when defining $\NNCO$ in \autoref{def:nnco}).
 Wolf \cite{wolf94} notes that $\NNC[\log n]=\NC$ and $\NNC[\poly]=\NP$, and suggests that $\NNC[\polylog]$ may be an interesting intermediary class, possibly incomparable with $\P$.
-Cai and Chen \cite{cc97} prove that for each natural number $k$ and $i$, there is a complete problem for $\NNC^k\left[\log^i n\right]$ under logarithmic space many-one reductions.
+Cai and Chen \cite{cc97lim} prove that for each natural number $k$ and $i$, there is a complete problem for $\NNC^k\left[\log^i n\right]$ under logarithmic space many-one reductions.
 
 \begin{definition}\label{def:nnco}
   The complexity class $\NNCO[\poly]$ is the class of all optimization problems $(I, S, m, t)$ such that the following conditions hold.
@@ -692,9 +692,9 @@ Now let us define this in the language of an optimization problem.
 \section{Syntactic characterization of \texorpdfstring{\ApxNCO}{ApxNCO}}
 
 In \cite{py91}, the authors introduce a wealth of problems which are complete under ``L reductions'' for $\MaxSNP$, the class of maximization problems in strict $\NP$ ($\SNP$), which is a syntactic characterization of a subclass of $\NP$.
-Further work showed that the closure of $\MaxSNP$ under $\leq^P_E$ reductions, denoted $\cl\left(\MaxSNP, \leq^P_E\right)$, equals the subclass of $\ApxPO$ with polynomially-bounded measures, denoted $\ApxPO_{pb}$ \cite[Theorem~1]{kmsv99}.
-Since $\cl\left(\ApxPO_{pb}, \leq^P_{PTAS}\right) = \ApxPO$ \cite{ct00}, we conclude that $\cl\left(\MaxSNP, \leq^P_{PTAS}\right) = \ApxPO$ \cite{kmsv99}.
-We also have $\cl\left(\MaxSNP, \leq^P_E\right) = \cl\left(\MaxNP, \leq^P_E\right)$ \cite[Theorem~2]{kmsv99} and \textsc{Maximum Satisfiability} is complete for $\MaxNP$ under $\leq^P_E$ reductions.
+Further work showed that the closure of $\MaxSNP$ under $\leq^P_E$ reductions, denoted $\cl\left(\MaxSNP, \leq^P_E\right)$, equals the subclass of $\ApxPO$ with polynomially-bounded measures, denoted $\ApxPO_{pb}$ \cite[Theorem~1]{kmsv98}.
+Since $\cl\left(\ApxPO_{pb}, \leq^P_{PTAS}\right) = \ApxPO$ \cite{ct00}, we conclude that $\cl\left(\MaxSNP, \leq^P_{PTAS}\right) = \ApxPO$ \cite{kmsv98}.
+We also have $\cl\left(\MaxSNP, \leq^P_E\right) = \cl\left(\MaxNP, \leq^P_E\right)$ \cite[Theorem~2]{kmsv98} and \textsc{Maximum Satisfiability} is complete for $\MaxNP$ under $\leq^P_E$ reductions.
 
 We conjecture that using descriptive complexity theory, these findings can translate to $\NC$.
 For example, we know that $\FO[\polylog] = \NC$ \cite[Theorem~5.2]{immerman99}, which may be used to construct a syntactic definition of $\ApxNCO$.
