@@ -606,9 +606,9 @@ Suppose the vertices of a graph $G$ are identified with the integers $\{1, \dots
 We can represent a subgraph $H$ of a graph as a subset of the vertices, and if the graph has $n$ vertices, this can be an indicator vector $\mathbf{x}$ of length $n$.
 Since we also want to maximize the minimum degree of the chosen subgraph, we introduce a new variable $d$ that has a value between $0$ and $n$ that will be bounded above by the degree of each vertex.
 We want the constraints to reflect that if a vertex is in the subgraph, then the degree of that vertex (with respect to the subgraph) is at least $d$, and if a vertex is not in the subgraph then we don't care about its degree.
-In other words, we want ``if $x_i = 1$ then $\deg(i) \geq d$''\kern-0.45em,\kern+0.45em where $\deg(i) = \Sigma_{j = 1}^n a_{ij} x_j$ and $a_{ij}$ is the entry at row $i$, column $j$ in the adjacency matrix of the graph.
-Equivalently, we want ``$x_i \neq 1$ or $\deg(i) \geq d$''\kern-0.45em,\kern+0.45em or more specifically, ``$x_i < 1$ or $\deg(i) \geq d$''\kern-0.45em.\kern+0.45em
-We can combine the two inequalities to get a single constraint ``$x_i + d \leq 1 + \deg(x_i)$''\kern-0.45em.\kern+0.45em
+In other words, we want ``if $x_i = 1$ then $\deg(i) \geq d$''\kern-0.45em,\kern+0.65em where $\deg(i) = \Sigma_{j = 1}^n a_{ij} x_j$ and $a_{ij}$ is the entry at row $i$, column $j$ in the adjacency matrix of the graph.
+Equivalently, we want ``$x_i \neq 1$ or $\deg(i) \geq d$''\kern-0.45em,\kern+0.65em or more specifically, ``$x_i < 1$ or $\deg(i) \geq d$''\kern-0.45em.\kern+0.75em
+We can combine the two inequalities to get a single constraint ``$x_i + d \leq 1 + \deg(x_i)$''\kern-0.45em.\kern+0.75em
 However, as stated above we want this constraint to be always satisfied if $x_i = 0$ (that is, when the vertex $i$ is not in the subgraph $H$); in this form, that is not always true.
 
 We can assume without loss of generality that $d$, the minimum degree of $H$, will always be less than or equal to $n - 1$ (since a graph without self-loops cannot have a vertex of degree $n$ anyway).
