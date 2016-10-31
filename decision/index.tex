@@ -132,11 +132,11 @@ We define the class $\L^k$ by $\L^k = \DSPACE(\log^k n)$ for all nonnegative int
 We denote the class $\L^1$ by simply $\L$.
 We define the complexity class $\SUBEXP$, the class of languages decidable by deterministic ``subexponential'' time Turing machines, as
 \begin{equation*}
-  \SUBEXP = \cap_{\epsilon > 0} \DTIME(2^{n^\epsilon})
+  \SUBEXP = \bigcap_{\epsilon > 0} \DTIME(2^{n^\epsilon})
 \end{equation*}
 and \QP{}, the class of languages decidable by a deterministic ``quasipolynomial'' time Turing machine, as
 \begin{equation*}
-  \QP = \cup_{k \in \mathbb{N}} \DTIME(2^{\log^k n}).
+  \QP = \bigcup_{k \in \mathbb{N}} \DTIME(2^{\log^k n}).
 \end{equation*}
 We will also be considering $\NC^k$, the class of languages decidable by a family of logarithmic space uniform Boolean circuits of polynomial size, $O(\log^k n)$ depth, and unbounded fan-in.
 We will denote by $\NC$ the union of all the $\NC^k$ classes.
