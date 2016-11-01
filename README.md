@@ -37,7 +37,7 @@ Compiling
 To compile the document, run
 
     pdflatex dissertation
-    biber dissertation
+    biber --validate-datamodel --isbn13 --isbn-normalise dissertation
     pdflatex dissertation
 
 The output is `dissertation.pdf`, and can be viewed with any PDF reader.
