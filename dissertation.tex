@@ -45,13 +45,13 @@
 %% This is strongly recommended by biblatex.
 \usepackage[english]{babel}
 \usepackage[backend=biber]{biblatex}
+\usepackage[tt={oldstyle=false}]{cfr-lm}
 \usepackage{enumitem}
 \usepackage[T1]{fontenc}
 %% This must come before csquotes.
 \usepackage[utf8]{inputenc}
 \usepackage{import}
 \usepackage{lettrine}
-\usepackage{lmodern}
 %% This is strongly recommended by biblatex.
 \usepackage{csquotes}
 %% This must come before hyperref.
@@ -68,8 +68,8 @@
 
 \LoadMicrotypeFile{cmr}
 \SetProtrusion
-    [load=lmr-T1]
-    {encoding=T1, family=lmr}
+    [load=cmr-T1]
+    {encoding=T1, family=cmr}
     {
       \textquotedblright = {,1000},
       \textquotedblleft = {1000,},
