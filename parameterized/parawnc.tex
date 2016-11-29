@@ -460,7 +460,7 @@ This is interesting because we have used an algorithm designed for circuits on f
   \begin{itemize}
   \item Let $U$ be the $\NC^1$ algorithm for evaluating a Boolean formula \autocites{buss87, bcgr92}.
   \item
-    Let $M_i$ be the function on $\log m$ that outputs the $i$th minterm of its input variables (for example, $M_4(w_1, w_2, w_3) = w_1 \land \lnot w_2 \land \lnot w_3$).
+    Let $M_i$ be the function on $\log m$ inputs that outputs the $i$th minterm of its input variables (for example, $M_4(w_1, w_2, w_3) = w_1 \land \lnot w_2 \land \lnot w_3$).
     This function acts like the decoder in \autoref{lem:pkncsatmem}.
   \item
     Let $R_{m, k}(\phi)$ be the function that replaces each instance of a variable $x_i$ in a Boolean formula $\phi$ on $m$ variables with $\vee_{j = 1}^k M_i(\vec{v}_j)$, where $\vec{v}_j$ denotes the $j$th block of size $\log m$ in a tuple of $k \log m$ new variables $v_1, \dotsc, v_{k \log m}$.
