@@ -12,7 +12,7 @@
 %
 % What is the current situation, and why is the need so important?
 %
-\lettrine[loversize=0.1, lhang=0.05, findent=0.2em, nindent=0em]{O}{ne of the major successes} of the PCP Theorem, a characterization of $\NP$ as a class of probabilistically checkable proof systems (with polynomial-time verifiers), is that it provides a route to proving that approximating certain computationally intractable optimization problems is as difficult as solving them exactly.
+\lettrine[loversize=0.1, lhang=0.05, findent=0.2em, nindent=0em]{O}{ne of the major successes} of the PCP Theorem, a characterization of $\NP$ as a class of computational problems that have probabilistically checkable proof systems (with polynomial-time verifiers), is that it provides a route to proving that approximating certain computationally intractable optimization problems is as difficult as solving them exactly.
 %
 % %% Need (readers - why you?) %%
 %
@@ -339,7 +339,7 @@ Contrast this with \autocite[Corollary~10]{fs96} which states that
 \begin{equation*}
   \PCP^\NC[O(\log^k \log n), O(\log^d \log n)] \subseteq \PCP^\NC[O(\loglog n), O(\log^{d + k - 1} \log n)]
 \end{equation*}
-(they actually prove the result for polynomial-time verifiers, but it holds for $\NC$ ones as well).
+(the result is proven for polynomial-time verifiers, but it holds for $\NC$ verifiers as well).
 This yields the equality
 \begin{equation*}
   \PCP^\NC[\poly(\loglog n), \poly(\loglog n)] = \PCP^\NC[O(\loglog n), \poly(\loglog n)],
