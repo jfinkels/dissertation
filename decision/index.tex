@@ -502,8 +502,8 @@ The proof provides a gap-introducing reduction from an arbitrary $\NP$ problem t
 
 \begin{definition}[{\autocite[Definition~1.1]{dinur07}}]
   Let $V$ be a finite set of variables, defined by $V = \{x_1, x_2, \dotsc, x_n\}$, let $\Gamma$ be a finite alphabet, and let $q$ be a natural number.
-  A \emph{$q$-ary constraint} is a $q + 1$ tuple, $(C, i_1, i_2, \dotsc, i_q)$, where $C \subseteq \Gamma^q$ and $i_k \in \{1, 2, \dotsc, n\}$ for all $k \in \{1, 2, \ldots, q\}$.
-  Here, $C$ is considered the set of ``acceptable'' values for the variables.
+  A \emph{$q$-ary constraint} is a $q + 1$ tuple, $(C, i_1, i_2, \dotsc, i_q)$, where $C \subseteq \Gamma^q$ and each $i_k$ is the index of a variable in $V$.
+  Here, $C$ is considered the set of ``acceptable'' values for the variables and each $i_k$ is the index of a variable whose assigned value will be checked against $C$.
 
   An \emph{assignment} is a function $a \colon V \to \Gamma$.
   An assignment \emph{satisfies} a constraint if $(a(v_{i_1}), a(v_{i_2}), \dotsc, a(v_{i_q})) \in C$.
