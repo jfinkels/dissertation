@@ -307,7 +307,7 @@ We begin with a lemma that allows us to construct a function that behaves like a
 
   To compute $f_i$, we use the fact that $i$ is nondecreasing is unbounded.
   We know that for each $k$ there is a natural number $n_k$ such that for all $n \geq n_k$, we have $i(n) \geq k$.
-  Thus the algorithm for computing $f_i$ take $k$ as input and performs a binary search on $i(1), \dotsc, i(n_k)$ to determine the largest $n$ such that $i(n) \geq k$.
+  Thus the algorithm for computing $f_i$ takes $k$ as input and performs a binary search on $i(1), \dotsc, i(n_k)$ to determine the largest $n$ such that $i(n) \geq k$.
   There will be at most $\log n_k$ comparison subcircuits, each requiring a computation of $i$ and a comparison with the integer $k$ (in binary, say), so the overall depth of the circuit computing $f_i$ is $O(\depth(i) \log n \log \log k)$ and the size is $O(\size(i) \log n \log k)$.
 \end{proof}
 
