@@ -236,6 +236,7 @@ We now wish to provide $\NC$ PCP characterizations for both $\NC$ and $\NP$.
 In \autocite{fs96}, the authors prove that $\P = \PCP^\P[O(\loglog n), O(1)]$ (implicitly; they state only that $\NP = \PCP^\P[O(\loglog n), O(1)]$ if and only if $\P = \NP$).
 The same proof techniques can be used in the $\NC$ setting with essentially no changes.
 (The idea of the proof is to simulate $O(\loglog n)$ bits of randomness with $\loglog n + O(1)$ bits by making a random walk of an appropriate length on a fully explicit constant degree expander graph.)
+This yields the following PCP characterization of $\NC$.
 
 \begin{theorem}\label{thm:ncpcp}
   $\NC = \PCP^\NC[O(\loglog n), O(1)]$.
