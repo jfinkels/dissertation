@@ -172,7 +172,7 @@ Since a (nonadaptive) $(r(n), q(n), c(n), s(n))$-PCP verifier can read at most $
 
   More generally, if $\mathcal{F}$ and $\mathcal{G}$ are classes of functions,
   \begin{equation*}
-    \PCPcs{\mathcal{C}}{c(n)}{s(n)}{\mathcal{F}}{\mathcal{G}} = \bigcup_{f \in \mathcal{C}, g \in \mathcal{G}}{\PCPcs{\mathcal{C}}{c(n)}{s(n)}{f(n)}{g(n)}},
+    \PCPcs{\mathcal{C}}{c(n)}{s(n)}{\mathcal{F}}{\mathcal{G}} = \bigcup_{f \in \mathcal{F}, g \in \mathcal{G}}{\PCPcs{\mathcal{C}}{c(n)}{s(n)}{f(n)}{g(n)}},
     \end{equation*}
 
   Since completeness $1$ and soundness $\frac{1}{2}$ are common parameters, and for the sake of brevity, we write $\PCP^{\mathcal{C}}[r(n), q(n)]$ to denote $\PCPcs{\mathcal{C}}{1}{\frac{1}{2}}{r(n)}{q(n)}$, and $\PCP^{\mathcal{C}}[\mathcal{F}, \mathcal{G}]$ to denote $\PCPcs{\mathcal{C}}{1}{\frac{1}{2}}{\mathcal{F}}{\mathcal{G}}$.
