@@ -396,7 +396,8 @@ The weight $k$ can be at most the number of inputs to the circuit, which is in t
   Then the decision problem $\iNCSAT$ is in nonuniform $\NNC^d[i(n) \log n]$.
 \end{corollary}
 \begin{proof}
-  The only change we need to make the circuit from the proof of the previous lemma is to add a single \textsc{and} with the result of deciding the inequality $k \leq i(n)$.
+  The proof is similar to that of \autoref{lem:pkncsatmem} with only one addition necessary to the algorithm: deciding whether $k \leq i(n)$.
+  To do this, add a single \textsc{and} gate whose first input is $A_{n, k}((C, k), w)$ and whose second input is the result of deciding the inequality $k \leq i(n)$.
   The computation of $i(n)$ can be assumed part of the nonuniformity of the circuit, at which point the comparison requires only logarithmic depth.
   (If we wish the deciding circuit to be uniform, we can require that $i(n)$ be computable in uniform depth $O(\log^d n)$.)
 \end{proof}
