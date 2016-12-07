@@ -560,20 +560,21 @@ The standard definition of mildly explicit is that a representation of the graph
 We will refer to graphs which meet these definitions as \emph{polynomial-time mildly explicit} and \emph{polynomial-time fully explicit}.
 Since we are constructing an $\NC$ algorithm, we will require the representation of the graph to be computable by an $\NC$ algorithm.
 More formally, we require an \emph{$\NC$ mildly explicit} graph, that is, a graph for which a representation can be computed by an $\NC$ algorithm with respect to input $n$, the number of nodes of the graph.
-Fortunately, an $\NC$ mildly explicit expander is equivalent to a polynomial-time fully explicit expander, a new equivalence which may be of independent interest when constructing constant-degree expanders in parallel.
+%Fortunately, an $\NC$ mildly explicit expander is equivalent to a polynomial-time fully explicit expander, a new equivalence which may be of independent interest when constructing constant-degree expanders in parallel.
+Fortunately, a polynomial-time fully explicit expander implies an $\NC$ mildly explicit expander, a new implication that may be of independent interest when constructing constant-degree expanders in parallel.
 
 \begin{proposition}
   Suppose $G$ is a $d$-regular expander graph.
-  $G$ is $\NC$ mildly explicit if and only if $G$ is polynomial-time fully explicit.
+  If $G$ is polynomial-time fully explicit, then it is $\NC$ mildly explicit.
 \end{proposition}
 \begin{proof}
-  First suppose $G$ is $\NC$ mildly explicit, so there exists an $\NC$ algorithm that outputs, say, the adjacency list of the graph given $n$ as input.
-  The following algorithm computes the $i$th neighbor of vertex $v$ in time polynomial in $\log n$: construct the adjacency list of the graph, then find and output the $i$th neighbor of vertex $v$.
-  When constructing the adjacency list, we simulate each of the polynomial number of processors sequentially, each one running for $\poly(\log n)$ time, so the overall running time of this step remains $\poly(\log n)$.
-  The list corresponding to vertex $v$ can be found in $O(\log n)$ steps (by using a binary search tree), and the $i$th element of that list can be found in constant time (since $i$ is bounded above by $d$, a constant).
-  Therefore we have presented an algorithm which runs in $\poly(\log n)$ time which correctly computes the $i$th number of $v$ in the graph $G$.
+  %% First suppose $G$ is $\NC$ mildly explicit, so there exists an $\NC$ algorithm that outputs, say, the adjacency list of the graph given $n$ as input.
+  %% The following algorithm computes the $i$th neighbor of vertex $v$ in time polynomial in $\log n$: construct the adjacency list of the graph, then find and output the $i$th neighbor of vertex $v$.
+  %% When constructing the adjacency list, we simulate each of the polynomial number of processors sequentially, each one running for $\poly(\log n)$ time, so the overall running time of this step remains $\poly(\log n)$.
+  %% The list corresponding to vertex $v$ can be found in $O(\log n)$ steps (by using a binary search tree), and the $i$th element of that list can be found in constant time (since $i$ is bounded above by $d$, a constant).
+  %% Therefore we have presented an algorithm which runs in $\poly(\log n)$ time which correctly computes the $i$th number of $v$ in the graph $G$.
 
-  Now suppose $G$ is polynomial-time fully explicit, so there exists an algorithm which computes the $i$th neighbor of $v$ in time polynomial in $\log n$.
+  Suppose $G$ is polynomial-time fully explicit, so there exists an algorithm that computes the $i$th neighbor of $v$ in time polynomial in $\log n$.
   Let $f(v, i)$ denote this algorithm.
   The following $\NC$ algorithm computes the adjacency list of $G$ given the number of nodes $n$: for each vertex $v$ \emph{in parallel} and each index $i$ less than $d$ \emph{in parallel} add $f(v, i)$ to the list corresponding to $v$.
   This algorithm can be computed with $dn$ processors, which is polynomial in $n$.
@@ -581,8 +582,10 @@ Fortunately, an $\NC$ mildly explicit expander is equivalent to a polynomial-tim
   Therefore we have presented an $\NC$ algorithm which correctly computes a representation of the graph $G$.
 \end{proof}
 
-This proposition allows us to replace any polynomial-time mildly explicit expander in Dinur's proof with a polynomial-time fully explicit one.
-(Polynomial-time fully explicit constant degree expander graphs exist; see \autocite{rvw00}, for example.)
+This proposition allows us to replace any polynomial-time fully explicit expander %% in Dinur's proof
+with an $\NC$ mildly explicit one.
+Dinur's proof only requires only polynomial-time mildly explicit expanders, but replacing that requirement with fully explicit ones harms neither the correctness nor the efficiency of the construction.
+Polynomial-time fully explicit constant degree expander graphs exist; see \autocite{rvw00}, for example.
 
 Now, let us return to the preprocessing function $X$, which is defined in two parts, \autocite[Definition~4.1]{dinur07} and \autocite[Definition~4.2]{dinur07}.
 In the first part, each vertex $v$ is replaced by an $\NC$ mildly explicit $d$-regular expander on $\deg(v)$ vertices in which the constraints on the edges of the expander are the equality constraint.
