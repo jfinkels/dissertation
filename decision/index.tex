@@ -81,39 +81,33 @@ Unlike this work, in which we completely ignore the resources required for the p
 Also, some other works consider a model of proof system in which the prover and the verifier have some limited communication.
 See \autocites{bcgt13}{gkr08}{smbw12}{svpbbw12}{trmp12} for more information.
 
-%% In this chapter we provide some initial structural complexity results for classes of probabilistically checkable proof systems (PCPs) for nondeterministic $\NC$ ($\NNC$) circuit families, as a first step towards characterizing probabilistic proof systems for $\P$.
-%% One of the major successes of the PCP Theorem, a characterization of $\NP$ as a class of probabilistically checkable proof systems (with polynomial-time verifiers), is that it provides a route to proving that approximating certain computationally intractable optimization problems is as difficult as solving them exactly.
-%% The growth of multiprocessor systems in general purpose personal computers highlights the urgency of proving the analagous inapproximability (or approximability) of \emph{inherently sequential} optimization problems by \emph{highly parallel} algorithms.
-%% The $\P$-complete problems are generally considered to be inherently sequential, whereas problems in $\NC$ are considered highly parallel.
-%% Our guiding question is now, ``For which $\P$-complete problems are there $\NC$ approximation algorithms, and for which are there none?''
+\section{History}
 
-%% Unfortunately, the techniques used to prove the original PCP Theorem rely on the fact that $\NP$ can be interpreted as the class of languages for which there is an efficient verification procedure given a brief witness to language membership; no such obvious interpretation of $\P$ exists.
-%% Indeed, this question was already on the minds of researchers soon after the original proof of the PCP Theorem.
-%% \begin{quote}
-%%   An intriguing question is whether the known non-approximability results for sequential algorithms can be improved when we restrict to $\NC$ algorithms (under the assumption that $\P \neq \NC$).
-%%   A possible way may be to devise \emph{probabilistic proof systems for $\P$} more efficient that the currently known proof systems for $\NP$.
-%%   Such a result would have a great independent interest.
-%%   However, it is not clear why proofs for $\P$ should be \emph{easier to check} than proofs for $\NP$ (they only appear to be \emph{easier to generate}).~\autocite{trevisan98}
-%% \end{quote}
-%% Perhaps $\P$ has proof systems that are easy to check in $\NC$, but this remains unclear.
-%% Instead, we consider proof systems for the class $\NNC[\polylog]$, the class of languages decidable by $\NC$ circuit families augmented with a polylogarithmic number of nondeterministic gates.
-%% We hope that this will be a valuable first step toward understanding proof systems for $\P$.
-%% Other researchers have had similar questions about classes like this.
-%% \begin{quote}
-%%   The fundamental question remains whether there are problems in $\P$ that can be computed more quickly with limited nondeterminism than without it.~\autocite{bg93}
-%% \end{quote}
-%% We consider $\NNC[\polylog]$ for two reasons.
-%% First, it is defined in such a way that it explicitly has short proof systems which are easy to verify in parallel, just as $\NP$ is defined in such a way that it explicitly has short proof systems which are easy to verify efficiently.
-%% Second, it, like $\P$, lies between $\NC$ and $\NP$.
+In the 1990s, the PCP Theorem by Arora, et al. \autocite{almss92}, the culmination of a line of research attempting to trade nondeterminism for randomness in nondeterministic polynomial-time algorithms, provided a surprising new technique for verifying a mathematical proof: as long as the proof is converted to a certain format, an algorithm using a small amount of randomness can decide (with high probability) whether the proof is correct by merely examining a constant number of bits of the proof.
+On top of this fascinating exposition (\emph{is this the right word?}) of the power of randomness in computation and mathematics, the PCP Theorem provides a theoretical basis for proving inapproximability of $\NP$ optimization problems by polynomial-time algorithms.
+In 1991, Feige, et al. \autocite{fglss91} used a generic gap-introducing reduction from a probabilistically checkable proof system to the maximum clique problem to show that maximum clique problem is hard to approximate by a polynomial-time algorithm.
+From there, an approximation-preserving reduction (see \autoref{chp:optimization}) from the maximum clique problem to any other optimization problem proves a similar level of inapproximability.
 
-%% Although our original intention was to show something like $\NNC[\polylog] = \PCP[O(\loglog n), O(1)]$, our research reveals that proving such an equality is equivalent to proving $\NNC[\polylog] = \NC$, or in other words, that a polylogarithmic amount of nondeterminism can be simulated deterministically by an $\NC$ circuit family.
-%% This should be seen as evidence that such a result is unlikely; in fact, we show that such a simulation implies a deterministic subexponential time algorithm for the Boolean formula satisfiability problem!
-%% We are still, however, able to show that certain PCP classes are contained in $\NNC[\polylog]$.
+Other researchers examined different settings of parameters for the PCP Theorem.
+For example, in 1996, Fotakis and Spirakis \autocite{fs96} provided a lower bound on the amount of randomness needed when creating a PCP verifier for an $\NP$ problem.
+??? showed that the completeness and soundness probabilities of the verifier could be ???.
+In 1998, Trevisan examined inapproximability by parallel algorithms instead of polynomial-time algorithms \autocite{trevisan98}, complementing the work of ???Hastad?.
 
-%% Recent work by other authors has focused on the practicality of implementing proof systems for $\NP$ on real computers.
-%% Unlike this work, in which we completely ignore the resources required for the prover to transform the proof of membership in a language to a probabilistically checkable proof in the appropriate format, other works focus on efficient implementation of both the verifier and the prover.
-%% Also, some other works consider a model of proof system in which the prover and the verifier have some limited communication.
-%% See \autocites{bcgt13}{gkr08}{smbw12}{svpbbw12}{trmp12} for more information.
+The original proof of the PCP Theorem is complicated and computational in nature.
+Inspired by some techniques for constructing explicit constructions of expander graphs like that of Reingold, Vadhan, and Wigderson \autocite{rvw00}, in 2007, Dinur provided a vastly simpler and almost entirely algebraic proof of the PCP Theorem \autocite{dinur07}.
+\emph{TODO What is the status of a fully algebraic PCP Theorem?}
+More recent work on proof systems has focused on practical real-world implementations in which the prover and the verifier have some limited communication; see articles by
+Goldwasser, Kalai, and Rothblum in 2008 \autocite{gkr08},
+Setty et al. in 2012 \autocite{smbw12},
+Setty et al. in 2012 \autocite{svpbbw12},
+Thaler et al. in 2012 \autocite{trmp12},
+and Ben-Sasson et al. in 2013 \autocite{bcgt13}.
+\emph{TODO Remove these references from the introduction above.}
+
+Around the same time as the PCP Theorem, Wolf studied the class of nondeterministic highly parallel algorithms, $\NNC$, and noted that a polylogarithmic amount of nondeterminism was an ``interesting'' amount of nondeterminism, suggesting that such a class may be incomparable with $\P$ \autocite{wolf94}.
+The deterministic class $\NC$, an abbreviation of \emph{Nick's Class} in honor of Nick~Pippenger, has been considered the class of decision problems that admit highly parallel algorithms since the 1970s; for a more detailed history of the study of parallel versus sequential computation, see \autocite[Section~1.3]{ghr95}.
+The complexity classes $\NNC^k[\log^i n]$ were proven to have complete problems by Cai and Chen in 1997 \autocite{cc97lim}.
+The study of limited nondeterminism for polynomial-time algorithms was initiated in ??? by Kintala and Fisher \autocite{kf???}, and advanced by several other researchers. Perhaps the most relevant to this dissertation are the articles by Díaz and Torán in 1990 \autocite{dt90}, Buss and Goldsmith in 1993 \autocite{bg93}, and Cai and Chen in 1997 \autocite{cc97lim}.
 
 \section{Preliminaries}
 
