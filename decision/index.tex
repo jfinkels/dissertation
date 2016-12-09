@@ -499,6 +499,7 @@ Meir observes that although we would like a verifier running in polylogarithmic 
 We show that a closer look reveals that parallel polylogarithmic time is indeed possible without any new machinery.
 
 The proof provides a gap-introducing reduction from an arbitrary $\NP$ problem to a constraint satisfaction problem.
+Let us first define the notion of a combinatorial constraint and when a constraint is satisfied.
 
 \begin{definition}[{\autocite[Definition~1.1]{dinur07}}]
   Let $V$ be a finite set of variables, defined by $V = \{x_1, x_2, \dotsc, x_n\}$, let $\Gamma$ be a finite alphabet, and let $q$ be a natural number.
@@ -508,6 +509,9 @@ The proof provides a gap-introducing reduction from an arbitrary $\NP$ problem t
   An \emph{assignment} is a function $a \colon V \to \Gamma$.
   An assignment \emph{satisfies} a constraint if $(a(v_{i_1}), a(v_{i_2}), \dotsc, a(v_{i_q})) \in C$.
 \end{definition}
+
+A natural question for a given set of constraints is whether there is an assignment to the variables that simultaneously satisfies all the constraints.
+A related problem asks the same question but given the guarantee that either all the constraints are satisfied or few of the constraints are satisfied, regardless of the assignment.
 
 \begin{definition}[\textsc{$q$-CSP}]
   \mbox{} \\
