@@ -609,7 +609,9 @@ We conclude the following.
 \end{lemma}
 
 Constraint graph powering, defined in \autocite[Section~1.2]{dinur07}, is the standard graph powering operation with an additional operation on the alphabet and the set of constraints.
-Standard graph powering can be performed in $\NC$ because matrix multiplication is in $\NC$, and a constant number of matrix multiplications remains in $\NC$.
+Graph powering can be viewed as a generalization of computing the transitive closure of a graph; it computes not only whether there is a path joining two nodes but also the number of paths joining them.
+Graph powering can be performed by computing the appropriate power of the adjacency matrix of the graph.
+This can be computed in $\NC$ because matrix multiplication is in $\NC$, and a constant number of matrix multiplications remains in $\NC$.
 If the alphabet is of constant size, the power graph also has an alphabet of constant size, and each of the constraints becomes a new constraint of constant size (see \autocite[Section~1.2]{dinur07} for the constraint construction).
 Each of the constraints (which is the same as the number of edges) can be written by a distinct processor in parallel constant time.
 We conclude the following.
