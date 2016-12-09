@@ -151,13 +151,13 @@ We will adapt this definition to explore \emph{efficient and highly parallel} ap
 \begin{definition}\label{def:npo}
   The complexity class $\NPO$ is the class of all optimization problems $(I, S, m, t)$ such that the following conditions hold.
   \begin{enumerate}
-  \item The instance set $I$ is decidable by a deterministic polynomial time Turing machine.
-  \item The solution relation $S$ is decidable by a deterministic polynomial time Turing machine and is polynomially bounded (that is, the length of $y$ is bounded by a polynomial in the length of $x$ for all $(x, y)\in S$).
-  \item The measure function $m$ is computable by a deterministic polynomial time Turing machine.
+  \item The instance set $I$ is decidable by a deterministic polynomial-time Turing machine.
+  \item The solution relation $S$ is decidable by a deterministic polynomial-time Turing machine and is polynomially bounded (that is, the length of $y$ is bounded by a polynomial in the length of $x$ for all $(x, y)\in S$).
+  \item The measure function $m$ is computable by a deterministic polynomial-time Turing machine.
   \end{enumerate}
 \end{definition}
 
-The second condition is the most important in this definition; it is the analog of polynomial time verifiability in $\NP$.
+The second condition is the most important in this definition; it is the analog of polynomial-time verifiability in $\NP$.
 
 \begin{definition}
   The complexity class $\PO$ is the subclass of $\NPO$ in which for each optimization problem $P$ there exists a function $f$ in $\FP$ that produces optimal solutions for $P$.
@@ -222,7 +222,7 @@ Therefore we consider the classes $\PO \cap \NNCO$, $\PO \cap \ApxNCO$, etc. in 
 $$
 \NCO \subseteq \PO \cap \FNCAS \subseteq \PO \cap \NCAS \subseteq \PO \cap \ApxNCO \subseteq \PO.
 $$
-The instance set, solution relation, and measure function of optimization problems in these classes are computable in $\NC$, and furthermore, there is a polynomial time algorithm that produces optimal solutions.
+The instance set, solution relation, and measure function of optimization problems in these classes are computable in $\NC$, and furthermore, there is a polynomial-time algorithm that produces optimal solutions.
 
 \subsection{Reductions among approximation problems}
 
@@ -283,9 +283,9 @@ The difference in the verification complexity between circuit and formula satisf
   \textsc{Maximum Variable-Weighted Satisfiability} is complete for $\NNCO$ under logarithmic space AP reductions.
 \end{theorem}
 \begin{proof}
-  This problem is complete for the class of maximization problems in $\NPO$ under polynomial time AP reductions \cite[Theorem~3.1]{om87}.
+  This problem is complete for the class of maximization problems in $\NPO$ under polynomial-time AP reductions \cite[Theorem~3.1]{om87}.
   A close inspection reveals that the functions of the reduction can be computed in logarithmic space.
-  There is furthermore a polynomial time AP reduction from the \textsc{Minimum Variable-Weighted Satisfiability} problem, which is complete for the class of all minimization problems in $\NPO$, to \textsc{Maximum Variable-Weighted Satisfiability} \cite[Theorem~8.4]{acgkmp99}, and a close inspection of the reduction reveals that it can also be implemented in logarithmic space.
+  There is furthermore a polynomial-time AP reduction from the \textsc{Minimum Variable-Weighted Satisfiability} problem, which is complete for the class of all minimization problems in $\NPO$, to \textsc{Maximum Variable-Weighted Satisfiability} \cite[Theorem~8.4]{acgkmp99}, and a close inspection of the reduction reveals that it can also be implemented in logarithmic space.
   Thus this problem is complete for $\NPO$ under logarithmic space AP reductions.
 
   Next, we show that \textsc{Maximum Variable-Weighted Satisfiability} is in $\NNCO$.
@@ -357,7 +357,7 @@ Also, each input has exactly one solution, so this problem is quite artificial.
 
   Let $P$ be a maximization problem in $\PO$, where $P = (I_P, S_P, m_P, \max)$.
   Let $x$ be an element of $I_P$.
-  Suppose $E$ is the deterministic polynomial time Turing machine that produces optimal solutions for $P$.
+  Suppose $E$ is the deterministic polynomial-time Turing machine that produces optimal solutions for $P$.
   Define $f$ by $f(x) = (C_E, C_m, x)$ for all $x \in I_P$, where $C_E$ is the Boolean circuit of polynomial size that simulates the action of $E$ on input $x$ and $C_m$ is the circuit that simulates $m_P$ on inputs $x$ and $E(x)$.
   These circuits exist and are computable from $x$ in logarithmic space \cite{ladner75}.
   Define $g$ by $g(x, y) = y$ for all strings $x$ and all $y$ in $S_C(f(x))$.
@@ -439,7 +439,7 @@ An equivalence analogous to that of \autoref{thm:nnconpo} also holds in the inte
 
 \section{Hierarchies}\label{sec:hierarchies}
 
-The classes of approximable optimization problems are also likely distinct; this is well-known for polynomial time approximability.
+The classes of approximable optimization problems are also likely distinct; this is well-known for polynomial-time approximability.
 
 \begin{theorem}[{\cite[Exercise~8.1]{acgkmp99}}]
   If $\P \neq \NP$ then
@@ -544,13 +544,13 @@ This result is true if we replace the first equality with $\NCAS = \PTAS$, or, i
 
 In order to construct an optimization problem complete for, say, $\PO \cap \ApxNCO$, we need to use either
 \begin{enumerate}
-\item an analog of the PCP theorem with $\NC$ verifiers for polynomial time decision problems, or
+\item an analog of the PCP theorem with $\NC$ verifiers for polynomial-time decision problems, or
 \item a canonical, ``universal'' complete problem for $\PO \cap \ApxNCO$.
 \end{enumerate}
 These are the only two known ways for showing completeness in constant-factor approximation classes.
 The first approach is difficult to apply because it is not obvious how to construct a PCP for a deterministic time complexity class ($\PO$).
 See \autoref{chp:decision} for more information on that approach.
-The second approach is difficult to apply because although this technique has worked in the past for constructing a complete problem for $\ApxPO$ \cite[Lemma~2]{cp91}, it is not clear how to guarantee a polynomial time computable function that produces optimal solutions for such a problem.
+The second approach is difficult to apply because although this technique has worked in the past for constructing a complete problem for $\ApxPO$ \cite[Lemma~2]{cp91}, it is not clear how to guarantee a polynomial-time computable function that produces optimal solutions for such a problem.
 
 However, we know what a problem complete for $\PO \cap \ApxNCO$ should look like.
 It should be exactly solvable in polynomial time and admit an $\NC$ approximation algorithm.
