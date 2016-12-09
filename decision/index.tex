@@ -256,7 +256,10 @@ and
 \end{equation*}
 where the PCP verifier is an $\NC$ machine.
 If we can provide evidence that $\NC \neq \NNC[\polylog]$ and that $\NNC[\polylog] \neq \NP$, we can conclude that the corresponding PCP classes are also likely distinct.
-This theorem, adapted from \autocite[Theorem~1]{dt90} (therein attributed to R. Beigel), provides that evidence.
+This theorem, adapted from \autocite[Theorem~1]{dt90} (therein attributed to R.~Beigel), provides that evidence.
+%% TODO link to explanation of ETH, link to NP in QP implies EXP = NEXP
+Each of the two conclusions in this theorem implies that the exponential time hypothesis is false.
+Furthermore, in the latter case, the conclusion implies that $\EXP = \NEXP$.
 
 \begin{theorem}\label{thm:npinqp}
   \mbox{}
@@ -265,10 +268,7 @@ This theorem, adapted from \autocite[Theorem~1]{dt90} (therein attributed to R. 
   \item If $\NNC[\polylog] = \NP$, then $\NP \subseteq \QP$.
   \end{enumerate}
 \end{theorem}
-%% TODO link to explanation of ETH, link to NP in QP implies EXP = NEXP
-Each of the two conclusions in this theorem implies that the exponential time hypothesis is false.
-Furthermore, in the latter case, the conclusion implies that $\EXP = \NEXP$.
-\begin{proof}[Proof of \autoref{thm:npinqp}]
+\begin{proof}
   If $\NNC[\polylog] = \NP$, then
   \begin{align*}
     \NP & = \NNC[\polylog] \\
@@ -312,8 +312,14 @@ Furthermore, in the latter case, the conclusion implies that $\EXP = \NEXP$.
   Therefore, this algorithm for $\FSAT$ can be implemented by a deterministic algorithm running in $O(2^{n^\epsilon})$ time for arbitrarily small $\epsilon$.
 \end{proof}
 
-One interpretation of this theorem is that the difference in complexity between languages in $\NC$ and languages in $\NNC[\polylog]$ is smaller than the difference in complexity between languages in $\NNC[\polylog]$ and languages in $\NP$.
-This makes sense: the ratio of a polynomial in $\log n$ to $\log n$ is smaller than the ratio of a polynomial in $n$ to a polynomial in $\log n$.
+As mentioned above, $\NC = \NNC[\log n]$ and $\NP = \NNC[\poly]$, so the two items in this theorem can be restated as follows.
+\begin{enumerate}
+\item If $\NNC[\log n] = \NNC[\polylog]$, then $\NP \subseteq \SUBEXP$.
+\item If $\NNC[\polylog] = \NNC[\poly]$, then $\NP \subseteq \QP$.
+\end{enumerate}
+The first item indicates that a simulation of a polylogarithmic number of bits of nondeterminism by only a logarithmic number of bits is unlikely.
+The second item indicates that a simulation of a polynomial number of bits of nondeterminism by only a polylogarithmic number of bits is unlikely.
+The consequences of the latter simulation are more extreme (a simulation of $\NP$ in quasipolynomial time as opposed to a simulation of $\NP$ in subexponential time).
 
 Substituting the PCP characterizations of each nondeterministic $\NC$ complexity class in the previous theorem provides evidence against the simulation of certain resources in probabilistically checkable proof systems.
 
