@@ -546,6 +546,13 @@ We call such a graph a \emph{constraint graph} and we consider the size of this 
   \item Check that the constraint is satisfied by querying the proof string at the appropriate locations (the locations corresponding to the $q$ variables in the constraint).
   \end{enumerate}
 
+  The first step is computable in $\NC$ by hypothesis.
+  The second step uses $O(\log n)$ bits of randomness and a constant number of parallel steps.
+  In the third step, $q$ processors, working in parallel, each read the index of a variable given in the chosen constraint, then retrieve the value of that variable given in the proof string; this takes at most $O(\log n)$ parallel time.
+  Verifying that the constraint is satisfied by these values is just the problem of checking $q$ set membership queries in parallel, which again can be done in $O(\log n)$ time (a loose upper bound).
+  The overall number of processors in this algorithm is polynomial and the overall parallel time is polylogarithmic, thus this an $\NC$ algorithm.
+
+  It remains to show that the algorithm is correct.
   If $x \in L$ then all constraints are satisfiable, so there exists an assignment such that the verifier will accept on all random choices of the constraint.
   If $x \notin L$ then fewer than half of the constraints are satisfiable, so for any assignment the probability that the verifier will select a satisfied constraint is less than half.
   Therefore we have shown a correct PCP verifier with the appropriate parameters for an arbitrary language in $\NP$.
