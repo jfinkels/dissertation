@@ -1,0 +1,14 @@
+\section{History}
+
+The study of parameterized complexity as a distinct named concept was initiated in a series of articles by Downey and Fellows in the early 1990s; references can be found in their 2013 book \emph{Fundamentals of Parameterized Complexity} \autocites{df13} or in the 2006 book by Flum and Grohe \emph{Parameterized Complexity Theory} \autocite{fg06}.
+Much of our definitions, notation, and concepts follow the view outlined in the latter book.
+The first formal definition for a notion of fixed-parameter parallelizability seems to be in a 1998 article by Cesati and Di~Ianni \autocite{cd98}.
+That work inspired our complete problems for $\para \P$ in \autoref{sec:parapcompleteness}.
+Although much research has been done with respect to the class $\para \P$, we could not find any proof of the existence of a complete problem.
+
+A generic $\para$ operator that can be applied to any complexity class was defined by Flum and Grohe in 2003 \autocite{fg03}.
+In 2014, Elberfeld, Stockhusen, and Tantau explored this generic operator in more detail \autocite{est15}, giving complete problems for a number of parameterized complexity classes, including $\para \WNC^1$ (see \autoref{def:parawnc} for the definition of this class).
+We follow their lead when proving complete problems for $\para \WNC^k$ in \autoref{sec:parawnccompleteness} below.
+More recently, a 2015 preprint by Bannach, Stockhusen, and Tantau \autocite{bst15} studies the parameterized depth of a circuit in more detail, showing that depth $f(k)$ is strictly more powerful than depth $O(1)$.
+
+The deterministic simulations of nondeterminism in the parameterized and decision complexity classes appearing in \autoref{thm:ncwnc} is inspired by similar theorems for polynomial-time computations by Cai et al. in 1995 \autocite{ccdf95} and Cai and Chen in 1997 \autocite{cc97npo}, from which we have refactored the main components of the proofs into distinct lemmas.
