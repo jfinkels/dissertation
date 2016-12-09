@@ -242,9 +242,9 @@ Unfortunately, the obvious strategy for translating that proof to the $\NC$ sett
 The proof would have shown that $\NP = \PCP^{\NC^k}[o(\frac{\loglog n}{\log^k n}), O(1)]$ if and only if $\NC = \NP$, but this is already proven by \autoref{thm:ncpcp} and the fact that $\frac{\loglog n}{\log^k n} \leq \loglog n$.
 
 We also know the following strengthening of the original PCP Theorem; the proof of this theorem is in \autoref{sec:dinur}.
-\begin{theorem}\label{thm:pcpnp}
+\begin{restatable}{theorem}{pcpnp}\label{thm:pcpnp}
   $\PCP^\NC[O(\log n), O(1)] = \NP$.
-\end{theorem}
+\end{restatable}
 
 From \autoref{eq:chain}, \autoref{thm:ncpcp}, and \autoref{thm:pcpnp}, we have the two equivalent inclusion chains
 $
@@ -617,4 +617,7 @@ Since the preprocessing function, constraint graph powering, and assignment test
   There is a positive integer $q$ such that \textsc{$\frac{1}{2}$-gap $q$-CSP} is hard for $\NP$ under $\NC$ many-one reductions.
 \end{lemma}
 
-\autoref{thm:pcpnp} follows immediately from \autoref{lem:inapprox} and \autoref{lem:reduction}.
+\autoref{thm:pcpnp}, restated here, follows immediately from \autoref{lem:inapprox} and the hardness of the \textsc{$\frac{1}{2}$-gap $q$-CSP} problem \autoref{lem:reduction}.
+Therefore we have shown that any decision problem with a polynomial-time verification procedure can be transformed into a probabilistically checkable proof system with a highly parallel verifier using a small amount of randomness and constant query complexity.
+
+\pcpnp*
