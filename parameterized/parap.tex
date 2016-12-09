@@ -350,8 +350,8 @@ Let $\|x\|_1$ denote the Hamming weight (that is, the number of ones) in $x$.
   \end{tabular}
 \end{definition}
 
-This is a little silly, since the Hamming weight of $x$ can be computed easily (in $\NC^1$ but not in $\AC^0$), but it is technically the ``verification'' problem corresponding to the satisfiability problem above.
-Instead, we use a problem that is a little less silly while still equivalent under $\para \NC^1$ many-one reductions.
+Enforcing that the Hamming weight of the string is exactly the parameter in this way is a bit superfluous, since the Hamming weight of $x$ can be computed easily (in $\NC^1$ but not in $\AC^0$), but this problem is technically the ``verification'' problem corresponding to the satisfiability problem above.
+Instead, we use a slightly more natural problem that remains equivalent to this one under $\para \NC^1$ many-one reductions.
 %% \todo{Reference for circuit computing Hamming weight; see \url{http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=4781532}}
 
 \begin{definition}[$p \dash \textsc{Weighted Circuit Evaluation}$, aka $\pWCE$]
