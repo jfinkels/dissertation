@@ -62,9 +62,8 @@ Altogether, this chapter reinforces the idea that the complexity of verifying a 
 
 \section{History}
 
-The study of $\NP$ optimization problems has existed as long as computational complexity theory.
-\emph{TODO Is there a history in Complexity and Approximation?}
-The definitions we use are inspired by those in the 1999 book \emph{Complexity and Approximation} by Ausiello et al.
+The study of the computational complexity of $\NP$ optimization problems has existed since at least the early 1970s with Johnson \autocite{johnson74} giving the first definitions of polynomial-time approximation algorithms.
+The definitions we use are inspired by those in the 1999 book \emph{Complexity and Approximation} by Ausiello et al., which contains more detailed notes on the history of the computational complexity of $\NP$ optimization problems.
 Our study of optimization problems approximable by algorithms more restrictive than polynomial-time algorithms is guided by a 2007 article by Tantau \autocite{tantau07} in which the author defines approximability and completeness for logarithmic-space optimization problems.
 $\NC$ approximations for $\NP$-hard optimization problems have been studied by Hunt et al. in 1998 \autocite{hmrrrs98}.
 Although a class called $\NCX$ has been used to represent the class of optimization problems with $\NC$ constant-factor approximation algorithms, for example in a 1995 article by Serna and Xhafa \autocite{sx95} or the 1997 book \emph{Paradigms for fast parallel approximability} by Díaz et al. \autocite{dsst97}, its implicit definition requires only that the feasibility of a solution can be verified in polynomial time.
@@ -72,10 +71,10 @@ This differs from our definition of $\ApxNCO$, which requires that the solution 
 
 After the definition of complexity classes based on approximability of $\NP$ optimization problems, the natural next task was to define completeness, which requires an appropriate notion of reducibility.
 A 1997 survey paper by Crescenzi \autocite{crescenzi97} defines at least nine distinct types of polynomial-time approximation-preserving reductions, each of which serves its own purpose in relating the approximability of optimization problems.
-??? proved that the ??? problem is complete for $\NPO$; this guides our proofs in \autoref{sec:nncocomplete} and \autoref{sec:nncopocomplete} below.
-For $\APX$-completeness, there are two known ways for showing a generic reduction from any $\APX$ problem: showing a reduction to ??? using the PCP Theorem as in the work of ??? in ??? or showing a reduction to a canonical, ``universal'' complete problem as in ???.
+Articles by Ausiello, D'Atri, and Protasi \autocite{adp81} and Orponen and Manila \autocite{om87} provided the first proof that the maximum weighted satisfiability problem is complete for $\NPO$; this guides our proofs in \autoref{sec:nncocomplete} and \autoref{sec:nncopocomplete} below.
+The first proof of an $\APX$-complete problem comes from Crescenzi and Protasi in 1991 \autocite{cp91} and a proof for more natural complete problems come from Khanna et al. in 1999 \autocite{kmsv98} and Crescenzi and Trevisan in 2000 \autocite{ct00}.
 
-Finally, ??? proved that the hierarchy of classes of polynomial-time approximable problems $\PTAS \subseteq \APX \subseteq \NPO$ is strict under the assumption that $\P \neq \NP$ \autocite{???}; this inspired our \autoref{thm:hierarchy}.
+%% Finally, ??? proved that the hierarchy of classes of polynomial-time approximable problems $\PTAS \subseteq \APX \subseteq \NPO$ is strict under the assumption that $\P \neq \NP$ \autocite{???}; this inspired our \autoref{thm:hierarchy}.
 
 \section{Definitions}
 

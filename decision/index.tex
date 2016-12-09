@@ -76,10 +76,11 @@ We are still, however, able to show that certain PCP classes are contained in $\
 % %% Perspective (anyone - what now?)
 %
 % What should be done next?
-Recent work by other authors has focused on the practicality of implementing proof systems for $\NP$ on real computers.
-Unlike this work, in which we completely ignore the resources required for the prover to transform the proof of membership in a language to a probabilistically checkable proof in the appropriate format, other works focus on efficient implementation of both the verifier and the prover.
-Also, some other works consider a model of proof system in which the prover and the verifier have some limited communication.
-See \autocites{bcgt13}{gkr08}{smbw12}{svpbbw12}{trmp12} for more information.
+
+%% Recent work by other authors has focused on the practicality of implementing proof systems for $\NP$ on real computers.
+%% Unlike this work, in which we completely ignore the resources required for the prover to transform the proof of membership in a language to a probabilistically checkable proof in the appropriate format, other works focus on efficient implementation of both the verifier and the prover.
+%% Also, some other works consider a model of proof system in which the prover and the verifier have some limited communication.
+%% See \autocites{bcgt13}{gkr08}{smbw12}{svpbbw12}{trmp12} for more information.
 
 \section{History}
 
@@ -90,24 +91,23 @@ From there, any approximation-preserving reduction (see \autoref{chp:optimizatio
 
 Other researchers examined different settings of parameters for the PCP Theorem.
 For example, in 1996, Fotakis and Spirakis \autocite{fs96} provided a lower bound on the amount of randomness needed when creating a PCP verifier for an $\NP$ problem.
-??? showed that the completeness and soundness probabilities of the verifier could be ???.
-In 1998, Trevisan examined inapproximability by parallel algorithms instead of polynomial-time algorithms \autocite{trevisan98}, complementing the work of ???Hastad?.
+%% ??? showed that the completeness and soundness probabilities of the verifier could be ???.
+In 1998, Trevisan examined inapproximability by parallel algorithms instead of inapproximability by polynomial-time algorithms for the linear programming problem \autocite{trevisan98}.
 
 The original proof of the PCP Theorem is complicated and computational in nature.
-Inspired by some techniques for constructing explicit constructions of expander graphs like that of Reingold, Vadhan, and Wigderson \autocite{rvw00}, in 2007, Dinur provided a vastly simpler and almost entirely algebraic proof of the PCP Theorem \autocite{dinur07}.
-\emph{TODO What is the status of a fully algebraic PCP Theorem?}
+Inspired by some techniques for constructing explicit constructions of expander graphs like that of Reingold, Vadhan, and Wigderson \autocite{rvw00}, in 2007, Dinur provided a simpler (and almost entirely combinatorial) proof of the PCP Theorem \autocite{dinur07}.
+%% \emph{TODO What is the status of a fully algebraic PCP Theorem?}
 More recent work on proof systems has focused on practical real-world implementations in which the prover and the verifier have some limited communication; see articles by
 Goldwasser, Kalai, and Rothblum in 2008 \autocite{gkr08},
 Setty et al. in 2012 \autocite{smbw12},
 Setty et al. in 2012 \autocite{svpbbw12},
 Thaler et al. in 2012 \autocite{trmp12},
 and Ben-Sasson et al. in 2013 \autocite{bcgt13}.
-\emph{TODO Remove these references from the introduction above.}
 
 Around the same time as the PCP Theorem, Wolf studied the class of nondeterministic highly parallel algorithms, $\NNC$, and noted that a polylogarithmic amount of nondeterminism was an ``interesting'' amount of nondeterminism, suggesting that such a class may be incomparable with $\P$ \autocite{wolf94}.
 The deterministic class $\NC$, an abbreviation of \emph{Nick's Class} in honor of Nick~Pippenger, has been considered the class of decision problems that admit highly parallel algorithms since the 1970s; for a more detailed history of the study of parallel versus sequential computation, see \autocite[Section~1.3]{ghr95}.
 The complexity classes $\NNC^k[\log^i n]$ were proven to have complete problems by Cai and Chen in 1997 \autocite{cc97lim}.
-The study of limited nondeterminism for polynomial-time algorithms was initiated in ??? by Kintala and Fisher \autocite{kf???}, and advanced by several other researchers. Perhaps the most relevant to this dissertation are the articles by Díaz and Torán in 1990 \autocite{dt90}, Buss and Goldsmith in 1993 \autocite{bg93}, and Cai and Chen in 1997 \autocite{cc97lim}.
+The study of limited nondeterminism for polynomial-time algorithms was initiated in 1980 by Kintala and Fisher \autocite{kf80}, and advanced by several other researchers. Perhaps the most relevant to this dissertation are the articles by Díaz and Torán in 1990 \autocite{dt90}, Buss and Goldsmith in 1993 \autocite{bg93}, and Cai and Chen in 1997 \autocite{cc97lim}.
 
 \section{Preliminaries}
 
