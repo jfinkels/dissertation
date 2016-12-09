@@ -12,7 +12,7 @@
 %
 % What is the current situation, and why is the need so important?
 %
-\lettrine[loversize=0.1, lhang=0.05, findent=0.2em, nindent=0em]{O}{ne of the major successes} of the PCP Theorem, a characterization of $\NP$ as a class of computational problems that have probabilistically checkable proof systems (with polynomial-time verifiers), is that it provides a route to proving that approximating certain computationally intractable optimization problems is as difficult as solving them exactly.
+\lettrine[loversize=0.1, lhang=0.05, findent=0.2em, nindent=0em]{O}{ne of the major successes} of the PCP theorem, a characterization of $\NP$ as a class of computational problems that have probabilistically checkable proof systems (with polynomial-time verifiers), is that it provides a route to proving that approximating certain computationally intractable optimization problems is as difficult as solving them exactly.
 %
 % %% Need (readers - why you?) %%
 %
@@ -21,11 +21,11 @@
 %
 The growth of multiprocessor systems in both general purpose personal computing and large-scale big data computations highlights the urgency of proving the analagous inapproximability (or approximability) of inherently sequential optimization problems by highly parallel algorithms.
 However, there has been little theoretical work toward proving parallel inapproximability.
-Unfortunately, the techniques used to prove the original PCP Theorem rely on the fact that $\NP$ can be interpreted as the class of languages for which there is an efficient verification procedure given a brief witness to language membership; no such obvious interpretation of $\P$ exists.
+Unfortunately, the techniques used to prove the original PCP theorem rely on the fact that $\NP$ can be interpreted as the class of languages for which there is an efficient verification procedure given a brief witness to language membership; no such obvious interpretation of $\P$ exists.
 
 If we consider the $\P$-complete problems to be tractable but inherently sequential and $\NC$ problems to be highly parallelizable, then our guiding question is whether there is a probabilistically checkable proof (PCP) characterization of $\P$ with $\NC$ verifiers.
 Such a characterization would potentially provide a path to proving parallel inapproximability.
-Indeed, this question was already on the minds of researchers such as Luca~Trevisan soon after the original proof of the PCP Theorem.
+Indeed, this question was already on the minds of researchers such as Luca~Trevisan soon after the original proof of the PCP theorem.
 \begin{quote}
   An intriguing question is whether the known non-approximability results for sequential algorithms can be improved when we restrict to $\NC$ algorithms (under the assumption that $\P \neq \NC$).
   A possible way may be to devise \emph{probabilistic proof systems for $\P$} more efficient that the currently known proof systems for $\NP$.
@@ -84,19 +84,19 @@ We are still, however, able to show that certain PCP classes are contained in $\
 
 \section{History}
 
-In the 1990s, the PCP Theorem by Arora, et al. \autocite{almss92}, the culmination of a line of research attempting to trade nondeterminism for randomness in nondeterministic polynomial-time algorithms, provided a surprising new technique for verifying a mathematical proof: as long as the proof is converted to a certain format, an algorithm using a small amount of randomness can decide whether the proof is correct by examining a constant number of bits of the proof.
-On top of this fascinating illustration of the power of randomness in computation and mathematics, the PCP Theorem provides a theoretical basis for proving inapproximability of $\NP$ optimization problems by polynomial-time algorithms.
+In the 1990s, the PCP theorem by Arora, et al. \autocite{almss92}, the culmination of a line of research attempting to trade nondeterminism for randomness in nondeterministic polynomial-time algorithms, provided a surprising new technique for verifying a mathematical proof: as long as the proof is converted to a certain format, an algorithm using a small amount of randomness can decide whether the proof is correct by examining a constant number of bits of the proof.
+On top of this fascinating illustration of the power of randomness in computation and mathematics, the PCP theorem provides a theoretical basis for proving inapproximability of $\NP$ optimization problems by polynomial-time algorithms.
 In 1991, Feige, et al. \autocite{fglss91} used a generic gap-introducing reduction from a probabilistically checkable proof system to the maximum clique problem to show that the problem is hard to approximate by a polynomial-time algorithm.
 From there, any approximation-preserving reduction (see \autoref{chp:optimization}) from the maximum clique problem to another optimization problem proves a similar level of inapproximability.
 
-Other researchers examined different settings of parameters for the PCP Theorem.
+Other researchers examined different settings of parameters for the PCP theorem.
 For example, in 1996, Fotakis and Spirakis \autocite{fs96} provided a lower bound on the amount of randomness needed when creating a PCP verifier for an $\NP$ problem.
 %% ??? showed that the completeness and soundness probabilities of the verifier could be ???.
 In 1998, Trevisan examined inapproximability by parallel algorithms instead of inapproximability by polynomial-time algorithms for the linear programming problem \autocite{trevisan98}.
 
-The original proof of the PCP Theorem is complicated and computational in nature.
-Inspired by some techniques for constructing explicit constructions of expander graphs like that of Reingold, Vadhan, and Wigderson \autocite{rvw00}, in 2007, Dinur provided a simpler (and almost entirely combinatorial) proof of the PCP Theorem \autocite{dinur07}.
-%% \emph{TODO What is the status of a fully algebraic PCP Theorem?}
+The original proof of the PCP theorem is complicated and computational in nature.
+Inspired by some techniques for constructing explicit constructions of expander graphs like that of Reingold, Vadhan, and Wigderson \autocite{rvw00}, in 2007, Dinur provided a simpler (and almost entirely combinatorial) proof of the PCP theorem \autocite{dinur07}.
+%% \emph{TODO What is the status of a fully algebraic PCP theorem?}
 More recent work on proof systems has focused on practical real-world implementations in which the prover and the verifier have some limited communication; see articles by
 Goldwasser, Kalai, and Rothblum in 2008 \autocite{gkr08},
 Setty et al. in 2012 \autocite{smbw12},
@@ -104,7 +104,7 @@ Setty et al. in 2012 \autocite{svpbbw12},
 Thaler et al. in 2012 \autocite{trmp12},
 and Ben-Sasson et al. in 2013 \autocite{bcgt13}.
 
-Around the same time as the PCP Theorem, Wolf studied the class of nondeterministic highly parallel algorithms, $\NNC$, and noted that a polylogarithmic amount of nondeterminism was an ``interesting'' amount of nondeterminism, suggesting that such a class may be incomparable with $\P$ \autocite{wolf94}.
+Around the same time as the PCP theorem, Wolf studied the class of nondeterministic highly parallel algorithms, $\NNC$, and noted that a polylogarithmic amount of nondeterminism was an ``interesting'' amount of nondeterminism, suggesting that such a class may be incomparable with $\P$ \autocite{wolf94}.
 The deterministic class $\NC$, an abbreviation of \emph{Nick's Class} in honor of Nick~Pippenger, has been considered the class of decision problems that admit highly parallel algorithms since the 1970s; for a more detailed history of the study of parallel versus sequential computation, see \autocite[Section~1.3]{ghr95}.
 The complexity classes $\NNC^k[\log^i n]$ were proven to have complete problems by Cai and Chen in 1997 \autocite{cc97lim}.
 The study of limited nondeterminism for polynomial-time algorithms was initiated in 1980 by Kintala and Fisher \autocite{kf80}, and advanced by several other researchers. Perhaps the most relevant to this dissertation are the articles by Díaz and Torán in 1990 \autocite{dt90}, Buss and Goldsmith in 1993 \autocite{bg93}, and Cai and Chen in 1997 \autocite{cc97lim}.
@@ -241,7 +241,7 @@ As a generalization of the result of \autocite{fs96}, we know $\NP = \PCP^\P[o(\
 Unfortunately, the obvious strategy for translating that proof to the $\NC$ setting fails.
 The proof would have shown that $\NP = \PCP^{\NC^k}[o(\frac{\loglog n}{\log^k n}), O(1)]$ if and only if $\NC = \NP$, but this is already proven by \autoref{thm:ncpcp} and the fact that $\frac{\loglog n}{\log^k n} \leq \loglog n$.
 
-We also know the following strengthening of the original PCP Theorem; the proof of this theorem is in \autoref{sec:dinur}.
+We also know the following strengthening of the original PCP theorem; the proof of this theorem is in \autoref{sec:dinur}.
 \begin{restatable}{theorem}{pcpnp}\label{thm:pcpnp}
   $\PCP^\NC[O(\log n), O(1)] = \NP$.
 \end{restatable}
@@ -347,7 +347,7 @@ which provides an even more severe collapse, assuming the following conjecture.
 \begin{conjecture}\label{con:smallqueries}
   $\PCP^\NC[O(\loglog n), O(\log n)] = \PCP^\NC[O(\loglog n), O(1)]$.
 \end{conjecture}
-This is a scaled down version (that is, scaled from a $\P$ verifier down to an $\NC$ verifier) of some of the results of the research which led to the original PCP Theorem.
+This is a scaled down version (that is, scaled from a $\P$ verifier down to an $\NC$ verifier) of some of the results of the research which led to the original PCP theorem.
 If this conjecture holds, then $\poly(\loglog n)$ randomness and a logarithmic number of queries to the proof can be simulated deterministically.
 \begin{theorem}
   If \autoref{con:smallqueries} holds, then $\PCP^\NC[\poly(\loglog n), O(\log n)] = \NC$.
@@ -493,8 +493,8 @@ However, research in this direction failed to reveal such a reduction.
 \section{Probabilistically checkable proofs for nondeterministic polynomial time}
 \label{sec:dinur}
 
-One method of showing $\PCP^\NC[O(\log n), O(1)] = \NP$ is to revisit a proof of the PCP Theorem and ensure that all computation can be performed by an $\NC$ PCP verifier without affecting the correctness of the proof.
-We will consider Dinur's proof of the PCP Theorem \autocite{dinur07}, which reduces the problem of proving $\PCP^\P[O(\log n), O(1)] = \NP$ to the problem of showing \textsc{$\frac{1}{2}$-gap $q$-CSP} is hard for $\NP$.
+One method of showing $\PCP^\NC[O(\log n), O(1)] = \NP$ is to revisit a proof of the PCP theorem and ensure that all computation can be performed by an $\NC$ PCP verifier without affecting the correctness of the proof.
+We will consider Dinur's proof of the PCP theorem \autocite{dinur07}, which reduces the problem of proving $\PCP^\P[O(\log n), O(1)] = \NP$ to the problem of showing \textsc{$\frac{1}{2}$-gap $q$-CSP} is hard for $\NP$.
 Meir observes that although we would like a verifier running in polylogarithmic time, Dinur's proof requires $O(\log n)$ iterations of a polynomial-time procedure, which yields a polynomial-time procedure \autocite[Section~1.2.1]{meir09}.
 We show that a closer look reveals that parallel polylogarithmic time is indeed possible without any new machinery.
 
@@ -536,7 +536,7 @@ We call such a graph a \emph{constraint graph} and we consider the size of this 
   If there is a positive integer $q$ such that \textsc{$\frac{1}{2}$-gap $q$-CSP} is hard for $\NP$ under $\NC$ many-one reductions, then $\PCP^\NC[O(\log n), O(1)] = \NP$.
 \end{lemma}
 \begin{proof}
-  One inclusion in the conclusion of the theorem is true unconditionally, following from the PCP Theorem \autocite{almss92}.
+  One inclusion in the conclusion of the theorem is true unconditionally, following from the PCP theorem \autocite{almss92}.
   For the other inclusion, let $L$ be a language in $\NP$.
   By hypothesis there is a many-one reduction computable in $\NC$ from $L$ to \textsc{$\frac{1}{2}$-gap $q$-CSP}.
   We construct the PCP verifier as follows.
